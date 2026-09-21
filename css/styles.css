@@ -498,6 +498,8 @@
     .content{padding:14px;}
     .login-box{padding:32px 20px;margin:16px;}
     .meta-grid{grid-template-columns:1fr;}
+    .navbar-top{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
+    #campanha-selector{max-width:none;flex:1;}
     /* Tabelas grandes só rolam na horizontal; garante uma dica visual de que há mais conteúdo */
     .table-wrap{position:relative;}
     .table-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:16px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.25));}

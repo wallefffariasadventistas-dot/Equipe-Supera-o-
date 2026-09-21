@@ -42,6 +42,114 @@ async function carregarSenhaRelLider() {
 }
 carregarSenhaRelLider();
 
+// ── CAMPANHAS ──
+// Cada "campanha" é uma temporada da equipe (ex: "Sonhando Alto 2026.2"), com seu próprio
+// período e meta. Ao criar uma nova campanha, a anterior fica "finalizada" (só consulta) e
+// todo cadastro/registro novo passa a ser gravado com o campanhaId da campanha ativa.
+let CAMPANHA_ATIVA      = null;  // { id, titulo, dataInicio, dataFim, metaEquipe, ativa, criadoEm }
+let campanhaVisualizada = null;  // id da campanha selecionada no dashboard do admin (default = ativa)
+let todasCampanhas      = [];    // cache de todas as campanhas, mais recente primeiro
+
+async function carregarCampanhas() {
+  try {
+    const snap = await getDocs(collection(db,'campanhas'));
+    todasCampanhas = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a,b) => (b.criadoEm||'').localeCompare(a.criadoEm||''));
+    CAMPANHA_ATIVA = todasCampanhas.find(c => c.ativa) || todasCampanhas[0] || null;
+    if (!campanhaVisualizada && CAMPANHA_ATIVA) campanhaVisualizada = CAMPANHA_ATIVA.id;
+    if (CAMPANHA_ATIVA) {
+      DATA_ENCERRAMENTO = CAMPANHA_ATIVA.dataFim;
+      AGENDA_INICIO = CAMPANHA_ATIVA.dataInicio;
+      AGENDA_FIM = CAMPANHA_ATIVA.dataFim;
+      ['reg-data-escolhida','just-data'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.min = AGENDA_INICIO; el.max = DATA_ENCERRAMENTO; }
+      });
+    }
+    renderSeletorCampanha();
+  } catch (e) {
+    console.warn('Não foi possível carregar as campanhas.', e);
+  }
+}
+carregarCampanhas();
+
+function getCampanhaPorId(id) {
+  return todasCampanhas.find(c => c.id === id) || null;
+}
+
+function recomputeLiveArrays() {
+  const cid = campanhaVisualizada;
+  liveUsuarios   = cid ? allUsuarios.filter(u => u.campanhaId === cid)   : allUsuarios;
+  liveRegistros  = cid ? allRegistros.filter(r => r.campanhaId === cid) : allRegistros;
+  liveDevolucoes = cid ? allDevolucoes.filter(d => d.campanhaId === cid) : allDevolucoes;
+  liveEstudos    = cid ? allEstudos.filter(e => e.campanhaId === cid)   : allEstudos;
+}
+
+function renderSeletorCampanha() {
+  const sel = document.getElementById('campanha-selector');
+  if (!sel) return;
+  sel.innerHTML = todasCampanhas.map(c =>
+    `<option value="${c.id}">${c.ativa ? '🟢' : '⚪'} ${escapeHtml(c.titulo)}${c.ativa ? ' (ativa)' : ' (finalizada)'}</option>`
+  ).join('');
+  if (campanhaVisualizada) sel.value = campanhaVisualizada;
+}
+
+document.getElementById('campanha-selector').addEventListener('change', function() {
+  campanhaVisualizada = this.value;
+  recomputeLiveArrays();
+  const activeBtn = document.querySelector('#screen-admin .tab-btn.active');
+  const activeTab = document.querySelector('#screen-admin .tab-panel.active');
+  if (activeBtn && activeTab) abrirTabAdmin(activeTab.id, activeBtn);
+});
+
+document.getElementById('btn-nova-campanha').addEventListener('click', function() {
+  document.getElementById('nc-titulo').value = '';
+  document.getElementById('nc-data-inicio').value = '';
+  document.getElementById('nc-data-fim').value = '';
+  document.getElementById('nc-meta').value = '';
+  document.getElementById('nc-msg').style.display = 'none';
+  document.getElementById('modal-nova-campanha').style.display = 'flex';
+});
+document.getElementById('nc-btn-fechar').addEventListener('click', function() {
+  document.getElementById('modal-nova-campanha').style.display = 'none';
+});
+document.getElementById('modal-nova-campanha').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
+document.getElementById('btn-nc-confirmar').addEventListener('click', async function() {
+  const titulo = document.getElementById('nc-titulo').value.trim();
+  const dataInicio = document.getElementById('nc-data-inicio').value;
+  const dataFim = document.getElementById('nc-data-fim').value;
+  const metaEquipe = moedaParaFloat(document.getElementById('nc-meta').value);
+  const msgEl = document.getElementById('nc-msg');
+  msgEl.style.display = 'none';
+  if (!titulo) { msgEl.textContent = '⚠️ Informe o título da campanha.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
+  if (!dataInicio || !dataFim) { msgEl.textContent = '⚠️ Informe as datas de início e término.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
+  if (dataFim <= dataInicio) { msgEl.textContent = '⚠️ A data de término deve ser depois da data de início.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
+  if (!metaEquipe || metaEquipe <= 0) { msgEl.textContent = '⚠️ Informe uma meta geral válida.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
+  try {
+    showSyncStatus('💾 Criando campanha...', 'saving');
+    const batch = writeBatch(db);
+    todasCampanhas.filter(c => c.ativa).forEach(c => batch.update(doc(db,'campanhas',c.id), { ativa: false }));
+    const novoId = Date.now().toString();
+    batch.set(doc(db,'campanhas',novoId), { titulo, dataInicio, dataFim, metaEquipe, ativa: true, criadoEm: getHoje() });
+    await batch.commit();
+    showSyncStatus('✅ Campanha criada!', 'saved');
+    await carregarCampanhas();
+    campanhaVisualizada = novoId;
+    recomputeLiveArrays();
+    renderSeletorCampanha();
+    document.getElementById('modal-nova-campanha').style.display = 'none';
+    mostrarToast('🚀 Campanha "'+titulo+'" criada e ativada!');
+    const activeBtn = document.querySelector('#screen-admin .tab-btn.active');
+    const activeTab = document.querySelector('#screen-admin .tab-panel.active');
+    if (activeBtn && activeTab) abrirTabAdmin(activeTab.id, activeBtn);
+  } catch(e) {
+    msgEl.textContent = '❌ Erro: ' + e.message; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block';
+    showSyncStatus('❌ Erro', 'error');
+  }
+});
+
 // ── TEMA DO SISTEMA (persistido no Firestore, aplicado para todos) ──
 let TEMA_ATUAL = 'escuro';
 function aplicarTema(nome) {
@@ -90,7 +198,7 @@ function bindMoeda(id) {
 
 function bindTodasMascaras() {
   ['reg-vista','reg-prazo','l-reg-vista','l-reg-prazo',
-   'cad-meta-custom','adm-novo-lider-alvo'].forEach(bindMoeda);
+   'cad-meta-custom','adm-novo-lider-alvo','nc-meta'].forEach(bindMoeda);
 }
 
 function bindMascarasInline(container) {
@@ -104,8 +212,7 @@ function bindMascarasInline(container) {
 
 // ── CONSTANTS ──
 let ADMIN_SENHA       = '0000';
-const DATA_ENCERRAMENTO = '2026-08-25';
-const META_EQUIPE       = 410000;
+let DATA_ENCERRAMENTO = '2026-08-25'; // atualizado dinamicamente com a dataFim da campanha ativa
 let chartInstances      = {};
 let currentUser         = null;
 let modalColportorId    = null;
@@ -117,6 +224,11 @@ let liveUsuarios   = [];
 let liveRegistros  = [];
 let liveDevolucoes = [];
 let liveEstudos    = [];
+// Cópias não-filtradas (todas as campanhas); live* acima é sempre filtrado pela campanha visualizada
+let allUsuarios    = [];
+let allRegistros   = [];
+let allDevolucoes  = [];
+let allEstudos     = [];
 let unsubUsuarios   = null;
 let unsubRegistros  = null;
 let unsubDevolucoes = null;
@@ -259,28 +371,32 @@ function startListeners() {
   // Usuarios listener
   if (unsubUsuarios) unsubUsuarios();
   unsubUsuarios = onSnapshot(collection(db,'usuarios'), snap => {
-    liveUsuarios = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allUsuarios = snap.docs.map(d=>({id:d.id,...d.data()}));
+    recomputeLiveArrays();
     scheduleDataUpdate();
   }, err => console.warn('usuarios listener:', err));
 
   // Registros listener
   if (unsubRegistros) unsubRegistros();
   unsubRegistros = onSnapshot(collection(db,'registros'), snap => {
-    liveRegistros = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allRegistros = snap.docs.map(d=>({id:d.id,...d.data()}));
+    recomputeLiveArrays();
     scheduleDataUpdate();
   }, err => console.warn('registros listener:', err));
 
   // Devoluções listener
   if (unsubDevolucoes) unsubDevolucoes();
   unsubDevolucoes = onSnapshot(collection(db,'devolucoes'), snap => {
-    liveDevolucoes = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allDevolucoes = snap.docs.map(d=>({id:d.id,...d.data()}));
+    recomputeLiveArrays();
     scheduleDataUpdate();
   }, err => console.warn('devolucoes listener:', err));
 
   // Estudos Bíblicos listener
   if (unsubEstudos) unsubEstudos();
   unsubEstudos = onSnapshot(collection(db,'estudosBiblicos'), snap => {
-    liveEstudos = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allEstudos = snap.docs.map(d=>({id:d.id,...d.data()}));
+    recomputeLiveArrays();
     scheduleDataUpdate();
   }, err => console.warn('estudosBiblicos listener:', err));
 }
@@ -359,8 +475,9 @@ document.getElementById('btn-entrar').addEventListener('click', async () => {
   const err   = document.getElementById('login-error');
   err.style.display='none';
   if (!nome||!senha) { err.style.display='block'; err.textContent='Preencha nome e senha.'; return; }
+  if (!CAMPANHA_ATIVA) { err.style.display='block'; err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; return; }
 
-  const snap = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase())));
+  const snap = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
   if (snap.empty) { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
   const user = snap.docs.find(d=>d.data().senha===senha);
   if (!user)  { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
@@ -393,16 +510,18 @@ document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
   if (senha!==senha2) { err.style.display='block'; err.textContent='Senhas não coincidem.'; return; }
   const meta = metaS==='custom' ? moedaParaFloat(metaC) : parseFloat(metaS);
   if (!meta||meta<=0) { err.style.display='block'; err.textContent='Informe um valor de meta válido.'; return; }
+  if (!CAMPANHA_ATIVA) { err.style.display='block'; err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; return; }
 
-  // Check duplicate name
-  const dup = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase())));
-  if (!dup.empty) { err.style.display='block'; err.textContent='Já existe uma conta com este nome.'; return; }
+  // Check duplicate name (apenas dentro da campanha ativa)
+  const dup = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
+  if (!dup.empty) { err.style.display='block'; err.textContent='Já existe uma conta com este nome nesta campanha.'; return; }
 
   showSyncStatus('💾 Criando conta...','saving');
   try {
     const id = Date.now().toString();
-    await setDoc(doc(db,'usuarios',id), { nome, nomeLC:nome.toLowerCase(), tel, meta, senha, criadoEm:getHoje() });
-    currentUser = { id, nome, tel, meta, senha, criadoEm:getHoje() };
+    const campanhaId = CAMPANHA_ATIVA.id;
+    await setDoc(doc(db,'usuarios',id), { nome, nomeLC:nome.toLowerCase(), tel, meta, senha, campanhaId, criadoEm:getHoje() });
+    currentUser = { id, nome, tel, meta, senha, campanhaId, criadoEm:getHoje() };
     showSyncStatus('✅ Conta criada!','saved');
     suc.style.display='block';
     setTimeout(()=>entrarComoColportor(), 1200);
@@ -612,7 +731,7 @@ function carregarCamposData(dateStr) {
   const errEl = document.getElementById('reg-error');
   if (dateStr>DATA_ENCERRAMENTO) {
     btn.disabled=true; btn.style.opacity='0.4'; btn.textContent='⛔ Campanha Encerrada';
-    errEl.textContent='Campanha encerrada em 25/08/2026.'; errEl.style.display='block';
+    errEl.textContent='Campanha encerrada em '+formatarData(DATA_ENCERRAMENTO)+'.'; errEl.style.display='block';
   } else {
     btn.disabled=false; btn.style.opacity='1';
     btn.textContent = dateStr!==getHoje()?'✏️ SALVAR EDIÇÃO':'💾 SALVAR DIA';
@@ -752,6 +871,7 @@ document.getElementById('btn-salvar-devolucao').addEventListener('click', async 
   try {
     await setDoc(doc(db,'devolucoes',currentUser.id), {
       colportorNome: currentUser.nome,
+      campanhaId: currentUser.campanhaId,
       itens,
       total,
       atualizadoEm: getHoje(),
@@ -784,7 +904,7 @@ document.getElementById('btn-salvar-dia').addEventListener('click', async ()=>{
     // Use composite key userId_data as doc id to prevent duplicates
     const regId = currentUser.id+'_'+regDataSel;
     const reg = {
-      id: regId, userId: currentUser.id, data: regDataSel,
+      id: regId, userId: currentUser.id, data: regDataSel, campanhaId: currentUser.campanhaId,
       ofertas: Math.max(0, parseInt(document.getElementById('reg-ofertas').value)||0),
       vista:   Math.max(0, moedaParaFloat(document.getElementById('reg-vista').value)),
       prazo:   Math.max(0, moedaParaFloat(document.getElementById('reg-prazo').value)),
@@ -839,13 +959,13 @@ document.getElementById('btn-salvar-justificativa').addEventListener('click', as
   const data = document.getElementById('just-data').value;
   const motivo = document.getElementById('just-motivo').value.trim();
   if (!data) { err.textContent='Selecione uma data.'; err.style.display='block'; return; }
-  if (data > DATA_ENCERRAMENTO) { err.textContent='Campanha encerrada em 25/08/2026.'; err.style.display='block'; return; }
+  if (data > DATA_ENCERRAMENTO) { err.textContent='Campanha encerrada em '+formatarData(DATA_ENCERRAMENTO)+'.'; err.style.display='block'; return; }
   if (!motivo) { err.textContent='Escreva o motivo da justificativa.'; err.style.display='block'; return; }
   try {
     showSyncStatus('💾 Salvando...','saving');
     const regId = currentUser.id+'_'+data;
     const reg = {
-      id: regId, userId: currentUser.id, data,
+      id: regId, userId: currentUser.id, data, campanhaId: currentUser.campanhaId,
       ofertas: 0, vista: 0, prazo: 0, oracoes: 0, horas: 0, estudos: 0, obs: '',
       justificado: true, motivoJustificativa: motivo,
     };
@@ -905,6 +1025,7 @@ document.getElementById('btn-salvar-estudo').addEventListener('click', async () 
     await addDoc(collection(db,'estudosBiblicos'), {
       colportorId: currentUser.id,
       colportorNome: currentUser.nome,
+      campanhaId: currentUser.campanhaId,
       nome, telefone, cidade, presenca,
       criadoEm: getHoje(),
     });
@@ -1067,7 +1188,7 @@ function renderResumoHistorico() {
   const pct    = meta>0 ? Math.min(100,(vistaTotal/meta)*100) : 0;
   const prazoTotal = todosRegs.reduce((s,r)=>s+(r.prazo||0),0);
 
-  const dataIniVal = perfilDataIni || '2026-06-01';
+  const dataIniVal = perfilDataIni || AGENDA_INICIO;
   const dataFimVal = perfilDataFim || getHoje();
   const labelPeriodo = perfilFiltro==='datas'
     ? `${formatarData(dataIniVal)} a ${formatarData(dataFimVal)}`
@@ -1116,12 +1237,12 @@ function renderResumoHistorico() {
       <div id="colhist-datas-custom" style="display:${perfilFiltro==='datas'?'flex':'none'};gap:10px;flex-wrap:wrap;align-items:center;">
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">De:</span>
-          <input type="date" id="colhist-data-ini" value="${dataIniVal}" min="2026-06-01" max="2026-08-25"
+          <input type="date" id="colhist-data-ini" value="${dataIniVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
             style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">Até:</span>
-          <input type="date" id="colhist-data-fim" value="${dataFimVal}" min="2026-06-01" max="2026-08-25"
+          <input type="date" id="colhist-data-fim" value="${dataFimVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
             style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <button id="colhist-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
@@ -1267,7 +1388,7 @@ function renderRelatorioIndividual() {
   document.getElementById('relatorio-individual').innerHTML=`
     <div class="section-title" style="margin-bottom:20px">${currentUser.nome} — Relatório Final</div>
     <div class="stats-grid">
-      <div class="stat-card green"><div class="stat-label">📅 Dias Trabalhados</div><div class="stat-value">${contarDiasTrabalhados(regs)}</div><div class="stat-sub">até 25/08/2026</div></div>
+      <div class="stat-card green"><div class="stat-label">📅 Dias Trabalhados</div><div class="stat-value">${contarDiasTrabalhados(regs)}</div><div class="stat-sub">até ${formatarData(DATA_ENCERRAMENTO)}</div></div>
       <div class="stat-card blue"><div class="stat-label">⏰ Horas Totais</div><div class="stat-value">${fmtHoras(regs.reduce((s,r)=>s+(r.horas||0),0))}</div></div>
       <div class="stat-card yellow"><div class="stat-label">📦 Ofertas Totais</div><div class="stat-value">${regs.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
       <div class="stat-card orange"><div class="stat-label">🙏 Orações Totais</div><div class="stat-value">${regs.reduce((s,r)=>s+(r.oracoes||0),0)}</div></div>
@@ -1367,14 +1488,24 @@ function renderAdminDashboard() {
   document.getElementById('adm-total-acumulado').textContent   = fmtMini(totalAcum);
   document.getElementById('adm-total-colportores').textContent = liveUsuarios.length;
 
-  // Countdown
-  const dr = Math.max(0,Math.ceil((new Date(DATA_ENCERRAMENTO+'T23:59:59')-new Date())/(1000*60*60*24)));
-  const elCd=document.getElementById('camp-dias-restantes');
-  if(elCd) elCd.textContent = dr===0?'⛔ Encerrada':dr;
+  // Banner da campanha visualizada (contagem regressiva se for a ativa, ou "finalizada")
+  const campVista = getCampanhaPorId(campanhaVisualizada) || CAMPANHA_ATIVA;
+  const elBanner = document.getElementById('camp-banner-texto');
+  if (elBanner && campVista) {
+    if (campVista.ativa) {
+      const dr = Math.max(0,Math.ceil((new Date(campVista.dataFim+'T23:59:59')-new Date())/(1000*60*60*24)));
+      elBanner.innerHTML = `${escapeHtml(campVista.titulo)} — encerra em <strong style="color:var(--amarelo);font-family:var(--num-font);font-size:16px;">${dr===0?'⛔ Encerrada':dr}</strong> dias — <strong style="color:var(--branco)">${formatarData(campVista.dataFim)}</strong>`;
+    } else {
+      elBanner.innerHTML = `🏁 ${escapeHtml(campVista.titulo)} — <strong style="color:var(--branco)">Campanha finalizada</strong> (${formatarData(campVista.dataInicio)} a ${formatarData(campVista.dataFim)})`;
+    }
+  }
 
-  // Meta equipe (always full campaign)
-  const pctEq   = META_EQUIPE>0?Math.min(100,(totalAcum/META_EQUIPE)*100):0;
-  const faltaEq = Math.max(0,META_EQUIPE-totalAcum);
+  // Meta equipe (da campanha sendo visualizada)
+  const metaEq  = campVista?.metaEquipe || 0;
+  const pctEq   = metaEq>0?Math.min(100,(totalAcum/metaEq)*100):0;
+  const faltaEq = Math.max(0,metaEq-totalAcum);
+  const elAlvo  = document.getElementById('meta-eq-alvo');
+  if (elAlvo) elAlvo.textContent = fmtMini(metaEq);
   const pctColor= pctEq>=100?'var(--ouro-claro)':pctEq>=75?'#F5D76E':pctEq>=50?'#D4AF37':'#C8A020';
   document.getElementById('meta-eq-alcancado').textContent = fmtMini(totalAcum);
   const elF=document.getElementById('meta-eq-falta');
@@ -1837,7 +1968,7 @@ function filtrarRegsPorPeriodo(regs, periodo) {
     return regs.filter(r => new Date(r.data+'T12:00:00') >= ini);
   }
   if (periodo === 'datas') {
-    const ini = new Date((perfilDataIni||'2026-06-01')+'T00:00:00');
+    const ini = new Date((perfilDataIni||AGENDA_INICIO)+'T00:00:00');
     const fim = new Date((perfilDataFim||getHoje())+'T23:59:59');
     return regs.filter(r => {
       const d = new Date(r.data+'T12:00:00');
@@ -1920,7 +2051,7 @@ document.querySelectorAll('[data-tperiodo]').forEach(btn => {
 function abrirPerfil(uid) {
   modalColportorId = uid;
   perfilFiltro  = 'campanha';
-  perfilDataIni = '2026-06-01';
+  perfilDataIni = AGENDA_INICIO;
   perfilDataFim = getHoje();
   renderPerfilConteudo(uid);
   document.getElementById('perfil-modal').classList.add('open');
@@ -1990,7 +2121,7 @@ function renderPerfilConteudo(uid) {
   },50);
 
   // ── FILTROS DE PERÍODO + DATAS ──
-  const dataIniVal = perfilDataIni || '2026-06-01';
+  const dataIniVal = perfilDataIni || AGENDA_INICIO;
   const dataFimVal = perfilDataFim || getHoje();
   const filtrosHTML = `
     <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
@@ -2004,12 +2135,12 @@ function renderPerfilConteudo(uid) {
       <div id="perfil-datas-custom" style="display:${perfilFiltro==='datas'?'flex':'none'};gap:10px;flex-wrap:wrap;align-items:center;">
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">De:</span>
-          <input type="date" id="perfil-data-ini" value="${dataIniVal}" min="2026-06-01" max="2026-08-25"
+          <input type="date" id="perfil-data-ini" value="${dataIniVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
             style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">Até:</span>
-          <input type="date" id="perfil-data-fim" value="${dataFimVal}" min="2026-06-01" max="2026-08-25"
+          <input type="date" id="perfil-data-fim" value="${dataFimVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
             style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <button id="perfil-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
@@ -2575,7 +2706,8 @@ function exportarPDFRelatorio() {
   const tor=liveRegistros.reduce((s,r)=>s+(r.oracoes||0),0);
   const th=liveRegistros.reduce((s,r)=>s+(r.horas||0),0);
   const test=liveRegistros.reduce((s,r)=>s+(r.estudos||0),0);
-  const pctEq=(tv/410000*100).toFixed(1);
+  const metaEqAtual = (getCampanhaPorId(campanhaVisualizada) || CAMPANHA_ATIVA)?.metaEquipe || 0;
+  const pctEq=(metaEqAtual>0 ? tv/metaEqAtual*100 : 0).toFixed(1);
   const ranking=liveUsuarios.map(u=>{
     const regs=getRegsUser(u.id);
     return {nome:u.nome,meta:u.meta,vista:regs.reduce((s,r)=>s+(r.vista||0),0),
@@ -2718,8 +2850,9 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
   const err   = document.getElementById('lider-login-error');
   err.style.display = 'none';
   if (!nome || !senha) { err.textContent='Preencha nome e senha.'; err.style.display='block'; return; }
+  if (!CAMPANHA_ATIVA) { err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; err.style.display='block'; return; }
   try {
-    const snap = await getDocs(query(collection(db,'lideres'), where('nomeLC','==',nome.toLowerCase())));
+    const snap = await getDocs(query(collection(db,'lideres'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
     if (snap.empty) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
     const liderDoc = snap.docs.find(d=>d.data().senha===senha);
     if (!liderDoc) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
@@ -2816,7 +2949,7 @@ document.getElementById('btn-l-salvar-reg').addEventListener('click', async ()=>
   try {
     showSyncStatus('💾 Salvando...','saving');
     const regId = Date.now().toString();
-    await setDoc(doc(db,'lider_registros',regId),{liderId:currentLider.id,liderNome:currentLider.nome,data,colportor,colportorId,vista,prazo,horas,estudos,visitas,criadoEm:getHoje()});
+    await setDoc(doc(db,'lider_registros',regId),{liderId:currentLider.id,liderNome:currentLider.nome,campanhaId:currentLider.campanhaId,data,colportor,colportorId,vista,prazo,horas,estudos,visitas,criadoEm:getHoje()});
     showSyncStatus('✅ Salvo!','saved');
     msgEl.textContent='✅ Registro salvo!'; msgEl.style.color='var(--ouro-claro)'; msgEl.style.display='block';
     setTimeout(()=>msgEl.style.display='none',2500);
@@ -2843,7 +2976,9 @@ async function renderAreaLider() {
 async function renderAdmLiderLista() {
   const lista = document.getElementById('adm-lider-lista');
   try {
-    const snap = await getDocs(collection(db,'lideres'));
+    const snap = campanhaVisualizada
+      ? await getDocs(query(collection(db,'lideres'), where('campanhaId','==',campanhaVisualizada)))
+      : await getDocs(collection(db,'lideres'));
     const lideres = snap.docs.map(d=>({id:d.id,...d.data()}));
     const btnNovo = document.getElementById('btn-adm-novo-lider');
     btnNovo.style.display = lideres.length >= 3 ? 'none' : 'inline-block';
@@ -2885,14 +3020,15 @@ document.getElementById('btn-adm-salvar-lider').addEventListener('click', async 
   const msgEl = document.getElementById('adm-novo-lider-msg');
   if (!nome||!senha) { msgEl.textContent='⚠️ Preencha nome e senha.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
   if (!/^\d{4}$/.test(senha)) { msgEl.textContent='⚠️ Senha deve ter 4 dígitos numéricos.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
+  if (!CAMPANHA_ATIVA) { msgEl.textContent='⚠️ Carregando dados da campanha, tente novamente.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
   try {
-    const snap = await getDocs(collection(db,'lideres'));
-    if (snap.size >= 3) { msgEl.textContent='⚠️ Máximo de 3 líderes atingido.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
+    const snap = await getDocs(query(collection(db,'lideres'), where('campanhaId','==',CAMPANHA_ATIVA.id)));
+    if (snap.size >= 3) { msgEl.textContent='⚠️ Máximo de 3 líderes atingido nesta campanha.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
     const dup = snap.docs.find(d=>d.data().nomeLC===nome.toLowerCase());
-    if (dup) { msgEl.textContent='⚠️ Já existe um líder com este nome.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
+    if (dup) { msgEl.textContent='⚠️ Já existe um líder com este nome nesta campanha.'; msgEl.style.color='var(--danger)'; msgEl.style.display='block'; return; }
     showSyncStatus('💾 Salvando...','saving');
     const id = Date.now().toString();
-    await setDoc(doc(db,'lideres',id),{nome,nomeLC:nome.toLowerCase(),alvo,senha,criadoEm:getHoje()});
+    await setDoc(doc(db,'lideres',id),{nome,nomeLC:nome.toLowerCase(),alvo,senha,campanhaId:CAMPANHA_ATIVA.id,criadoEm:getHoje()});
     showSyncStatus('✅ Salvo!','saved');
     msgEl.textContent='✅ Líder cadastrado!'; msgEl.style.color='var(--ouro-claro)'; msgEl.style.display='block';
     setTimeout(()=>{ document.getElementById('adm-form-novo-lider').style.display='none'; document.getElementById('adm-novo-lider-msg').style.display='none'; document.getElementById('btn-adm-novo-lider').style.display='inline-block'; },1500);
@@ -2918,7 +3054,9 @@ async function renderAdmRelLideres() {
   const selector = document.getElementById('adm-lider-selector');
   const corpo    = document.getElementById('adm-lider-relatorio-body');
   try {
-    const snap = await getDocs(collection(db,'lideres'));
+    const snap = campanhaVisualizada
+      ? await getDocs(query(collection(db,'lideres'), where('campanhaId','==',campanhaVisualizada)))
+      : await getDocs(collection(db,'lideres'));
     const lideres = snap.docs.map(d=>({id:d.id,...d.data()}));
     if (!lideres.length) { corpo.innerHTML='<div style="text-align:center;padding:24px;color:var(--texto3);">Nenhum líder cadastrado.</div>'; return; }
     selector.innerHTML = lideres.map((l,i)=>`
@@ -3758,8 +3896,8 @@ function renderPremicoesGallery(containerId) {
 // AGENDA DE ASSISTÊNCIA
 // ══════════════════════════════════════════════════════
 
-const AGENDA_INICIO  = '2026-06-01';
-const AGENDA_FIM     = '2026-08-25';
+let AGENDA_INICIO  = '2026-06-01'; // atualizado dinamicamente com a dataInicio da campanha ativa
+let AGENDA_FIM     = '2026-08-25'; // atualizado dinamicamente com a dataFim da campanha ativa
 const SEMANAS_PT     = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 // Gera todos os dias úteis (seg-sáb) entre AGENDA_INICIO e AGENDA_FIM
 function agendaGerarDias() {
@@ -3991,7 +4129,7 @@ document.getElementById('mag-btn-salvar').onclick = async () => {
     showSyncStatus('💾 Salvando...', 'saving');
     const docId = `agenda_${currentLider.id}_${magDiaAtual}`;
     await setDoc(doc(db, 'agenda_assistencia', docId), {
-      liderId: currentLider.id, liderNome: currentLider.nome,
+      liderId: currentLider.id, liderNome: currentLider.nome, campanhaId: currentLider.campanhaId,
       data: magDiaAtual, colportor: match.nome, colportorId: match.id, obs, atualizadoEm: getHoje()
     });
     showSyncStatus('✅ Salvo!', 'saved');
@@ -4047,7 +4185,9 @@ async function renderAdmAgenda() {
   if (!selector || !container) return;
 
   try {
-    const snap = await getDocs(collection(db, 'lideres'));
+    const snap = campanhaVisualizada
+      ? await getDocs(query(collection(db,'lideres'), where('campanhaId','==',campanhaVisualizada)))
+      : await getDocs(collection(db, 'lideres'));
     const lideres = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 
     if (!lideres.length) {

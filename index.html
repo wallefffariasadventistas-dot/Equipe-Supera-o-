@@ -333,6 +333,10 @@
       <div class="nav-logo" style="background:none;padding:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><img src="" class="logo-navbar-img" alt="Superação Colportagem" style="width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(255,214,0,0.4));"></div>
       <div><div class="nav-title">Admin · <span>Superação Piauí</span></div></div>
     </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <select id="campanha-selector" style="background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:8px 10px;color:var(--branco);font-family:var(--body-font);font-size:12px;font-weight:600;outline:none;max-width:220px;"></select>
+      <button id="btn-nova-campanha" style="padding:8px 14px;border-radius:8px;border:1px solid rgba(212,175,55,0.35);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🚀 Nova Campanha</button>
+    </div>
     </div>
     <div class="tab-nav">
       <button class="tab-btn active" id="atbtn-dashboard"><span class="dock-icon">📊</span><span class="dock-label">Dashboard</span></button>
@@ -382,7 +386,7 @@
       <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
         <div style="flex:1;display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--texto3);">
           <span style="font-size:20px;">⏳</span>
-          <span>Campanha encerra em <strong id="camp-dias-restantes" style="color:var(--amarelo);font-family:var(--num-font);font-size:16px;"></strong> dias — <strong style="color:var(--branco)">25/08/2026</strong></span>
+          <span id="camp-banner-texto"></span>
         </div>
         <div id="sync-live-badge" style="display:flex;align-items:center;gap:6px;padding:12px 16px;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:12px;font-size:12px;font-weight:700;color:var(--ouro-claro);">
           🟢 Ao Vivo
@@ -393,7 +397,7 @@
       <div style="background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,105,20,0.05));border:1px solid rgba(212,175,55,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
         <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:14px;">🏆 Meta Geral da Equipe</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div style="font-size:20px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">R$ 410k</div></div>
+          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="meta-eq-alvo" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">R$ 0</div></div>
           <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alcançado</div><div id="meta-eq-alcancado" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">R$ 0</div></div>
           <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Falta</div><div id="meta-eq-falta" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);">R$ 410k</div></div>
         </div>
@@ -904,6 +908,35 @@
       <button id="mag-btn-limpar" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(239,83,80,0.35);background:rgba(239,83,80,0.08);color:#EF9090;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">🗑️ Limpar</button>
     </div>
     <div id="mag-msg" style="font-size:12px;margin-top:10px;display:none;text-align:center;"></div>
+  </div>
+</div>
+
+<div id="modal-nova-campanha" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:400;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--bg-card);border:1px solid rgba(212,175,55,0.3);border-radius:20px;padding:28px;width:100%;max-width:420px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.9);">
+    <button id="nc-btn-fechar" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    <div style="font-size:10px;color:var(--ouro);font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Nova Temporada</div>
+    <div style="font-size:18px;font-weight:800;color:var(--branco);margin-bottom:4px;">🚀 Criar Nova Campanha</div>
+    <div style="font-size:12px;color:var(--texto3);margin-bottom:20px;">A campanha atual será marcada como finalizada (fica só para consulta) e esta nova passa a receber os cadastros.</div>
+    <div class="field-group">
+      <label for="nc-titulo">Título da Campanha</label>
+      <input type="text" id="nc-titulo" placeholder="Ex: Sonhando Alto 2026.2" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="field-group">
+        <label for="nc-data-inicio">Data de Início</label>
+        <input type="date" id="nc-data-inicio" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+      </div>
+      <div class="field-group">
+        <label for="nc-data-fim">Data de Término</label>
+        <input type="date" id="nc-data-fim" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+      </div>
+    </div>
+    <div class="field-group">
+      <label for="nc-meta">Meta Geral da Equipe (R$)</label>
+      <input type="text" id="nc-meta" placeholder="Ex: 410.000,00" inputmode="decimal" autocomplete="off" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+    </div>
+    <div id="nc-msg" style="font-size:12px;margin-bottom:12px;display:none;"></div>
+    <button id="btn-nc-confirmar" class="btn btn-primary">Criar e Ativar Campanha</button>
   </div>
 </div>
 
