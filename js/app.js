@@ -328,7 +328,7 @@ function showSyncStatus(msg, type='saving') {
 function mostrarToast(msg, isError=false) {
   let t = document.getElementById('toast-global');
   if (!t) { t=document.createElement('div'); t.id='toast-global'; t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;font-family:Inter,sans-serif;z-index:9999;transition:opacity 0.3s;box-shadow:0 8px 32px rgba(0,0,0,0.4);'; document.body.appendChild(t); }
-  t.textContent=msg; t.style.background=isError?'#EF5350':'#D4AF37'; t.style.color=isError?'#fff':'#000'; t.style.opacity='1';
+  t.textContent=msg; t.style.background=isError?'#EF5350':'#FFB100'; t.style.color=isError?'#fff':'#000'; t.style.opacity='1';
   clearTimeout(t._t); t._t=setTimeout(()=>t.style.opacity='0', 2800);
 }
 function mostrarConfirm(titulo, sub, cb) {
@@ -791,7 +791,7 @@ function montarListaDevolucaoHTML(itens, corAcento) {
     return `<div style="font-size:12px;color:var(--texto3);text-align:center;padding:12px;">Nenhum material registrado para devolução.</div>`;
   }
   const linhas = itens.map(it => `
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid rgba(16,26,51,0.06);">
       <div style="flex:1;min-width:150px;font-size:12px;color:var(--texto);font-weight:600;">${it.nome}</div>
       <div style="font-size:12px;color:var(--texto3);font-family:var(--num-font);white-space:nowrap;">${it.qtd}x ${fmtMoeda(it.preco)}</div>
       <div style="font-size:13px;font-weight:800;font-family:var(--num-font);color:${corAcento};white-space:nowrap;">${fmtMoeda(it.subtotal)}</div>
@@ -828,7 +828,7 @@ function renderDevolucaoUI() {
 
   document.getElementById('dev-categorias').innerHTML = TABELA_DEVOLUCAO.map(cat => `
     <div style="margin-bottom:18px;">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(212,175,55,0.15);">${cat.categoria}</div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(255,177,0,0.15);">${cat.categoria}</div>
       <div style="display:flex;flex-direction:column;gap:6px;">
         ${cat.itens.map((it,i) => `
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg-card2);border-radius:8px;padding:8px 12px;flex-wrap:wrap;">
@@ -837,7 +837,7 @@ function renderDevolucaoUI() {
               <div style="font-size:11px;color:var(--texto3);font-family:var(--num-font);">${fmtMoeda(it.preco)} (c/ dízimo)</div>
             </div>
             <input type="number" min="0" value="${qtdsSalvas[it.nome]||0}" data-dev-qtd data-preco="${it.preco}" data-nome="${it.nome.replace(/"/g,'&quot;')}"
-              style="width:70px;padding:6px 8px;border-radius:8px;border:1px solid rgba(212,175,55,0.25);background:rgba(0,0,0,0.35);color:var(--branco);font-family:var(--num-font);font-size:13px;text-align:center;outline:none;">
+              style="width:70px;padding:6px 8px;border-radius:8px;border:1px solid rgba(255,177,0,0.25);background:rgba(16,26,51,0.04);color:var(--branco);font-family:var(--num-font);font-size:13px;text-align:center;outline:none;">
           </div>`).join('')}
       </div>
     </div>`).join('');
@@ -1095,9 +1095,9 @@ function renderPainel() {
   const enc = new Date(DATA_ENCERRAMENTO+'T23:59:59');
   const dr  = Math.max(0,Math.ceil((enc-new Date())/(1000*60*60*24)));
   const elDR = document.getElementById('painel-dias-restantes');
-  if (elDR) { elDR.textContent=dr===0?'⛔ Encerrada':dr; elDR.style.color=dr<=7?'var(--danger)':dr<=15?'#F5D76E':'var(--ouro-claro)'; }
+  if (elDR) { elDR.textContent=dr===0?'⛔ Encerrada':dr; elDR.style.color=dr<=7?'var(--danger)':dr<=15?'#FFC94D':'var(--ouro-claro)'; }
   const elCard = document.getElementById('painel-dias-card');
-  if (elCard) { elCard.textContent=dr===0?'⛔':dr; elCard.style.color=dr<=7?'var(--danger)':dr<=15?'#F5D76E':'var(--branco)'; }
+  if (elCard) { elCard.textContent=dr===0?'⛔':dr; elCard.style.color=dr<=7?'var(--danger)':dr<=15?'#FFC94D':'var(--branco)'; }
   document.getElementById('painel-ofertas-hoje').textContent = rHoje?rHoje.ofertas:'—';
   document.getElementById('painel-vendas-hoje').textContent  = rHoje?fmtMini(rHoje.vista||0):'—';
   document.getElementById('painel-oracoes-hoje').textContent = rHoje?rHoje.oracoes:'—';
@@ -1121,15 +1121,15 @@ function renderHistorico() {
   const tbody = document.getElementById('historico-body');
   if (!regs.length) { tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--texto3)">Nenhum registro encontrado.</td></tr>'; return; }
   tbody.innerHTML = [...regs].reverse().map(r=>r.justificado ? `
-    <tr style="background:rgba(184,150,46,0.06);">
+    <tr style="background:rgba(180,83,9,0.06);">
       <td><div style="font-weight:700">${formatarData(r.data)}</div><div style="font-size:11px;color:var(--texto3)">${getDiaSemana(r.data).slice(0,3)}</div></td>
       <td colspan="6" style="color:var(--texto2);font-style:italic;">
-        <span style="display:inline-block;background:rgba(184,150,46,0.15);border:1px solid rgba(184,150,46,0.3);border-radius:100px;padding:2px 10px;font-size:10px;font-weight:700;color:#D4AF37;text-transform:uppercase;letter-spacing:0.5px;margin-right:8px;">📢 Justificado</span>
+        <span style="display:inline-block;background:rgba(180,83,9,0.15);border:1px solid rgba(180,83,9,0.3);border-radius:100px;padding:2px 10px;font-size:10px;font-weight:700;color:#FFB100;text-transform:uppercase;letter-spacing:0.5px;margin-right:8px;">📢 Justificado</span>
         ${escapeHtml(r.motivoJustificativa)}
       </td>
       <td>
         <div style="display:flex;gap:6px;">
-          <button data-edit-just="${r.data}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(212,175,55,0.35);background:rgba(212,175,55,0.1);color:var(--ouro-claro);font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">✏️</button>
+          <button data-edit-just="${r.data}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(255,177,0,0.35);background:rgba(255,177,0,0.1);color:var(--ouro-claro);font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">✏️</button>
           <button data-del="${r.id}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">🗑️</button>
         </div>
       </td>
@@ -1138,13 +1138,13 @@ function renderHistorico() {
       <td><div style="font-weight:700">${formatarData(r.data)}</div><div style="font-size:11px;color:var(--texto3)">${getDiaSemana(r.data).slice(0,3)}</div></td>
       <td>${r.ofertas||0}</td>
       <td style="color:var(--ouro-claro);font-family:var(--num-font);font-weight:700">${fmtMini(r.vista||0)}</td>
-      <td style="color:#EDD96C;font-family:var(--num-font);font-weight:600">${fmtMini(r.prazo||0)}</td>
+      <td style="color:#3D5DF2;font-family:var(--num-font);font-weight:600">${fmtMini(r.prazo||0)}</td>
       <td>${r.oracoes||0}</td>
       <td>${r.horas||0}h</td>
       <td>${r.estudos||0}</td>
       <td>
         <div style="display:flex;gap:6px;">
-          <button data-edit="${r.data}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(212,175,55,0.35);background:rgba(212,175,55,0.1);color:var(--ouro-claro);font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">✏️</button>
+          <button data-edit="${r.data}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(255,177,0,0.35);background:rgba(255,177,0,0.1);color:var(--ouro-claro);font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">✏️</button>
           <button data-del="${r.id}" style="padding:5px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;">🗑️</button>
         </div>
       </td>
@@ -1214,11 +1214,11 @@ function renderResumoHistorico() {
             <span style="font-size:12px;color:var(--texto2);font-weight:600;">⬜ Falta alcançar</span>
             <span style="font-family:var(--num-font);font-weight:800;color:var(--danger);">${fmtMini(falta)}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(212,175,55,0.06);border-left:3px solid var(--ouro);border-radius:8px;padding:10px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,177,0,0.06);border-left:3px solid var(--ouro);border-radius:8px;padding:10px 14px;">
             <span style="font-size:12px;color:var(--texto2);font-weight:600;">🎯 Meta total</span>
             <span style="font-family:var(--num-font);font-weight:800;color:var(--ouro-claro);">${fmtMini(meta)}</span>
           </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(184,150,46,0.06);border-left:3px solid var(--azul-medio);border-radius:8px;padding:10px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(180,83,9,0.06);border-left:3px solid var(--azul-medio);border-radius:8px;padding:10px 14px;">
             <span style="font-size:12px;color:var(--texto2);font-weight:600;">📋 No Pedido</span>
             <span style="font-family:var(--num-font);font-weight:800;color:var(--azul-claro);">${fmtMini(prazoTotal)}</span>
           </div>
@@ -1226,11 +1226,11 @@ function renderResumoHistorico() {
       </div>
     </div>
 
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--texto3);font-weight:700;margin-bottom:10px;">📊 Filtrar período</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;" id="colhist-filtros">
         ${['campanha','semana','15dias','mes','datas'].map(p=>`
-          <button data-cfiltro="${p}" style="padding:6px 12px;border-radius:100px;border:1px solid ${perfilFiltro===p?'var(--ouro)':'rgba(212,175,55,0.12)'};background:${perfilFiltro===p?'linear-gradient(135deg,#D4AF37,#8B6914)':'transparent'};color:${perfilFiltro===p?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          <button data-cfiltro="${p}" style="padding:6px 12px;border-radius:100px;border:1px solid ${perfilFiltro===p?'var(--ouro)':'rgba(255,177,0,0.12)'};background:${perfilFiltro===p?'linear-gradient(135deg,#FFB100,#B45309)':'transparent'};color:${perfilFiltro===p?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;">
             ${p==='campanha'?'📅 Completo':p==='semana'?'7 dias':p==='15dias'?'15 dias':p==='mes'?'Este mês':'📆 Personalizado'}
           </button>`).join('')}
       </div>
@@ -1238,18 +1238,18 @@ function renderResumoHistorico() {
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">De:</span>
           <input type="date" id="colhist-data-ini" value="${dataIniVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
-            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
+            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(16,26,51,0.04);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">Até:</span>
           <input type="date" id="colhist-data-fim" value="${dataFimVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
-            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
+            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(16,26,51,0.04);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
-        <button id="colhist-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
+        <button id="colhist-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFB100,#B45309);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
       </div>
     </div>
 
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">📈 ${labelPeriodo} — Resultados</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;">
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--ouro);">
@@ -1279,7 +1279,7 @@ function renderResumoHistorico() {
       </div>
     </div>
 
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px;margin-bottom:20px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px;margin-bottom:20px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">
         📊 Médias Diárias — ${labelPeriodo} <span style="color:var(--texto3);font-weight:500;text-transform:none;letter-spacing:0;">(por dia registrado)</span>
       </div>
@@ -1308,8 +1308,8 @@ function renderResumoHistorico() {
     destroyChart('colhist-pizza');
     const ctx = document.getElementById('colhist-pizza');
     if (ctx && typeof Chart!=='undefined') {
-      const c = pct>=100?'#D4AF37':pct>=75?'#F5D76E':pct>=50?'#B8962E':pct>=25?'#8B6914':'#EF5350';
-      chartInstances['colhist-pizza'] = new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[vistaTotal,Math.max(0,meta-vistaTotal)],backgroundColor:[c,'rgba(255,255,255,0.06)'],borderColor:['transparent','transparent'],borderWidth:0}]},options:{responsive:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:600}}});
+      const c = pct>=100?'#FFB100':pct>=75?'#FFC94D':pct>=50?'#CC8C00':pct>=25?'#B45309':'#EF5350';
+      chartInstances['colhist-pizza'] = new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[vistaTotal,Math.max(0,meta-vistaTotal)],backgroundColor:[c,'rgba(16,26,51,0.06)'],borderColor:['transparent','transparent'],borderWidth:0}]},options:{responsive:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:600}}});
     }
   },50);
 
@@ -1342,7 +1342,7 @@ function destroyChart(id) { if(chartInstances[id]){chartInstances[id].destroy();
 function criarChart(id,type,labels,datasets,opts={}) {
   if (typeof Chart==='undefined') return;
   destroyChart(id); const ctx=document.getElementById(id); if(!ctx) return;
-  chartInstances[id]=new Chart(ctx,{type,data:{labels,datasets},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#C8B890',font:{size:11}},grid:{color:'rgba(212,175,55,0.04)'}},y:{ticks:{color:'#C8B890',font:{size:11}},grid:{color:'rgba(212,175,55,0.06)'},beginAtZero:true}},...opts}});
+  chartInstances[id]=new Chart(ctx,{type,data:{labels,datasets},options:{responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6E7285',font:{size:11}},grid:{color:'rgba(255,177,0,0.04)'}},y:{ticks:{color:'#6E7285',font:{size:11}},grid:{color:'rgba(255,177,0,0.06)'},beginAtZero:true}},...opts}});
 }
 // ── FILTRO DE PERÍODO DOS GRÁFICOS (colportor e admin) ──
 let graficosColFiltro = 'semana'; // semana | 15dias | 30dias | todo
@@ -1365,15 +1365,15 @@ function renderGraficosColportor() {
   const valEstCol = document.getElementById('graf-estudos-col');
   if (valEstCol) valEstCol.textContent = regs.reduce((s,r)=>s+(r.estudos||0),0);
   const L = regs.map(r=>formatarData(r.data).slice(0,5));
-  criarChart('chart-vendas-col','line',L,[{data:regs.map(r=>r.vista||0),borderColor:'#D4AF37',backgroundColor:'rgba(212,175,55,0.1)',borderWidth:2,fill:true,tension:0.4}]);
-  criarChart('chart-ofertas-col','bar',L,[{data:regs.map(r=>r.ofertas||0),backgroundColor:'rgba(212,175,55,0.6)',borderRadius:6}]);
-  criarChart('chart-oracoes-col','bar',L,[{data:regs.map(r=>r.oracoes||0),backgroundColor:'rgba(245,215,110,0.65)',borderRadius:6}]);
-  criarChart('chart-horas-col','line',L,[{data:regs.map(r=>r.horas||0),borderColor:'#C09820',backgroundColor:'rgba(192,152,32,0.1)',borderWidth:2,fill:true,tension:0.4}]);
+  criarChart('chart-vendas-col','line',L,[{data:regs.map(r=>r.vista||0),borderColor:'#FFB100',backgroundColor:'rgba(255,177,0,0.1)',borderWidth:2,fill:true,tension:0.4}]);
+  criarChart('chart-ofertas-col','bar',L,[{data:regs.map(r=>r.ofertas||0),backgroundColor:'rgba(255,177,0,0.6)',borderRadius:6}]);
+  criarChart('chart-oracoes-col','bar',L,[{data:regs.map(r=>r.oracoes||0),backgroundColor:'rgba(43,79,242,0.55)',borderRadius:6}]);
+  criarChart('chart-horas-col','line',L,[{data:regs.map(r=>r.horas||0),borderColor:'#8A5200',backgroundColor:'rgba(192,152,32,0.1)',borderWidth:2,fill:true,tension:0.4}]);
   let ac=0; const metaData=regs.map(r=>{ac+=(r.vista||0);return ac;});
   destroyChart('chart-meta-col');
   const ctx=document.getElementById('chart-meta-col');
   if(ctx&&typeof Chart!=='undefined'){
-    chartInstances['chart-meta-col']=new Chart(ctx,{type:'line',data:{labels:L,datasets:[{label:'Acumulado',data:metaData,borderColor:'#D4AF37',backgroundColor:'rgba(212,175,55,0.1)',fill:true,tension:0.4,borderWidth:2},{label:'Meta',data:regs.map(()=>currentUser.meta),borderColor:'rgba(255,255,255,0.4)',borderDash:[6,4],borderWidth:2,fill:false,pointRadius:0}]},options:{responsive:true,plugins:{legend:{display:true,labels:{color:'#C8B890',font:{size:11}}}},scales:{x:{ticks:{color:'#C8B890',font:{size:11}},grid:{color:'rgba(212,175,55,0.04)'}},y:{ticks:{color:'#C8B890',font:{size:11},callback:v=>'R$'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(255,255,255,0.06)'},beginAtZero:true}}}});
+    chartInstances['chart-meta-col']=new Chart(ctx,{type:'line',data:{labels:L,datasets:[{label:'Acumulado',data:metaData,borderColor:'#FFB100',backgroundColor:'rgba(255,177,0,0.1)',fill:true,tension:0.4,borderWidth:2},{label:'Meta',data:regs.map(()=>currentUser.meta),borderColor:'rgba(16,26,51,0.4)',borderDash:[6,4],borderWidth:2,fill:false,pointRadius:0}]},options:{responsive:true,plugins:{legend:{display:true,labels:{color:'#6E7285',font:{size:11}}}},scales:{x:{ticks:{color:'#6E7285',font:{size:11}},grid:{color:'rgba(255,177,0,0.04)'}},y:{ticks:{color:'#6E7285',font:{size:11},callback:v=>'R$'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(16,26,51,0.06)'},beginAtZero:true}}}});
   }
 }
 
@@ -1401,7 +1401,7 @@ function renderRelatorioIndividual() {
       <div class="progress-header"><span class="progress-label">Progresso da Bolsa</span><span class="progress-pct color-green">${pct}%</span></div>
       <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${Math.min(100,parseFloat(pct))}%"></div></div>
     </div>
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px;margin-top:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px;margin-top:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">📊 Médias Diárias (por dia trabalhado)</div>
       <div class="stats-grid">
         <div class="stat-card green"><div class="stat-label">💰 Média de Vendas/dia</div><div class="stat-value" style="font-size:18px">${fmtMini(med.mediaVendas)}</div></div>
@@ -1506,14 +1506,14 @@ function renderAdminDashboard() {
   const faltaEq = Math.max(0,metaEq-totalAcum);
   const elAlvo  = document.getElementById('meta-eq-alvo');
   if (elAlvo) elAlvo.textContent = fmtMini(metaEq);
-  const pctColor= pctEq>=100?'var(--ouro-claro)':pctEq>=75?'#F5D76E':pctEq>=50?'#D4AF37':'#C8A020';
+  const pctColor= pctEq>=100?'var(--ouro-claro)':pctEq>=75?'#FFC94D':pctEq>=50?'#FFB100':'#8A5200';
   document.getElementById('meta-eq-alcancado').textContent = fmtMini(totalAcum);
   const elF=document.getElementById('meta-eq-falta');
-  if(elF){elF.textContent=faltaEq>0?fmtMini(faltaEq):'✅ Meta atingida!';elF.style.color=faltaEq===0?'var(--ouro-claro)':'#F5D76E';}
+  if(elF){elF.textContent=faltaEq>0?fmtMini(faltaEq):'✅ Meta atingida!';elF.style.color=faltaEq===0?'var(--ouro-claro)':'#FFC94D';}
   const elP=document.getElementById('meta-eq-pct');
   if(elP){elP.textContent=pctEq.toFixed(1)+'%';elP.style.color=pctColor;}
   const elB=document.getElementById('meta-eq-bar');
-  if(elB){elB.style.width=pctEq+'%';elB.style.background=`linear-gradient(90deg,${pctColor},rgba(255,255,255,0.3))`;}
+  if(elB){elB.style.width=pctEq+'%';elB.style.background=`linear-gradient(90deg,${pctColor},rgba(16,26,51,0.3))`;}
   // Render premium chart
   renderDashChart();
   // Render semana maxima widget
@@ -1645,9 +1645,9 @@ function renderDashChart() {
   // Build gradient fills
   const ctxC = ctx.getContext('2d');
   const gradVista = ctxC.createLinearGradient(0, 0, 0, 240);
-  gradVista.addColorStop(0,   'rgba(212,175,55,0.35)');
-  gradVista.addColorStop(0.5, 'rgba(212,175,55,0.10)');
-  gradVista.addColorStop(1,   'rgba(212,175,55,0.00)');
+  gradVista.addColorStop(0,   'rgba(255,177,0,0.35)');
+  gradVista.addColorStop(0.5, 'rgba(255,177,0,0.10)');
+  gradVista.addColorStop(1,   'rgba(255,177,0,0.00)');
 
   const gradPrazo = ctxC.createLinearGradient(0, 0, 0, 240);
   gradPrazo.addColorStop(0,   'rgba(25,118,210,0.30)');
@@ -1655,7 +1655,7 @@ function renderDashChart() {
   gradPrazo.addColorStop(1,   'rgba(25,118,210,0.00)');
 
   // Point colors: gold for max, white otherwise
-  const pointBgVista = vistaArr.map((v,i) => v === maxVista && v > 0 ? '#EF5350' : '#D4AF37');
+  const pointBgVista = vistaArr.map((v,i) => v === maxVista && v > 0 ? '#EF5350' : '#FFB100');
   const pointRadii   = vistaArr.map((v,i) => v === maxVista && v > 0 ? 7 : 4);
 
   const isBar = isSingleDay;
@@ -1668,13 +1668,13 @@ function renderDashChart() {
       ...(isBar ? {
         backgroundColor: vistaArr.map((v,i) => v===maxVista && v>0
           ? 'rgba(239,83,80,0.85)'
-          : 'rgba(212,175,55,0.70)'),
-        borderColor: vistaArr.map((v,i) => v===maxVista && v>0 ? '#EF5350' : '#D4AF37'),
+          : 'rgba(255,177,0,0.70)'),
+        borderColor: vistaArr.map((v,i) => v===maxVista && v>0 ? '#EF5350' : '#FFB100'),
         borderWidth: 2,
         borderRadius: 6,
         borderSkipped: false,
       } : {
-        borderColor: '#D4AF37',
+        borderColor: '#FFB100',
         backgroundColor: gradVista,
         borderWidth: 2.5,
         fill: true,
@@ -1740,10 +1740,10 @@ function renderDashChart() {
         legend: { display: false },
         tooltip: {
           backgroundColor: 'rgba(10,15,28,0.96)',
-          borderColor: 'rgba(212,175,55,0.35)',
+          borderColor: 'rgba(255,177,0,0.35)',
           borderWidth: 1,
-          titleColor: '#EDD96C',
-          bodyColor: '#C8B890',
+          titleColor: '#FFCE45',
+          bodyColor: '#C4CADE',
           padding: 12,
           cornerRadius: 10,
           titleFont: { size: 12, weight: '700' },
@@ -1771,21 +1771,21 @@ function renderDashChart() {
       scales: {
         x: {
           ticks: {
-            color: '#9A8A6A',
+            color: '#8891AC',
             font: { size: 10, weight: '600' },
             maxRotation: 35,
           },
-          grid: { color: 'rgba(212,175,55,0.05)' },
-          border: { color: 'rgba(212,175,55,0.12)' },
+          grid: { color: 'rgba(255,177,0,0.05)' },
+          border: { color: 'rgba(255,177,0,0.12)' },
         },
         y: {
           ticks: {
-            color: '#9A8A6A',
+            color: '#8891AC',
             font: { size: 10 },
             callback: v => v >= 1000 ? `R$${(v/1000).toFixed(0)}k` : `R$${v}`,
           },
-          grid: { color: 'rgba(212,175,55,0.06)', drawTicks: false },
-          border: { color: 'rgba(212,175,55,0.12)', dash: [4, 4] },
+          grid: { color: 'rgba(255,177,0,0.06)', drawTicks: false },
+          border: { color: 'rgba(255,177,0,0.12)', dash: [4, 4] },
           beginAtZero: true,
         },
       },
@@ -2012,10 +2012,10 @@ function renderTabelaEquipe() {
       <td class="color-green">${fmtMini(vista)}</td>
       <td style="color:var(--azul-claro);font-family:var(--num-font)">${fmtMini(prazo)}</td>
       <td style="color:var(--amarelo);font-family:var(--num-font)">${fmtMini(falta)}</td>
-      <td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;background:rgba(255,255,255,0.08);border-radius:100px;height:8px;min-width:60px;"><div style="height:100%;border-radius:100px;width:${Math.min(100,pctN)}%;background:${pctN>=100?'var(--ouro)':pctN>=50?'#B8962E':'#F5D76E'};"></div></div><span style="font-family:var(--num-font);font-size:12px;font-weight:700;color:${pctN>=100?'var(--ouro-claro)':pctN>=50?'#EDD96C':'#F5D76E'}">${pct}%</span></div></td>
+      <td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;background:rgba(16,26,51,0.08);border-radius:100px;height:8px;min-width:60px;"><div style="height:100%;border-radius:100px;width:${Math.min(100,pctN)}%;background:${pctN>=100?'var(--ouro)':pctN>=50?'#CC8C00':'#FFC94D'};"></div></div><span style="font-family:var(--num-font);font-size:12px;font-weight:700;color:${pctN>=100?'var(--ouro-claro)':pctN>=50?'#3D5DF2':'#FFC94D'}">${pct}%</span></div></td>
       <td style="color:#FF8A65;font-family:var(--num-font);font-weight:700">${devU>0?fmtMini(devU):'—'}</td>
-      <td><span class="senha-mascarada" data-senha="${escapeHtml(u.senha)}" style="font-family:var(--num-font);color:var(--texto3);background:rgba(255,255,255,0.05);padding:3px 8px;border-radius:6px;letter-spacing:3px;cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></td>
-      <td><div class="admin-actions"><button data-ver="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">👤 Ver</button><button data-remover="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></div></td>
+      <td><span class="senha-mascarada" data-senha="${escapeHtml(u.senha)}" style="font-family:var(--num-font);color:var(--texto3);background:rgba(16,26,51,0.05);padding:3px 8px;border-radius:6px;letter-spacing:3px;cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></td>
+      <td><div class="admin-actions"><button data-ver="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">👤 Ver</button><button data-remover="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></div></td>
     </tr>`;
   }).join('');
   tbody.querySelectorAll('[data-ver]').forEach(b=>b.addEventListener('click',function(){ abrirPerfil(this.getAttribute('data-ver')); }));
@@ -2040,8 +2040,8 @@ document.getElementById('filtro-busca').addEventListener('input', renderTabelaEq
 // Period filter buttons in equipe tab
 document.querySelectorAll('[data-tperiodo]').forEach(btn => {
   btn.addEventListener('click', function() {
-    document.querySelectorAll('[data-tperiodo]').forEach(b=>{ b.classList.remove('active'); b.style.background='transparent'; b.style.borderColor='rgba(212,175,55,0.15)'; b.style.color='var(--texto3)'; });
-    this.classList.add('active'); this.style.background='linear-gradient(135deg,#D4AF37,#8B6914)'; this.style.borderColor='var(--ouro)'; this.style.color='#000';
+    document.querySelectorAll('[data-tperiodo]').forEach(b=>{ b.classList.remove('active'); b.style.background='transparent'; b.style.borderColor='rgba(255,177,0,0.15)'; b.style.color='var(--texto3)'; });
+    this.classList.add('active'); this.style.background='linear-gradient(135deg,#FFB100,#B45309)'; this.style.borderColor='var(--ouro)'; this.style.color='#000';
     tabelaPeriodo = this.getAttribute('data-tperiodo');
     renderTabelaEquipe();
   });
@@ -2115,8 +2115,8 @@ function renderPerfilConteudo(uid) {
     destroyChart('modal-pizza');
     const ctx=document.getElementById('modal-pizza');
     if(ctx&&typeof Chart!=='undefined'){
-      const c=pct>=100?'#D4AF37':pct>=75?'#F5D76E':pct>=50?'#B8962E':pct>=25?'#8B6914':'#EF5350';
-      chartInstances['modal-pizza']=new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[vistaTotal,Math.max(0,u.meta-vistaTotal)],backgroundColor:[c,'rgba(255,255,255,0.06)'],borderColor:['transparent','transparent'],borderWidth:0}]},options:{responsive:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:600}}});
+      const c=pct>=100?'#FFB100':pct>=75?'#FFC94D':pct>=50?'#CC8C00':pct>=25?'#B45309':'#EF5350';
+      chartInstances['modal-pizza']=new Chart(ctx,{type:'doughnut',data:{datasets:[{data:[vistaTotal,Math.max(0,u.meta-vistaTotal)],backgroundColor:[c,'rgba(16,26,51,0.06)'],borderColor:['transparent','transparent'],borderWidth:0}]},options:{responsive:false,cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}},animation:{duration:600}}});
     }
   },50);
 
@@ -2124,11 +2124,11 @@ function renderPerfilConteudo(uid) {
   const dataIniVal = perfilDataIni || AGENDA_INICIO;
   const dataFimVal = perfilDataFim || getHoje();
   const filtrosHTML = `
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--texto3);font-weight:700;margin-bottom:10px;">📊 Filtrar período</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;" id="perfil-filtros">
         ${['campanha','semana','15dias','mes','datas'].map(p=>`
-          <button data-pfiltro="${p}" style="padding:6px 12px;border-radius:100px;border:1px solid ${perfilFiltro===p?'var(--ouro)':'rgba(212,175,55,0.12)'};background:${perfilFiltro===p?'linear-gradient(135deg,#D4AF37,#8B6914)':'transparent'};color:${perfilFiltro===p?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          <button data-pfiltro="${p}" style="padding:6px 12px;border-radius:100px;border:1px solid ${perfilFiltro===p?'var(--ouro)':'rgba(255,177,0,0.12)'};background:${perfilFiltro===p?'linear-gradient(135deg,#FFB100,#B45309)':'transparent'};color:${perfilFiltro===p?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.15s;">
             ${p==='campanha'?'📅 Completo':p==='semana'?'7 dias':p==='15dias'?'15 dias':p==='mes'?'Este mês':'📆 Personalizado'}
           </button>`).join('')}
       </div>
@@ -2136,14 +2136,14 @@ function renderPerfilConteudo(uid) {
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">De:</span>
           <input type="date" id="perfil-data-ini" value="${dataIniVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
-            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
+            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(16,26,51,0.04);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
         <div style="display:flex;align-items:center;gap:6px;">
           <span style="font-size:11px;color:var(--texto3);font-weight:600;">Até:</span>
           <input type="date" id="perfil-data-fim" value="${dataFimVal}" min="${AGENDA_INICIO}" max="${DATA_ENCERRAMENTO}"
-            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
+            style="padding:6px 10px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(16,26,51,0.04);color:var(--branco);font-family:'Inter',sans-serif;font-size:12px;outline:none;">
         </div>
-        <button id="perfil-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
+        <button id="perfil-btn-filtrar" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFB100,#B45309);color:#000;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;">Filtrar</button>
       </div>
     </div>`;
 
@@ -2154,7 +2154,7 @@ function renderPerfilConteudo(uid) {
 
   // ── STATS DO PERÍODO ──
   const statsHTML = `
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">
         📈 ${labelPeriodo} — Resultados
       </div>
@@ -2185,7 +2185,7 @@ function renderPerfilConteudo(uid) {
         </div>
       </div>
     </div>
-    <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
+    <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">
         📊 Médias Diárias — ${labelPeriodo} <span style="color:var(--texto3);font-weight:500;text-transform:none;letter-spacing:0;">(por dia registrado)</span>
       </div>
@@ -2241,19 +2241,19 @@ function renderPerfilConteudo(uid) {
   document.getElementById('modal-registros').innerHTML = regsRev.length === 0
     ? `<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--texto3);">Nenhum registro neste período.</td></tr>`
     : regsRev.map((r,i)=>`
-    <tr id="mrow-${i}" ${r.justificado?'style="background:rgba(184,150,46,0.08);"':''}>
-      <td><input type="date" data-id="${r.id}" data-campo="data" value="${r.data}" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:4px 6px;color:var(--branco);font-family:var(--body-font);font-size:11px;width:120px;outline:none;"><div style="font-size:10px;color:var(--texto3);margin-top:3px;">${getDiaSemana(r.data)}</div>${r.justificado?`<div style="margin-top:5px;"><span style="display:inline-block;background:rgba(184,150,46,0.18);border:1px solid rgba(184,150,46,0.35);border-radius:100px;padding:2px 8px;font-size:9px;font-weight:700;color:#D4AF37;text-transform:uppercase;letter-spacing:0.5px;">📢 Justificado</span></div>`:''}</td>
-      <td><input type="number" data-id="${r.id}" data-campo="ofertas" value="${r.ofertas||0}" style="width:58px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
-      <td><input type="text" data-id="${r.id}" data-campo="vista" data-money="1" data-raw="${r.vista||0}" value="${floatParaMoeda(r.vista||0)}" style="width:88px;background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:6px;padding:5px 7px;color:var(--verde-claro);font-family:var(--num-font);font-size:12px;" inputmode="decimal"></td>
+    <tr id="mrow-${i}" ${r.justificado?'style="background:rgba(180,83,9,0.08);"':''}>
+      <td><input type="date" data-id="${r.id}" data-campo="data" value="${r.data}" style="background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:4px 6px;color:var(--branco);font-family:var(--body-font);font-size:11px;width:120px;outline:none;"><div style="font-size:10px;color:var(--texto3);margin-top:3px;">${getDiaSemana(r.data)}</div>${r.justificado?`<div style="margin-top:5px;"><span style="display:inline-block;background:rgba(180,83,9,0.18);border:1px solid rgba(180,83,9,0.35);border-radius:100px;padding:2px 8px;font-size:9px;font-weight:700;color:#FFB100;text-transform:uppercase;letter-spacing:0.5px;">📢 Justificado</span></div>`:''}</td>
+      <td><input type="number" data-id="${r.id}" data-campo="ofertas" value="${r.ofertas||0}" style="width:58px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
+      <td><input type="text" data-id="${r.id}" data-campo="vista" data-money="1" data-raw="${r.vista||0}" value="${floatParaMoeda(r.vista||0)}" style="width:88px;background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:6px;padding:5px 7px;color:var(--verde-claro);font-family:var(--num-font);font-size:12px;" inputmode="decimal"></td>
       <td><input type="text" data-id="${r.id}" data-campo="prazo" data-money="1" data-raw="${r.prazo||0}" value="${floatParaMoeda(r.prazo||0)}" style="width:88px;background:rgba(21,101,192,0.06);border:1px solid rgba(21,101,192,0.2);border-radius:6px;padding:5px 7px;color:var(--azul-claro);font-family:var(--num-font);font-size:12px;" inputmode="decimal"></td>
-      <td><input type="number" data-id="${r.id}" data-campo="oracoes" value="${r.oracoes||0}" style="width:58px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
-      <td><input type="number" data-id="${r.id}" data-campo="horas"   value="${r.horas||0}"   style="width:58px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
+      <td><input type="number" data-id="${r.id}" data-campo="oracoes" value="${r.oracoes||0}" style="width:58px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
+      <td><input type="number" data-id="${r.id}" data-campo="horas"   value="${r.horas||0}"   style="width:58px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
       <td>
-        <button data-save="${i}" style="padding:5px 8px;border-radius:6px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-size:10px;cursor:pointer;margin-bottom:3px;font-family:Inter,sans-serif;font-weight:700;">💾</button>
+        <button data-save="${i}" style="padding:5px 8px;border-radius:6px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-size:10px;cursor:pointer;margin-bottom:3px;font-family:Inter,sans-serif;font-weight:700;">💾</button>
         <button data-delreg="${r.id}" style="padding:5px 8px;border-radius:6px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:10px;cursor:pointer;font-family:Inter,sans-serif;font-weight:700;">🗑️</button>
       </td>
     </tr>${r.justificado?`
-    <tr ${r.justificado?'style="background:rgba(184,150,46,0.04);"':''}>
+    <tr ${r.justificado?'style="background:rgba(180,83,9,0.04);"':''}>
       <td colspan="6" style="padding:4px 12px 10px 12px;font-size:11px;color:var(--texto2);font-style:italic;border-top:none;">📢 Motivo: ${escapeHtml(r.motivoJustificativa)||'—'}</td>
       <td></td>
     </tr>`:''}`).join('');
@@ -2337,7 +2337,7 @@ function exportarPDFColportor(uid) {
     : `${perfilDataIni||''} a ${perfilDataFim||''}`;
 
   const barW = Math.min(100, pctMeta).toFixed(1);
-  const barColor = pctMeta>=100?'#D4AF37':pctMeta>=75?'#F5D76E':pctMeta>=50?'#B8962E':'#8B6914';
+  const barColor = pctMeta>=100?'#FFB100':pctMeta>=75?'#FFC94D':pctMeta>=50?'#CC8C00':'#B45309';
 
   // Build rows for period records table
   const regsRev = [...regs].sort((a,b)=>b.data.localeCompare(a.data));
@@ -2347,7 +2347,7 @@ function exportarPDFColportor(uid) {
       <tr style="border-bottom:1px solid #eee;background:#FBF6E9;">
         <td style="padding:8px 6px;">${formatarData(r.data)}<br><span style="font-size:10px;color:#999;">${getDiaSemana(r.data)}</span></td>
         <td colspan="6" style="padding:8px 6px;font-style:italic;color:#555;">
-          <span style="display:inline-block;background:#F0E6C8;border:1px solid #D4AF37;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700;color:#8B6914;text-transform:uppercase;margin-right:6px;">📢 Justificado</span>
+          <span style="display:inline-block;background:#F0E6C8;border:1px solid #FFB100;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700;color:#B45309;text-transform:uppercase;margin-right:6px;">📢 Justificado</span>
           ${escapeHtml(r.motivoJustificativa)}
         </td>
       </tr>` : `
@@ -2368,23 +2368,23 @@ function exportarPDFColportor(uid) {
     body{font-family:Arial,sans-serif;color:#1a1a2e;background:#fff;font-size:13px;}
     .hdr{background:linear-gradient(135deg,#0a0f1c,#1a2a4a);color:#fff;padding:24px 36px;display:flex;justify-content:space-between;align-items:center;}
     .hdr-left{display:flex;align-items:center;gap:16px;}
-    .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B6914);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#000;flex-shrink:0;}
+    .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#FFB100,#B45309);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#000;flex-shrink:0;}
     .hdr-name{font-size:22px;font-weight:800;letter-spacing:0.3px;}
     .hdr-sub{font-size:11px;opacity:0.6;margin-top:3px;}
     .hdr-date{font-size:11px;opacity:0.6;text-align:right;}
     .sec{padding:20px 36px;}
-    .sec-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#0a0f1c;border-bottom:3px solid #D4AF37;padding-bottom:5px;margin-bottom:14px;display:inline-block;}
+    .sec-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#0a0f1c;border-bottom:3px solid #FFB100;padding-bottom:5px;margin-bottom:14px;display:inline-block;}
     .bolsa{background:#f5f9f5;border:1px solid #c3e6cb;border-radius:12px;padding:18px;margin-bottom:18px;}
     .bolsa-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e8e8e8;}
     .bolsa-row:last-child{border-bottom:none;}
     .bolsa-label{font-size:12px;color:#555;font-weight:600;}
     .bolsa-val{font-size:15px;font-weight:800;font-family:monospace;}
     .bar-bg{background:#e0e0e0;border-radius:100px;height:12px;overflow:hidden;margin-top:10px;}
-    .bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);}
+    .bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,#B45309,#FFB100,#FFC94D);}
     .bar-label{display:flex;justify-content:space-between;font-size:11px;color:#555;margin-bottom:5px;font-weight:600;}
     .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
     .sbox{background:#f5f5f5;border-radius:10px;padding:12px;text-align:center;border-top:3px solid #ccc;}
-    .sbox.g{border-color:#D4AF37;}.sbox.b{border-color:#1976D2;}.sbox.y{border-color:#FFD600;}.sbox.o{border-color:#FF6D00;}.sbox.p{border-color:#7B1FA2;}.sbox.v{border-color:#6D28D9;}.sbox.d{border-color:#00796B;}
+    .sbox.g{border-color:#FFB100;}.sbox.b{border-color:#1976D2;}.sbox.y{border-color:#FFCE45;}.sbox.o{border-color:#FF6D00;}.sbox.p{border-color:#7B1FA2;}.sbox.v{border-color:#6D28D9;}.sbox.d{border-color:#00796B;}
     .slb{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#777;font-weight:700;margin-bottom:3px;}
     .svl{font-size:18px;font-weight:800;color:#1a1a2e;font-family:monospace;}
     table{width:100%;border-collapse:collapse;font-size:12px;}
@@ -2410,14 +2410,14 @@ function exportarPDFColportor(uid) {
   <div class="sec">
     <div class="sec-title">🎯 Bolsa de Estudos — Campanha Completa</div>
     <div class="bolsa">
-      <div class="bolsa-row"><span class="bolsa-label">🎯 Meta Total</span><span class="bolsa-val" style="color:#A0832A;">R$ ${u.meta.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
+      <div class="bolsa-row"><span class="bolsa-label">🎯 Meta Total</span><span class="bolsa-val" style="color:#B45309;">R$ ${u.meta.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
       <div class="bolsa-row"><span class="bolsa-label">✅ Vendido À Vista</span><span class="bolsa-val" style="color:#1a7a3e;">R$ ${vistaTotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
       <div class="bolsa-row"><span class="bolsa-label">📋 No Pedido</span><span class="bolsa-val" style="color:#1565C0;">R$ ${prazoTotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
       <div class="bolsa-row"><span class="bolsa-label">⬜ Falta Alcançar</span><span class="bolsa-val" style="color:${falta===0?'#1a7a3e':'#c62828'};">${falta===0?'✅ Meta atingida!':'R$ '+falta.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
       <div class="bolsa-row"><span class="bolsa-label">📦 Devolução de Material (lacrado)</span><span class="bolsa-val" style="color:#E65100;">R$ ${(devUPdf.total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span></div>
       <div style="margin-top:12px;">
         <div class="bar-label"><span>Progresso</span><span style="font-weight:800;color:${barColor};">${pctMeta.toFixed(1)}%</span></div>
-        <div class="bar-bg"><div class="bar-fill" style="width:${barW}%;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);"></div></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:${barW}%;background:linear-gradient(90deg,#B45309,#FFB100,#FFC94D);"></div></div>
       </div>
     </div>
 
@@ -2478,7 +2478,7 @@ function renderPreenchimentoDiario() {
     sim.forEach(u=>{
       const reg=regsData.find(r=>r.userId===u.id);
       const div=document.createElement('div');
-      div.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:10px;';
+      div.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.15);border-radius:10px;';
       div.innerHTML=`<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:var(--branco);">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--verde-claro);margin-top:2px;">À vista: ${fmtMini(reg?.vista||0)} · ${reg?.ofertas||0} ofertas</div></div><div style="font-size:11px;color:var(--verde);font-weight:700;">✅</div>`;
       const btnD=document.createElement('button');
       btnD.textContent='🗑️'; btnD.style.cssText='padding:5px 8px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;cursor:pointer;font-size:12px;';
@@ -2512,10 +2512,10 @@ function renderGraficosAdmin() {
   const datas=[...new Set(regsFiltrados.map(r=>r.data))].sort();
   const L=datas.map(d=>formatarData(d).slice(0,5));
   const soma=(campo)=>datas.map(d=>regsFiltrados.filter(r=>r.data===d).reduce((s,r)=>s+(r[campo]||0),0));
-  criarChart('adm-chart-vendas','line',L,[{data:datas.map(d=>regsFiltrados.filter(r=>r.data===d).reduce((s,r)=>s+(r.vista||0),0)),borderColor:'#D4AF37',backgroundColor:'rgba(212,175,55,0.1)',borderWidth:2,fill:true,tension:0.4}]);
-  criarChart('adm-chart-ofertas','bar',L,[{data:soma('ofertas'),backgroundColor:'rgba(212,175,55,0.6)',borderRadius:6}]);
-  criarChart('adm-chart-oracoes','bar',L,[{data:soma('oracoes'),backgroundColor:'rgba(245,215,110,0.65)',borderRadius:6}]);
-  criarChart('adm-chart-horas','line',L,[{data:soma('horas'),borderColor:'#C09820',backgroundColor:'rgba(192,152,32,0.1)',borderWidth:2,fill:true,tension:0.4}]);
+  criarChart('adm-chart-vendas','line',L,[{data:datas.map(d=>regsFiltrados.filter(r=>r.data===d).reduce((s,r)=>s+(r.vista||0),0)),borderColor:'#FFB100',backgroundColor:'rgba(255,177,0,0.1)',borderWidth:2,fill:true,tension:0.4}]);
+  criarChart('adm-chart-ofertas','bar',L,[{data:soma('ofertas'),backgroundColor:'rgba(255,177,0,0.6)',borderRadius:6}]);
+  criarChart('adm-chart-oracoes','bar',L,[{data:soma('oracoes'),backgroundColor:'rgba(43,79,242,0.55)',borderRadius:6}]);
+  criarChart('adm-chart-horas','line',L,[{data:soma('horas'),borderColor:'#8A5200',backgroundColor:'rgba(192,152,32,0.1)',borderWidth:2,fill:true,tension:0.4}]);
   criarChart('adm-chart-estudos','bar',L,[{data:soma('estudos'),backgroundColor:'rgba(124,58,237,0.6)',borderRadius:6}]);
 }
 
@@ -2566,7 +2566,7 @@ window.abrirModalVendasHoje = function() {
   const lista=document.getElementById('mvh-lista'), empty=document.getElementById('mvh-empty');
   const vend=liveUsuarios.map(u=>{const r=regsH.find(x=>x.userId===u.id);return r?{nome:u.nome,vista:r.vista||0,prazo:r.prazo||0}:null;}).filter(Boolean).sort((a,b)=>b.vista-a.vista);
   if(!vend.length){lista.innerHTML='';empty.style.display='block';}
-  else{empty.style.display='none';lista.innerHTML=vend.map((v,i)=>`<div style="background:var(--bg-card2);border:1px solid var(--borda);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;flex-shrink:0;">${i+1}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${v.nome}</div><div style="margin-top:5px;background:rgba(255,255,255,0.06);border-radius:100px;height:6px;"><div style="height:100%;border-radius:100px;width:${total>0?Math.round(v.vista/total*100):0}%;background:var(--ouro);"></div></div></div><div style="text-align:right;"><div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${fmtMini(v.vista)}</div>${v.prazo>0?`<div style="font-size:11px;color:var(--azul-claro);">+${fmtMini(v.prazo)} pedido</div>`:''}</div></div>`).join('');}
+  else{empty.style.display='none';lista.innerHTML=vend.map((v,i)=>`<div style="background:var(--bg-card2);border:1px solid var(--borda);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;flex-shrink:0;">${i+1}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${v.nome}</div><div style="margin-top:5px;background:rgba(16,26,51,0.06);border-radius:100px;height:6px;"><div style="height:100%;border-radius:100px;width:${total>0?Math.round(v.vista/total*100):0}%;background:var(--ouro);"></div></div></div><div style="text-align:right;"><div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${fmtMini(v.vista)}</div>${v.prazo>0?`<div style="font-size:11px;color:var(--azul-claro);">+${fmtMini(v.prazo)} pedido</div>`:''}</div></div>`).join('');}
   document.getElementById('modal-vendas-hoje').style.display='flex';
 };
 window.abrirModalColportores = function() {
@@ -2581,7 +2581,7 @@ window.abrirModalColportores = function() {
     div.style.cssText='display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg-card2);border:1px solid var(--borda);border-radius:10px;cursor:pointer;transition:border-color 0.2s;';
     div.onmouseenter=()=>div.style.borderColor='var(--ouro)';
     div.onmouseleave=()=>div.style.borderColor='';
-    div.innerHTML=`<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--texto3);">📞 ${escapeHtml(u.tel)||'—'}</div></div><div style="text-align:right;"><div style="font-size:13px;font-weight:700;font-family:var(--num-font);color:${pct>=100?'var(--ouro-claro)':pct>=50?'#EDD96C':'#F5D76E'};">${pct.toFixed(0)}%</div></div><div style="color:var(--texto2);font-size:16px;">›</div>`;
+    div.innerHTML=`<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--texto3);">📞 ${escapeHtml(u.tel)||'—'}</div></div><div style="text-align:right;"><div style="font-size:13px;font-weight:700;font-family:var(--num-font);color:${pct>=100?'var(--ouro-claro)':pct>=50?'#3D5DF2':'#FFC94D'};">${pct.toFixed(0)}%</div></div><div style="color:var(--texto2);font-size:16px;">›</div>`;
     div.addEventListener('click',()=>{ document.getElementById('modal-colportores').style.display='none'; abrirPerfil(u.id); });
     lista.appendChild(div);
   });
@@ -2726,7 +2726,7 @@ function exportarPDFRelatorio() {
       <td style="padding:10px 8px;">
         <div style="display:flex;align-items:center;gap:6px;">
           <div style="width:70px;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;">
-            <div style="width:${bar}%;height:100%;background:${bar>=100?'#D4AF37':bar>=50?'#1976D2':'#FFD600'};border-radius:4px;"></div>
+            <div style="width:${bar}%;height:100%;background:${bar>=100?'#FFB100':bar>=50?'#1976D2':'#FFCE45'};border-radius:4px;"></div>
           </div>
           <strong style="color:${bar>=100?'#00952D':bar>=50?'#1565C0':'#9a7700'}">${pct}%</strong>
         </div>
@@ -2745,16 +2745,16 @@ function exportarPDFRelatorio() {
     .hdr-title{font-size:24px;font-weight:800;}
     .hdr-sub{font-size:12px;opacity:0.6;margin-top:3px;}
     .sec{padding:24px 40px;}
-    .sec-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#0a0f1c;border-bottom:3px solid #D4AF37;padding-bottom:6px;margin-bottom:16px;display:inline-block;}
+    .sec-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#0a0f1c;border-bottom:3px solid #FFB100;padding-bottom:6px;margin-bottom:16px;display:inline-block;}
     .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:24px;}
     .sbox{background:#f5f5f5;border-radius:10px;padding:14px;text-align:center;border-top:4px solid #ccc;}
-    .sbox.g{border-color:#D4AF37;}.sbox.b{border-color:#A0832A;}.sbox.y{border-color:#FFD600;}.sbox.o{border-color:#FF6D00;}.sbox.p{border-color:#7B1FA2;}.sbox.v{border-color:#6D28D9;}
+    .sbox.g{border-color:#FFB100;}.sbox.b{border-color:#B45309;}.sbox.y{border-color:#FFCE45;}.sbox.o{border-color:#FF6D00;}.sbox.p{border-color:#7B1FA2;}.sbox.v{border-color:#6D28D9;}
     .slb{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#666;font-weight:700;margin-bottom:4px;}
     .svl{font-size:20px;font-weight:800;color:#1a1a2e;font-family:monospace;}
     .mbar{background:#f0f9f4;border:1px solid #c3e6cb;border-radius:10px;padding:16px;margin-bottom:20px;}
     .mbarlbl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#1a7a3e;margin-bottom:8px;}
     .mbarbg{background:#ddd;border-radius:100px;height:14px;overflow:hidden;}
-    .mbarfil{height:100%;border-radius:100px;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);}
+    .mbarfil{height:100%;border-radius:100px;background:linear-gradient(90deg,#B45309,#FFB100,#FFC94D);}
     table{width:100%;border-collapse:collapse;font-size:13px;}
     th{background:#0a0f1c;color:#fff;padding:10px 8px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;}
     tr:nth-child(even) td{background:#f9f9f9;}
@@ -2795,7 +2795,7 @@ function exportarPDFGraficos() {
   const hoje=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
   const ids=['adm-chart-vendas','adm-chart-ofertas','adm-chart-oracoes','adm-chart-horas','adm-chart-estudos'];
   const titulos=['Vendas por Dia (À Vista)','Ofertas por Dia','Orações por Dia','Horas Trabalhadas','Estudos Bíblicos por Dia'];
-  const cores=['#D4AF37','#1976D2','#FFD600','#FF6D00','#6D28D9'];
+  const cores=['#FFB100','#1976D2','#FFCE45','#FF6D00','#6D28D9'];
   const imgs=ids.map(id=>{const c=document.getElementById(id);return c?c.toDataURL('image/png'):null;});
   const blocos=imgs.map((img,i)=>img?`
     <div style="background:#f8f9fa;border-radius:10px;padding:16px;border-top:4px solid ${cores[i]};">
@@ -2986,8 +2986,8 @@ async function renderAdmLiderLista() {
     lista.innerHTML = '';
     lideres.forEach(l => {
       const div = document.createElement('div');
-      div.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:10px;';
-      div.innerHTML=`<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#8B6914);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#000;">${escapeHtml(iniciais(l.nome))}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${escapeHtml(l.nome)}</div><div style="font-size:12px;color:var(--texto3);">Alvo: ${fmtMini(l.alvo||0)} · Senha: <span class="senha-mascarada" data-senha="${escapeHtml(l.senha)}" style="letter-spacing:2px;color:var(--texto2);cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></div></div><button data-del-lider="${l.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button>`;
+      div.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:10px;';
+      div.innerHTML=`<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#FFB100,#B45309);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#000;">${escapeHtml(iniciais(l.nome))}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${escapeHtml(l.nome)}</div><div style="font-size:12px;color:var(--texto3);">Alvo: ${fmtMini(l.alvo||0)} · Senha: <span class="senha-mascarada" data-senha="${escapeHtml(l.senha)}" style="letter-spacing:2px;color:var(--texto2);cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></div></div><button data-del-lider="${l.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button>`;
       div.querySelector('[data-del-lider]').addEventListener('click', function(){
         const lid=this.getAttribute('data-del-lider');
         mostrarConfirm('Remover este líder?','Os registros de assistência serão mantidos.',async()=>{
@@ -3060,12 +3060,12 @@ async function renderAdmRelLideres() {
     const lideres = snap.docs.map(d=>({id:d.id,...d.data()}));
     if (!lideres.length) { corpo.innerHTML='<div style="text-align:center;padding:24px;color:var(--texto3);">Nenhum líder cadastrado.</div>'; return; }
     selector.innerHTML = lideres.map((l,i)=>`
-      <button data-lider-id="${l.id}" style="padding:8px 16px;border-radius:100px;border:1px solid ${i===0?'var(--ouro)':'rgba(212,175,55,0.2)'};background:${i===0?'linear-gradient(135deg,#D4AF37,#8B6914)':'transparent'};color:${i===0?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">${escapeHtml(l.nome)}</button>
+      <button data-lider-id="${l.id}" style="padding:8px 16px;border-radius:100px;border:1px solid ${i===0?'var(--ouro)':'rgba(255,177,0,0.2)'};background:${i===0?'linear-gradient(135deg,#FFB100,#B45309)':'transparent'};color:${i===0?'#000':'var(--texto3)'};font-family:Inter,sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">${escapeHtml(l.nome)}</button>
     `).join('');
     selector.querySelectorAll('[data-lider-id]').forEach(btn=>{
       btn.addEventListener('click',function(){
-        selector.querySelectorAll('[data-lider-id]').forEach(b=>{ b.style.background='transparent';b.style.borderColor='rgba(212,175,55,0.2)';b.style.color='var(--texto3)'; });
-        this.style.background='linear-gradient(135deg,#D4AF37,#8B6914)';this.style.borderColor='var(--ouro)';this.style.color='#000';
+        selector.querySelectorAll('[data-lider-id]').forEach(b=>{ b.style.background='transparent';b.style.borderColor='rgba(255,177,0,0.2)';b.style.color='var(--texto3)'; });
+        this.style.background='linear-gradient(135deg,#FFB100,#B45309)';this.style.borderColor='var(--ouro)';this.style.color='#000';
         const lid=this.getAttribute('data-lider-id');
         const liderObj=lideres.find(x=>x.id===lid);
         renderAdmRelUmLider(liderObj,corpo);
@@ -3088,10 +3088,10 @@ async function renderAdmRelUmLider(lider, corpo) {
     const falta = Math.max(0, alvo - totalVista);
     const pct   = alvo > 0 ? Math.min(100,(totalVista/alvo)*100) : 0;
     corpo.innerHTML = `
-      <div style="background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,105,20,0.05));border:1px solid rgba(212,175,55,0.2);border-radius:14px;padding:20px;margin-bottom:16px;">
+      <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:14px;padding:20px;margin-bottom:16px;">
         <div style="font-size:14px;font-weight:800;color:var(--branco);margin-bottom:12px;">👑 ${lider.nome} — Resumo</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:14px;">
-          <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--ouro);"><div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">🎯 Alvo</div><div style="font-size:15px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">${fmtMini(alvo)}</div></div>
+          <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--ouro);"><div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">🎯 Alvo</div><div style="font-size:15px;font-weight:800;font-family:var(--num-font);color:#3D5DF2;">${fmtMini(alvo)}</div></div>
           <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--ouro-claro);"><div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">💰 À Vista</div><div style="font-size:15px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${fmtMini(totalVista)}</div></div>
           <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--azul-medio);"><div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📋 No Pedido</div><div style="font-size:15px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${fmtMini(totalPrazo)}</div></div>
           <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--laranja);"><div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">⏰ Horas</div><div style="font-size:15px;font-weight:800;font-family:var(--num-font);color:#FFAB40;">${fmtHoras(totalHoras)}</div></div>
@@ -3102,8 +3102,8 @@ async function renderAdmRelUmLider(lider, corpo) {
           <span style="font-size:12px;color:var(--texto3);font-weight:600;">Progresso do alvo</span>
           <span style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${pct.toFixed(1)}%</span>
         </div>
-        <div style="background:rgba(255,255,255,0.07);border-radius:100px;height:12px;overflow:hidden;">
-          <div style="height:100%;border-radius:100px;width:${pct}%;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);"></div>
+        <div style="background:rgba(16,26,51,0.07);border-radius:100px;height:12px;overflow:hidden;">
+          <div style="height:100%;border-radius:100px;width:${pct}%;background:linear-gradient(90deg,#B45309,#FFB100,#FFC94D);"></div>
         </div>
       </div>
       ${regs.length===0?'<div style="text-align:center;padding:24px;color:var(--texto3);">Nenhum registro ainda.</div>':`
@@ -3153,8 +3153,8 @@ function abrirPerfilColportor() {
   document.querySelectorAll('.pcol-meta-opt').forEach(btn=>{
     const val = btn.getAttribute('data-val');
     const isActive = parseFloat(val)===currentUser.meta;
-    btn.style.background   = isActive?'linear-gradient(135deg,#D4AF37,#8B6914)':'transparent';
-    btn.style.borderColor  = isActive?'var(--ouro)':'rgba(212,175,55,0.15)';
+    btn.style.background   = isActive?'linear-gradient(135deg,#FFB100,#B45309)':'transparent';
+    btn.style.borderColor  = isActive?'var(--ouro)':'rgba(255,177,0,0.15)';
     btn.style.color        = isActive?'#000':'var(--texto3)';
     btn.style.fontWeight   = isActive?'800':'600';
   });
@@ -3236,11 +3236,11 @@ document.querySelectorAll('.pcol-meta-opt').forEach(btn=>{
     document.getElementById('pcol-input-meta').value = val;
     document.querySelectorAll('.pcol-meta-opt').forEach(b=>{
       b.style.background  = 'transparent';
-      b.style.borderColor = 'rgba(255,255,255,0.12)';
+      b.style.borderColor = 'rgba(16,26,51,0.12)';
       b.style.color       = 'var(--texto3)';
       b.style.fontWeight  = '600';
     });
-    this.style.background  = 'linear-gradient(135deg,#D4AF37,#8B6914)';
+    this.style.background  = 'linear-gradient(135deg,#FFB100,#B45309)';
     this.style.borderColor = 'var(--ouro)';
     this.style.color       = '#000';
     this.style.fontWeight  = '800';
@@ -3286,7 +3286,7 @@ function smaxStatusComp(comp) {
 
 function smaxStatusBadge(status) {
   if (status==='ativa')     return '<span style="background:rgba(0,200,80,0.15);border:1px solid rgba(0,200,80,0.35);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#00C850;text-transform:uppercase;letter-spacing:1px;">🟢 Ativa</span>';
-  if (status==='pendente')  return '<span style="background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#FFD700;text-transform:uppercase;letter-spacing:1px;">⏳ Aguardando</span>';
+  if (status==='pendente')  return '<span style="background:rgba(255,206,69,0.12);border:1px solid rgba(255,206,69,0.3);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#FFCE45;text-transform:uppercase;letter-spacing:1px;">⏳ Aguardando</span>';
   return '<span style="background:rgba(200,200,200,0.1);border:1px solid rgba(200,200,200,0.2);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;">✅ Encerrada</span>';
 }
 
@@ -3345,11 +3345,11 @@ async function renderSmaxBannerAtivo() {
     }
     if (ativa.premioTipo) {
       bannerPremioEl.innerHTML = `
-        <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(255,215,0,0.15),rgba(212,175,55,0.1));border:1px solid rgba(255,215,0,0.4);border-radius:12px;padding:10px 16px;margin-top:10px;margin-bottom:4px;">
+        <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(255,206,69,0.15),rgba(255,177,0,0.1));border:1px solid rgba(255,206,69,0.4);border-radius:12px;padding:10px 16px;margin-top:10px;margin-bottom:4px;">
           <span style="font-size:26px;">🏆</span>
           <div>
-            <div style="font-size:10px;color:rgba(255,215,0,0.7);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;">Premiação</div>
-            <div style="font-size:18px;font-weight:900;color:#FFD700;font-family:var(--display-font);letter-spacing:0.5px;">${ativa.premioTipo}</div>
+            <div style="font-size:10px;color:rgba(255,206,69,0.7);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;">Premiação</div>
+            <div style="font-size:18px;font-weight:900;color:#FFCE45;font-family:var(--display-font);letter-spacing:0.5px;">${ativa.premioTipo}</div>
             ${ativa.premioNome ? `<div style="font-size:13px;color:var(--ouro-claro);font-weight:600;margin-top:1px;">${ativa.premioNome}</div>` : ''}
           </div>
         </div>`;
@@ -3361,7 +3361,7 @@ async function renderSmaxBannerAtivo() {
     const ranking = ehIndividual ? smaxRankingIndividual(ativa).slice(0,10) : smaxRankingEquipes(ativa);
     const medalhas = ['🥇','🥈','🥉'];
     document.getElementById('smax-ranking-rapido').innerHTML = ranking.map((eq, i) => `
-      <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:10px 14px;">
+      <div style="display:flex;align-items:center;gap:12px;background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.07);border-radius:10px;padding:10px 14px;">
         <span style="font-size:22px;">${medalhas[i]||'🏅'}</span>
         <div style="flex:1;">
           <div style="font-size:14px;font-weight:800;color:var(--branco);">${eq.nome}</div>
@@ -3387,7 +3387,7 @@ async function renderSmaxLista() {
       const ranking = ehIndividual ? smaxRankingIndividual(comp).slice(0,10) : smaxRankingEquipes(comp);
       const medalhas = ['🥇','🥈','🥉'];
       return `
-      <div style="border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:18px;margin-bottom:14px;background:rgba(255,255,255,0.02);">
+      <div style="border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:18px;margin-bottom:14px;background:rgba(16,26,51,0.02);">
         <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
           <div style="flex:1;">
             <div style="font-size:16px;font-weight:800;color:var(--branco);margin-bottom:4px;">${comp.nome}</div>
@@ -3396,7 +3396,7 @@ async function renderSmaxLista() {
               ${ehIndividual ? '👤 Colportor x Colportor' : '👥 Equipes'}
             </div>
             ${comp.premioTipo ? `
-            <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(212,175,55,0.18),rgba(139,105,20,0.12));border:1px solid rgba(212,175,55,0.45);border-radius:10px;padding:8px 14px;margin-bottom:10px;">
+            <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,177,0,0.18),rgba(180,83,9,0.12));border:1px solid rgba(255,177,0,0.45);border-radius:10px;padding:8px 14px;margin-bottom:10px;">
               <span style="font-size:20px;">🏆</span>
               <div>
                 <div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;line-height:1;">Premiação</div>
@@ -3407,7 +3407,7 @@ async function renderSmaxLista() {
             ${smaxStatusBadge(status)}
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            ${ehIndividual ? '' : `<button data-smax-equipes="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">👥 Equipes</button>`}
+            ${ehIndividual ? '' : `<button data-smax-equipes="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">👥 Equipes</button>`}
             <button data-smax-edit="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(100,180,255,0.3);background:rgba(100,180,255,0.07);color:#87CEEB;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">✏️ Editar</button>
             <button data-smax-del="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.07);color:#EF9090;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">🗑️ Apagar</button>
           </div>
@@ -3416,7 +3416,7 @@ async function renderSmaxLista() {
         <div style="display:grid;gap:6px;">
           <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:4px;">${ehIndividual ? 'Ranking dos Colportores' : 'Ranking das Equipes'} (Vendas à Vista)</div>
           ${ranking.map((eq, i) => `
-          <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 12px;">
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(16,26,51,0.03);border-radius:8px;padding:8px 12px;">
             <span style="font-size:18px;">${medalhas[i]||'🏅'}</span>
             <div style="flex:1;font-size:13px;font-weight:700;color:var(--branco);">${eq.nome} ${ehIndividual ? '' : `<span style="color:var(--texto3);font-weight:500;font-size:11px;">(${eq.membros.length} col.)</span>`}</div>
             <div style="font-family:var(--num-font);font-size:16px;font-weight:800;color:${i===0?'var(--amarelo)':i===1?'#C0C0C0':'#CD7F32'};">${fmtMini(eq.total)}</div>
@@ -3500,13 +3500,13 @@ async function renderGestaoEquipes(compId) {
     secao.innerHTML = `
       <div class="card-header" style="margin-bottom:16px;">
         <div class="card-title">👥 Equipes — ${comp.nome}</div>
-        <button id="btn-smax-fechar-equipes" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">✕ Fechar</button>
+        <button id="btn-smax-fechar-equipes" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(16,26,51,0.12);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">✕ Fechar</button>
       </div>
 
       <!-- Criar nova equipe -->
       <div style="display:flex;gap:8px;margin-bottom:16px;align-items:center;flex-wrap:wrap;">
-        <input type="text" id="smax-nova-equipe-nome" placeholder="Nome da equipe" style="flex:1;min-width:160px;background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
-        <button id="btn-smax-add-equipe" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:var(--body-font);font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap;">+ Criar Equipe</button>
+        <input type="text" id="smax-nova-equipe-nome" placeholder="Nome da equipe" style="flex:1;min-width:160px;background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.2);border-radius:8px;padding:10px 14px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+        <button id="btn-smax-add-equipe" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFB100,#B45309);color:#000;font-family:var(--body-font);font-size:12px;font-weight:900;cursor:pointer;white-space:nowrap;">+ Criar Equipe</button>
       </div>
 
       <!-- Colportores disponíveis -->
@@ -3514,7 +3514,7 @@ async function renderGestaoEquipes(compId) {
         <div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">Colportores sem equipe (${disponiveis.length})</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;">
           ${disponiveis.length ? disponiveis.map(u => `
-            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--texto2);cursor:default;">👤 ${escapeHtml(u.nome)}</div>
+            <div style="background:rgba(16,26,51,0.05);border:1px solid rgba(16,26,51,0.1);border-radius:100px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--texto2);cursor:default;">👤 ${escapeHtml(u.nome)}</div>
           `).join('') : '<div style="font-size:12px;color:var(--texto3);">Todos os colportores estão em equipes.</div>'}
         </div>
       </div>
@@ -3587,12 +3587,12 @@ function smaxRenderEquipeCard(eq, idx, comp, todosCols) {
   const membrosInfo = (eq.membros || []).map(uid => todosCols.find(u => u.id === uid)).filter(Boolean);
   const membrosUsados = (comp.equipes || []).flatMap(e => e.membros || []);
   const disponiveis = todosCols.filter(u => !membrosUsados.includes(u.id));
-  const cores = ['rgba(212,175,55,0.08)','rgba(100,150,255,0.08)','rgba(255,107,0,0.08)','rgba(0,200,150,0.08)'];
-  const bordas = ['rgba(212,175,55,0.25)','rgba(100,150,255,0.25)','rgba(255,107,0,0.25)','rgba(0,200,150,0.25)'];
+  const cores = ['rgba(255,177,0,0.08)','rgba(100,150,255,0.08)','rgba(255,107,74,0.08)','rgba(0,200,150,0.08)'];
+  const bordas = ['rgba(255,177,0,0.25)','rgba(100,150,255,0.25)','rgba(255,107,74,0.25)','rgba(0,200,150,0.25)'];
   return `
   <div style="background:${cores[idx%4]};border:1px solid ${bordas[idx%4]};border-radius:12px;padding:16px;margin-bottom:12px;">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#7A5C10);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#000;">${idx+1}</div>
+      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#FFB100,#8A5200);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#000;">${idx+1}</div>
       <div style="font-size:15px;font-weight:800;color:var(--branco);flex:1;">${eq.nome}</div>
       <button data-smax-del-equipe="${idx}" style="padding:5px 9px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.07);color:#EF9090;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">🗑️</button>
     </div>
@@ -3602,7 +3602,7 @@ function smaxRenderEquipeCard(eq, idx, comp, todosCols) {
       <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">Membros (${membrosInfo.length})</div>
       ${membrosInfo.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px;">
         ${membrosInfo.map(u => `
-          <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:5px 8px;">
+          <div style="display:flex;align-items:center;gap:6px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.1);border-radius:8px;padding:5px 8px;">
             <span style="font-size:12px;font-weight:600;color:var(--branco);">👤 ${escapeHtml(u.nome)}</span>
             <button data-eq-idx="${idx}" data-smax-rem-membro="${u.id}" style="width:18px;height:18px;border-radius:50%;border:none;background:rgba(239,83,80,0.4);color:#fff;font-size:10px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
           </div>`).join('')}
@@ -3615,7 +3615,7 @@ function smaxRenderEquipeCard(eq, idx, comp, todosCols) {
       <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px;">Adicionar à equipe</div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;">
         ${disponiveis.map(u => `
-          <button data-eq-idx="${idx}" data-smax-add-membro="${u.id}" style="padding:5px 10px;border-radius:8px;border:1px solid rgba(212,175,55,0.25);background:rgba(212,175,55,0.06);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">+ ${escapeHtml(u.nome)}</button>
+          <button data-eq-idx="${idx}" data-smax-add-membro="${u.id}" style="padding:5px 10px;border-radius:8px;border:1px solid rgba(255,177,0,0.25);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">+ ${escapeHtml(u.nome)}</button>
         `).join('')}
       </div>
     </div>` : ''}
@@ -3626,14 +3626,14 @@ function smaxRenderEquipeCard(eq, idx, comp, todosCols) {
 function smaxLimparModelosSelecionados() {
   document.querySelectorAll('.smax-modelo-btn').forEach(b => {
     b.style.background = 'transparent';
-    b.style.borderColor = 'rgba(212,175,55,0.25)';
+    b.style.borderColor = 'rgba(255,177,0,0.25)';
     b.style.color = 'var(--texto2)';
     b.removeAttribute('data-selected');
   });
 }
 function smaxSelecionarModelo(btn) {
   smaxLimparModelosSelecionados();
-  btn.style.background = 'linear-gradient(135deg,rgba(212,175,55,0.25),rgba(139,105,20,0.15))';
+  btn.style.background = 'linear-gradient(135deg,rgba(255,177,0,0.25),rgba(180,83,9,0.15))';
   btn.style.borderColor = 'var(--ouro)';
   btn.style.color = 'var(--ouro-claro)';
   btn.setAttribute('data-selected', '1');
@@ -3650,14 +3650,14 @@ document.querySelectorAll('.smax-modelo-btn').forEach(btn => {
 function smaxLimparPremiosSelecionados() {
   document.querySelectorAll('.smax-premio-btn').forEach(b => {
     b.style.background = 'transparent';
-    b.style.borderColor = 'rgba(212,175,55,0.25)';
+    b.style.borderColor = 'rgba(255,177,0,0.25)';
     b.style.color = 'var(--texto2)';
     b.removeAttribute('data-selected');
   });
 }
 function smaxSelecionarPremio(btn) {
   smaxLimparPremiosSelecionados();
-  btn.style.background = 'linear-gradient(135deg,rgba(212,175,55,0.25),rgba(139,105,20,0.15))';
+  btn.style.background = 'linear-gradient(135deg,rgba(255,177,0,0.25),rgba(180,83,9,0.15))';
   btn.style.borderColor = 'var(--ouro)';
   btn.style.color = 'var(--ouro-claro)';
   btn.setAttribute('data-selected', '1');
@@ -3756,23 +3756,23 @@ async function renderSmaxColportor() {
       const minhaEquipeRankIdx = minhaEquipeIdx >= 0 ? ranking.findIndex(r => r.idx === minhaEquipeIdx) : -1;
       const meuRankIdx = (ehIndividual && currentUser) ? ranking.findIndex(r => r.id === currentUser.id) : -1;
       return `
-      <div style="background:${status==='ativa'?'linear-gradient(135deg,rgba(255,107,0,0.07),rgba(212,175,55,0.05))':'rgba(255,255,255,0.02)'};border:1px solid ${status==='ativa'?'rgba(255,107,0,0.3)':'rgba(212,175,55,0.12)'};border-radius:16px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;">
-        ${status==='ativa'?'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B00,#FFD700,#FF6B00);"></div>':''}
+      <div style="background:${status==='ativa'?'linear-gradient(135deg,rgba(255,107,74,0.07),rgba(255,177,0,0.05))':'rgba(16,26,51,0.02)'};border:1px solid ${status==='ativa'?'rgba(255,107,74,0.3)':'rgba(255,177,0,0.12)'};border-radius:16px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;">
+        ${status==='ativa'?'<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B00,#FFCE45,#FF6B00);"></div>':''}
         <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
           <div style="flex:1;">
             <div style="font-size:17px;font-weight:800;color:var(--branco);margin-bottom:4px;">${comp.nome}</div>
             <div style="font-size:11px;color:var(--texto3);margin-bottom:8px;">🏷️ ${smaxTipoLabel(comp.tipo)} · 📅 ${formatarData(comp.inicio)} → ${formatarData(comp.fim)}</div>
             ${smaxStatusBadge(status)}
           </div>
-          ${minhaEquipeIdx>=0?`<div style="background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:8px 12px;text-align:center;"><div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Minha Equipe</div><div style="font-size:13px;font-weight:800;color:var(--ouro-claro);">${(comp.equipes||[])[minhaEquipeIdx]?.nome||''}</div>${minhaEquipeRankIdx>=0?`<div style="font-size:16px;margin-top:2px;">${medalhas[minhaEquipeRankIdx]||'🏅'}</div>`:''}</div>`:''}
-          ${meuRankIdx>=0?`<div style="background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.3);border-radius:8px;padding:8px 12px;text-align:center;"><div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Minha Posição</div><div style="font-size:16px;">${medalhas[meuRankIdx]||('#'+(meuRankIdx+1))}</div></div>`:''}
+          ${minhaEquipeIdx>=0?`<div style="background:rgba(255,177,0,0.15);border:1px solid rgba(255,177,0,0.3);border-radius:8px;padding:8px 12px;text-align:center;"><div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Minha Equipe</div><div style="font-size:13px;font-weight:800;color:var(--ouro-claro);">${(comp.equipes||[])[minhaEquipeIdx]?.nome||''}</div>${minhaEquipeRankIdx>=0?`<div style="font-size:16px;margin-top:2px;">${medalhas[minhaEquipeRankIdx]||'🏅'}</div>`:''}</div>`:''}
+          ${meuRankIdx>=0?`<div style="background:rgba(255,177,0,0.15);border:1px solid rgba(255,177,0,0.3);border-radius:8px;padding:8px 12px;text-align:center;"><div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Minha Posição</div><div style="font-size:16px;">${medalhas[meuRankIdx]||('#'+(meuRankIdx+1))}</div></div>`:''}
         </div>
         ${comp.premioTipo ? `
-        <div style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(255,215,0,0.12),rgba(212,175,55,0.07));border:1px solid rgba(255,215,0,0.35);border-radius:14px;padding:14px 18px;margin-bottom:14px;">
-          <span style="font-size:32px;filter:drop-shadow(0 0 8px rgba(255,215,0,0.5));">🏆</span>
+        <div style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,rgba(255,206,69,0.12),rgba(255,177,0,0.07));border:1px solid rgba(255,206,69,0.35);border-radius:14px;padding:14px 18px;margin-bottom:14px;">
+          <span style="font-size:32px;filter:drop-shadow(0 0 8px rgba(255,206,69,0.5));">🏆</span>
           <div>
-            <div style="font-size:10px;color:rgba(255,215,0,0.65);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;">Premiação</div>
-            <div style="font-size:20px;font-weight:900;color:#FFD700;font-family:var(--display-font);letter-spacing:0.5px;line-height:1.2;">${comp.premioTipo}</div>
+            <div style="font-size:10px;color:rgba(255,206,69,0.65);font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:2px;">Premiação</div>
+            <div style="font-size:20px;font-weight:900;color:#FFCE45;font-family:var(--display-font);letter-spacing:0.5px;line-height:1.2;">${comp.premioTipo}</div>
             ${comp.premioNome ? `<div style="font-size:13px;color:var(--ouro-claro);font-weight:600;margin-top:3px;">✨ ${comp.premioNome}</div>` : ''}
           </div>
         </div>` : ''}
@@ -3784,7 +3784,7 @@ async function renderSmaxColportor() {
             const souEu = (ehIndividual && currentUser && eq.id === currentUser.id);
             const destaque = isMinhaEquipe || souEu;
             return `
-            <div style="display:flex;align-items:center;gap:10px;background:${destaque?'rgba(212,175,55,0.12)':'rgba(255,255,255,0.03)'};border:1px solid ${destaque?'rgba(212,175,55,0.3)':'rgba(255,255,255,0.06)'};border-radius:10px;padding:10px 14px;">
+            <div style="display:flex;align-items:center;gap:10px;background:${destaque?'rgba(255,177,0,0.12)':'rgba(16,26,51,0.03)'};border:1px solid ${destaque?'rgba(255,177,0,0.3)':'rgba(16,26,51,0.06)'};border-radius:10px;padding:10px 14px;">
               <span style="font-size:20px;">${medalhas[i]||'🏅'}</span>
               <div style="flex:1;">
                 <div style="font-size:13px;font-weight:800;color:${destaque?'var(--ouro-claro)':'var(--branco)'};">${eq.nome}${destaque?' ⭐':''}</div>
@@ -3814,8 +3814,8 @@ async function renderSmaxDashWidget() {
     const ranking = smaxRankingEquipes(ativa);
     const medalhas = ['🥇','🥈','🥉'];
     widgetArea.innerHTML = `
-      <div style="background:linear-gradient(135deg,rgba(255,107,0,0.1),rgba(212,175,55,0.07));border:1px solid rgba(255,107,0,0.3);border-radius:16px;padding:18px;margin-top:16px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#FF6B00,#FFD700,#FF6B00);"></div>
+      <div style="background:linear-gradient(135deg,rgba(255,107,74,0.1),rgba(255,177,0,0.07));border:1px solid rgba(255,107,74,0.3);border-radius:16px;padding:18px;margin-top:16px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#FF6B00,#FFCE45,#FF6B00);"></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
           <span style="font-size:22px;">🏅</span>
           <div>
@@ -3824,17 +3824,17 @@ async function renderSmaxDashWidget() {
           </div>
         </div>
         ${ativa.premioTipo ? `
-        <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(255,215,0,0.12),rgba(212,175,55,0.07));border:1px solid rgba(255,215,0,0.35);border-radius:12px;padding:10px 14px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(255,206,69,0.12),rgba(255,177,0,0.07));border:1px solid rgba(255,206,69,0.35);border-radius:12px;padding:10px 14px;margin-bottom:12px;">
           <span style="font-size:24px;">🏆</span>
           <div>
-            <div style="font-size:10px;color:rgba(255,215,0,0.65);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:1px;">Premiação</div>
-            <div style="font-size:16px;font-weight:900;color:#FFD700;font-family:var(--display-font);">${ativa.premioTipo}</div>
+            <div style="font-size:10px;color:rgba(255,206,69,0.65);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:1px;">Premiação</div>
+            <div style="font-size:16px;font-weight:900;color:#FFCE45;font-family:var(--display-font);">${ativa.premioTipo}</div>
             ${ativa.premioNome ? `<div style="font-size:12px;color:var(--ouro-claro);font-weight:600;">✨ ${ativa.premioNome}</div>` : ''}
           </div>
         </div>` : ''}
         <div style="display:grid;gap:6px;">
           ${ranking.slice(0,3).map((eq, i) => `
-          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(255,255,255,0.03);border-radius:8px;">
+          <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:rgba(16,26,51,0.03);border-radius:8px;">
             <span style="font-size:16px;">${medalhas[i]||'🏅'}</span>
             <div style="flex:1;font-size:13px;font-weight:700;color:var(--branco);">${eq.nome}</div>
             <div style="font-family:var(--num-font);font-size:14px;font-weight:800;color:${i===0?'var(--amarelo)':i===1?'#C0C0C0':'#CD7F32'};">${fmtMini(eq.total)}</div>
@@ -3886,7 +3886,7 @@ function renderPremicoesGallery(containerId) {
     <div style="max-width:520px;margin:0 auto;">
       <div style="font-size:11px;color:var(--texto3);text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">Role para baixo para ver todos os ${total} prêmios</div>
       ${PREMIACOES_PAGES.map((src, i) => `
-        <div style="margin-bottom:14px;border-radius:14px;overflow:hidden;border:1px solid rgba(212,175,55,0.18);box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+        <div style="margin-bottom:14px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,177,0,0.18);box-shadow:0 8px 24px rgba(0,0,0,0.4);">
           <img src="${src}" alt="Premiação ${i+1}" style="width:100%;display:block;border-radius:14px;" loading="lazy">
         </div>`).join('')}
     </div>`;
@@ -3984,7 +3984,7 @@ async function renderAgendaLider() {
     const rows = diasMes.map(iso => agendaRenderDiaLider(iso, mapa, hoje)).join('');
     return `
       <div style="margin-bottom:8px;">
-        <div style="font-size:10px;font-weight:800;color:var(--ouro);text-transform:uppercase;letter-spacing:2px;padding:6px 10px;background:rgba(212,175,55,0.07);border-radius:8px;margin-bottom:4px;">${mesLabel}</div>
+        <div style="font-size:10px;font-weight:800;color:var(--ouro);text-transform:uppercase;letter-spacing:2px;padding:6px 10px;background:rgba(255,177,0,0.07);border-radius:8px;margin-bottom:4px;">${mesLabel}</div>
         ${rows}
       </div>`;
   }).join('');
@@ -4006,14 +4006,14 @@ function agendaRenderDiaLider(iso, mapa, hoje) {
   let bgColor, borderColor, badgeHtml, infoHtml;
 
   if (isHoje) {
-    bgColor = preenchido ? 'rgba(212,175,55,0.12)' : 'rgba(255,107,0,0.10)';
-    borderColor = preenchido ? 'rgba(212,175,55,0.4)' : 'rgba(255,107,0,0.45)';
+    bgColor = preenchido ? 'rgba(255,177,0,0.12)' : 'rgba(255,107,74,0.10)';
+    borderColor = preenchido ? 'rgba(255,177,0,0.4)' : 'rgba(255,107,74,0.45)';
   } else if (isFuturo) {
-    bgColor = preenchido ? 'rgba(0,200,80,0.06)' : 'rgba(255,255,255,0.03)';
-    borderColor = preenchido ? 'rgba(0,200,80,0.25)' : 'rgba(255,255,255,0.08)';
+    bgColor = preenchido ? 'rgba(0,200,80,0.06)' : 'rgba(16,26,51,0.03)';
+    borderColor = preenchido ? 'rgba(0,200,80,0.25)' : 'rgba(16,26,51,0.08)';
   } else {
-    bgColor = preenchido ? 'rgba(212,175,55,0.06)' : 'rgba(239,83,80,0.05)';
-    borderColor = preenchido ? 'rgba(212,175,55,0.2)' : 'rgba(239,83,80,0.2)';
+    bgColor = preenchido ? 'rgba(255,177,0,0.06)' : 'rgba(239,83,80,0.05)';
+    borderColor = preenchido ? 'rgba(255,177,0,0.2)' : 'rgba(239,83,80,0.2)';
   }
 
   if (preenchido) {
@@ -4023,19 +4023,19 @@ function agendaRenderDiaLider(iso, mapa, hoje) {
     badgeHtml = `<span style="background:rgba(239,83,80,0.12);border:1px solid rgba(239,83,80,0.3);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#EF5350;">Não preenchido</span>`;
     infoHtml  = `<div style="font-size:12px;color:var(--texto3);">Dia passado sem definição.</div>`;
   } else {
-    badgeHtml = `<span style="background:rgba(255,215,0,0.1);border:1px solid rgba(255,215,0,0.25);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#FFD700;">⏳ Pendente</span>`;
+    badgeHtml = `<span style="background:rgba(255,206,69,0.1);border:1px solid rgba(255,206,69,0.25);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#FFCE45;">⏳ Pendente</span>`;
     infoHtml  = `<div style="font-size:12px;color:var(--texto3);">Clique para preencher</div>`;
   }
 
-  const hojeTag = isHoje ? `<span style="background:rgba(255,107,0,0.2);border:1px solid rgba(255,107,0,0.4);border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;color:#FF8C42;margin-left:6px;">HOJE</span>` : '';
+  const hojeTag = isHoje ? `<span style="background:rgba(255,107,74,0.2);border:1px solid rgba(255,107,74,0.4);border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;color:#FF8C42;margin-left:6px;">HOJE</span>` : '';
 
   return `
-  <div data-agenda-dia="${iso}" style="display:flex;align-items:center;gap:12px;background:${bgColor};border:1px solid ${borderColor};border-radius:10px;padding:10px 14px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='rgba(212,175,55,0.4)'" onmouseout="this.style.borderColor='${borderColor}'">
+  <div data-agenda-dia="${iso}" style="display:flex;align-items:center;gap:12px;background:${bgColor};border:1px solid ${borderColor};border-radius:10px;padding:10px 14px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor='rgba(255,177,0,0.4)'" onmouseout="this.style.borderColor='${borderColor}'">
     <div style="min-width:52px;text-align:center;">
       <div style="font-size:10px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;">${agendaFormatarDia(iso).split(',')[0]}</div>
       <div style="font-size:18px;font-weight:900;font-family:var(--num-font);color:${isHoje ? 'var(--accent-hot)' : 'var(--texto)'};">${new Date(iso+'T12:00:00').getDate()}</div>
     </div>
-    <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
+    <div style="width:1px;height:36px;background:rgba(16,26,51,0.08);"></div>
     <div style="flex:1;">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">
         <span style="font-size:12px;font-weight:700;color:var(--texto2);">${agendaFormatarDia(iso).split(', ')[1] || agendaFormatarDia(iso)}</span>
@@ -4073,21 +4073,21 @@ function abrirModalAgendaDia(iso, mapa) {
 
   function realcarSugestao(btnSel) {
     sugEl.querySelectorAll('[data-sug-idx]').forEach(b => {
-      b.style.background = 'rgba(212,175,55,0.06)';
-      b.style.borderColor = 'rgba(212,175,55,0.2)';
+      b.style.background = 'rgba(255,177,0,0.06)';
+      b.style.borderColor = 'rgba(255,177,0,0.2)';
       b.style.color = 'var(--texto2)';
     });
     if (btnSel) {
-      btnSel.style.background = 'linear-gradient(135deg,rgba(212,175,55,0.28),rgba(139,105,20,0.18))';
-      btnSel.style.borderColor = 'rgba(212,175,55,0.7)';
+      btnSel.style.background = 'linear-gradient(135deg,rgba(255,177,0,0.28),rgba(180,83,9,0.18))';
+      btnSel.style.borderColor = 'rgba(255,177,0,0.7)';
       btnSel.style.color = 'var(--ouro-claro)';
     }
   }
 
   sugEl.innerHTML = colportores.map((n, i) => [
     '<button type="button" data-sug-idx="' + i + '"',
-    ' style="padding:5px 10px;border-radius:100px;border:1px solid rgba(212,175,55,0.2);',
-    'background:rgba(212,175,55,0.06);color:var(--texto2);font-family:var(--body-font);',
+    ' style="padding:5px 10px;border-radius:100px;border:1px solid rgba(255,177,0,0.2);',
+    'background:rgba(255,177,0,0.06);color:var(--texto2);font-family:var(--body-font);',
     'font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s;">',
     '👤 ' + n + '</button>'
   ].join('')).join('');
@@ -4157,9 +4157,9 @@ document.getElementById('mag-btn-limpar').onclick = () => {
 // Filtros da agenda
 document.getElementById('btn-l-agenda-todos').addEventListener('click', () => {
   agendaFiltroLider = 'todos';
-  document.getElementById('btn-l-agenda-todos').style.background = 'linear-gradient(135deg,#D4AF37,#8B6914)';
+  document.getElementById('btn-l-agenda-todos').style.background = 'linear-gradient(135deg,#FFB100,#B45309)';
   document.getElementById('btn-l-agenda-todos').style.color = '#000';
-  document.getElementById('btn-l-agenda-pendentes').style.background = 'rgba(255,107,0,0.08)';
+  document.getElementById('btn-l-agenda-pendentes').style.background = 'rgba(255,107,74,0.08)';
   document.getElementById('btn-l-agenda-pendentes').style.color = '#FF8C42';
   renderAgendaLider();
 });
@@ -4167,7 +4167,7 @@ document.getElementById('btn-l-agenda-pendentes').addEventListener('click', () =
   agendaFiltroLider = 'pendentes';
   document.getElementById('btn-l-agenda-pendentes').style.background = 'linear-gradient(135deg,#FF6B00,#FF4500)';
   document.getElementById('btn-l-agenda-pendentes').style.color = '#fff';
-  document.getElementById('btn-l-agenda-todos').style.background = 'rgba(212,175,55,0.07)';
+  document.getElementById('btn-l-agenda-todos').style.background = 'rgba(255,177,0,0.07)';
   document.getElementById('btn-l-agenda-todos').style.color = 'var(--ouro-claro)';
   renderAgendaLider();
 });
@@ -4204,7 +4204,7 @@ async function renderAdmAgenda() {
 
     selector.innerHTML = lideres.map((l, i) => {
       const sel = l.id === admAgendaLiderSel;
-      return `<button data-adm-agenda-lider="${l.id}" style="padding:8px 18px;border-radius:100px;border:1px solid ${sel ? 'var(--ouro)' : 'rgba(212,175,55,0.2)'};background:${sel ? 'linear-gradient(135deg,#D4AF37,#8B6914)' : 'transparent'};color:${sel ? '#000' : 'var(--texto3)'};font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">👑 ${escapeHtml(l.nome)}</button>`;
+      return `<button data-adm-agenda-lider="${l.id}" style="padding:8px 18px;border-radius:100px;border:1px solid ${sel ? 'var(--ouro)' : 'rgba(255,177,0,0.2)'};background:${sel ? 'linear-gradient(135deg,#FFB100,#B45309)' : 'transparent'};color:${sel ? '#000' : 'var(--texto3)'};font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;">👑 ${escapeHtml(l.nome)}</button>`;
     }).join('');
 
     selector.querySelectorAll('[data-adm-agenda-lider]').forEach(btn => {
@@ -4242,11 +4242,11 @@ async function renderAdmAgendaContainer(lider, container) {
         <div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Preenchidos</div>
         <div style="font-size:22px;font-weight:900;font-family:var(--num-font);color:#00C850;">${preenchidos}</div>
       </div>
-      <div style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:10px;padding:10px 16px;text-align:center;">
+      <div style="background:rgba(255,206,69,0.08);border:1px solid rgba(255,206,69,0.2);border-radius:10px;padding:10px 16px;text-align:center;">
         <div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Pendentes</div>
-        <div style="font-size:22px;font-weight:900;font-family:var(--num-font);color:#FFD700;">${pendentes}</div>
+        <div style="font-size:22px;font-weight:900;font-family:var(--num-font);color:#FFCE45;">${pendentes}</div>
       </div>
-      <div style="background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px 16px;text-align:center;">
+      <div style="background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.15);border-radius:10px;padding:10px 16px;text-align:center;">
         <div style="font-size:10px;color:var(--texto3);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Total de dias</div>
         <div style="font-size:22px;font-weight:900;font-family:var(--num-font);color:var(--ouro-claro);">${todos.length}</div>
       </div>
@@ -4268,18 +4268,18 @@ async function renderAdmAgendaContainer(lider, container) {
           badge = `<span style="background:rgba(239,83,80,0.1);border:1px solid rgba(239,83,80,0.25);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#EF5350;">Não preenchido</span>`;
           info = `<div style="font-size:11px;color:var(--texto3);">Líder não preencheu este dia.</div>`;
         } else {
-          bg = 'rgba(255,255,255,0.02)'; border = 'rgba(255,255,255,0.07)';
-          badge = `<span style="background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#FFD700;">⏳ Pendente</span>`;
+          bg = 'rgba(16,26,51,0.02)'; border = 'rgba(16,26,51,0.07)';
+          badge = `<span style="background:rgba(255,206,69,0.08);border:1px solid rgba(255,206,69,0.2);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:800;color:#FFCE45;">⏳ Pendente</span>`;
           info = `<div style="font-size:11px;color:var(--texto3);">Aguardando preenchimento.</div>`;
         }
-        const hojeTag = isHoje ? `<span style="background:rgba(255,107,0,0.2);border:1px solid rgba(255,107,0,0.4);border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;color:#FF8C42;margin-left:5px;">HOJE</span>` : '';
+        const hojeTag = isHoje ? `<span style="background:rgba(255,107,74,0.2);border:1px solid rgba(255,107,74,0.4);border-radius:6px;padding:1px 6px;font-size:9px;font-weight:800;color:#FF8C42;margin-left:5px;">HOJE</span>` : '';
         return `
         <div style="display:flex;align-items:center;gap:12px;background:${bg};border:1px solid ${border};border-radius:10px;padding:10px 14px;margin-bottom:4px;">
           <div style="min-width:48px;text-align:center;">
             <div style="font-size:10px;font-weight:700;color:var(--texto3);text-transform:uppercase;">${agendaFormatarDia(iso).split(',')[0]}</div>
             <div style="font-size:17px;font-weight:900;font-family:var(--num-font);color:${isHoje?'var(--accent-hot)':'var(--texto)'};">${new Date(iso+'T12:00:00').getDate()}</div>
           </div>
-          <div style="width:1px;height:32px;background:rgba(255,255,255,0.07);"></div>
+          <div style="width:1px;height:32px;background:rgba(16,26,51,0.07);"></div>
           <div style="flex:1;">
             <div style="display:flex;align-items:center;gap:4px;margin-bottom:3px;"><span style="font-size:12px;font-weight:600;color:var(--texto2);">${agendaFormatarDia(iso).split(', ')[1]||agendaFormatarDia(iso)}</span>${hojeTag}</div>
             ${info}
@@ -4287,7 +4287,7 @@ async function renderAdmAgendaContainer(lider, container) {
           <div>${badge}</div>
         </div>`;
       }).join('');
-      return `<div style="margin-bottom:10px;"><div style="font-size:10px;font-weight:800;color:var(--ouro);text-transform:uppercase;letter-spacing:2px;padding:5px 10px;background:rgba(212,175,55,0.07);border-radius:8px;margin-bottom:4px;">${mesLabel}</div>${rows}</div>`;
+      return `<div style="margin-bottom:10px;"><div style="font-size:10px;font-weight:800;color:var(--ouro);text-transform:uppercase;letter-spacing:2px;padding:5px 10px;background:rgba(255,177,0,0.07);border-radius:8px;margin-bottom:4px;">${mesLabel}</div>${rows}</div>`;
     }).join('')}
   `;
 }

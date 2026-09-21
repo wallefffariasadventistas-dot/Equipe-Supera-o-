@@ -17,7 +17,7 @@
     <div class="logo-area">
       <div style="margin-bottom:20px;">
         <img src="" class="logo-login-img" alt="Superação Colportagem"
-          style="width:220px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 28px rgba(212,175,55,0.4));">
+          style="width:220px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 28px rgba(255,177,0,0.4));">
       </div>
     </div>
         <div class="field-group">
@@ -43,15 +43,15 @@
     </div>
     <button class="btn btn-admin" id="btn-abrir-admin">👑 Área do Administrador</button>
     <div class="divider" style="margin:16px 0 12px"></div>
-    <button class="btn btn-secondary" id="btn-abrir-lider-login" style="border-color:rgba(212,175,55,0.3);color:var(--ouro-claro);">📋 Área do Líder</button>
+    <button class="btn btn-secondary" id="btn-abrir-lider-login" style="border-color:rgba(255,177,0,0.3);color:var(--ouro-claro);">📋 Área do Líder</button>
     <div id="lider-login-area" style="display:none;margin-top:12px;">
       <div class="field-group">
         <label for="lider-login-nome">Nome do Líder</label>
-        <input type="text" id="lider-login-nome" placeholder="Seu nome" autocomplete="off" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+        <input type="text" id="lider-login-nome" placeholder="Seu nome" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
       </div>
       <div class="field-group">
         <label for="lider-login-senha">Senha (4 dígitos)</label>
-        <input type="password" id="lider-login-senha" placeholder="••••" maxlength="4" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;letter-spacing:4px;font-size:20px;">
+        <input type="password" id="lider-login-senha" placeholder="••••" maxlength="4" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;letter-spacing:4px;font-size:20px;">
       </div>
       <div id="lider-login-error" class="error-msg" style="display:none;">Nome ou senha inválidos.</div>
       <button class="btn btn-admin" id="btn-confirmar-lider-login">Entrar como Líder</button>
@@ -67,7 +67,7 @@
       <div class="logo-area">
         <div style="margin-bottom:16px;">
           <img src="" class="logo-login-img" alt="Superação Colportagem"
-            style="width:200px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(212,175,55,0.35));">
+            style="width:200px;height:auto;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(255,177,0,0.35));">
         </div>
       </div>
       <div class="field-group"><label for="cad-nome">Nome completo</label><input type="text" id="cad-nome" placeholder="Seu nome completo"></div>
@@ -158,11 +158,11 @@
       </div>
 
       <div id="regsub-diario">
-        <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.15);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
           <span style="font-size:13px;color:var(--texto3);font-weight:700;">📅 Selecionar data:</span>
           <input type="date" id="reg-data-escolhida" min="2026-06-01" max="2026-08-25"
-            style="padding:10px 14px;border-radius:10px;border:1px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;outline:none;cursor:pointer;">
-          <button id="btn-reg-hoje" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Hoje</button>
+            style="padding:10px 14px;border-radius:10px;border:1px solid rgba(255,177,0,0.3);background:rgba(0,0,0,0.4);color:var(--branco);font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;outline:none;cursor:pointer;">
+          <button id="btn-reg-hoje" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">Hoje</button>
         </div>
         <div class="date-badge">
           <div class="date-day" id="reg-dia-num"></div>
@@ -194,7 +194,7 @@
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
               <div style="font-size:11px;color:var(--texto3);text-align:right;" id="dev-atualizado-em"></div>
-              <button id="btn-ver-lista-dev" style="padding:6px 14px;border-radius:100px;border:1px solid rgba(255,138,101,0.4);background:rgba(255,138,101,0.1);color:#FF8A65;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">👁️ Ver lista de material</button>
+              <button id="btn-ver-lista-dev" style="padding:6px 14px;border-radius:100px;border:1px solid rgba(255,138,101,0.4);background:rgba(255,138,101,0.1);color:#FF8A65;font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;cursor:pointer;">👁️ Ver lista de material</button>
             </div>
           </div>
           <div id="dev-lista-detalhe" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,138,101,0.2);"></div>
@@ -202,7 +202,7 @@
         <div class="card">
           <div style="font-size:11px;color:var(--texto3);margin-bottom:14px;">Selecione a quantidade de cada material lacrado que você tem para devolver. O valor é calculado automaticamente com base na tabela de preços (com dízimo).</div>
           <div id="dev-categorias"></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,175,55,0.15);flex-wrap:wrap;gap:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,177,0,0.15);flex-wrap:wrap;gap:12px;">
             <div style="font-size:14px;font-weight:700;color:var(--texto2);">Total selecionado: <span id="dev-total-calculado" style="color:#FF8A65;font-family:var(--num-font);font-size:20px;font-weight:800;">R$ 0,00</span></div>
             <button class="btn btn-primary" id="btn-salvar-devolucao">💾 SALVAR DEVOLUÇÃO</button>
           </div>
@@ -220,11 +220,11 @@
           <div class="field-group">
             <label for="just-data">📅 Data a justificar</label>
             <input type="date" id="just-data" min="2026-06-01" max="2026-08-25"
-              style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+              style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
           </div>
           <div class="field-group">
             <label>✏️ Motivo (obrigatório)</label>
-            <textarea id="just-motivo" rows="3" placeholder="Ex: Estava em viagem, estava doente, imprevisto familiar..." style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;resize:vertical;"></textarea>
+            <textarea id="just-motivo" rows="3" placeholder="Ex: Estava em viagem, estava doente, imprevisto familiar..." style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;resize:vertical;"></textarea>
           </div>
           <div id="just-error" class="error-msg"></div>
           <div id="just-success" class="success-msg"></div>
@@ -244,7 +244,7 @@
           <div class="field-group"><label for="est-cidade">📍 Cidade</label><input type="text" id="est-cidade" placeholder="Cidade onde mora"></div>
           <div class="field-group">
             <label>⛪ Cidade com ou sem presença adventista?</label>
-            <select id="est-presenca" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+            <select id="est-presenca" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
               <option value="" style="background:var(--bg-card);">Selecione...</option>
               <option value="com" style="background:var(--bg-card);">Com presença adventista</option>
               <option value="sem" style="background:var(--bg-card);">Sem presença adventista</option>
@@ -334,8 +334,8 @@
       <div><div class="nav-title">Admin · <span>Superação Piauí</span></div></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <select id="campanha-selector" style="background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:8px 10px;color:var(--branco);font-family:var(--body-font);font-size:12px;font-weight:600;outline:none;max-width:220px;"></select>
-      <button id="btn-nova-campanha" style="padding:8px 14px;border-radius:8px;border:1px solid rgba(212,175,55,0.35);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🚀 Nova Campanha</button>
+      <select id="campanha-selector" style="background:rgba(255,177,0,0.06);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:8px 10px;color:var(--branco);font-family:var(--body-font);font-size:12px;font-weight:600;outline:none;max-width:220px;"></select>
+      <button id="btn-nova-campanha" style="padding:8px 14px;border-radius:8px;border:1px solid rgba(255,177,0,0.35);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🚀 Nova Campanha</button>
     </div>
     </div>
     <div class="tab-nav">
@@ -358,7 +358,7 @@
       <div style="margin-bottom:14px;">
         <div class="section-title" style="margin-bottom:12px;">📊 Dashboard <span>Geral</span></div>
         <!-- FILTROS RÁPIDOS -->
-        <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.18);border-radius:14px;padding:12px 14px;">
+        <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.18);border-radius:14px;padding:12px 14px;">
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;" id="dash-filtros">
             <button data-dash-filtro="hoje"    class="dash-f-btn dash-f-ativo">Hoje</button>
             <button data-dash-filtro="semana"  class="dash-f-btn">7 Dias</button>
@@ -370,34 +370,34 @@
           <!-- Date picker (single date) -->
           <div id="dash-picker-data" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
             <label style="font-size:12px;color:var(--texto3);font-weight:600;">Data:</label>
-            <input type="date" id="dash-data-sel" style="background:rgba(0,0,0,0.3);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
-            <button id="dash-btn-aplicar-data" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">Aplicar</button>
+            <input type="date" id="dash-data-sel" style="background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+            <button id="dash-btn-aplicar-data" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">Aplicar</button>
           </div>
           <!-- Period picker (range) -->
           <div id="dash-picker-periodo" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;">
             <label style="font-size:12px;color:var(--texto3);font-weight:600;">De:</label>
-            <input type="date" id="dash-periodo-ini" style="background:rgba(0,0,0,0.3);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+            <input type="date" id="dash-periodo-ini" style="background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
             <label style="font-size:12px;color:var(--texto3);font-weight:600;">Até:</label>
-            <input type="date" id="dash-periodo-fim" style="background:rgba(0,0,0,0.3);border:1px solid rgba(212,175,55,0.25);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
-            <button id="dash-btn-aplicar-periodo" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">Aplicar</button>
+            <input type="date" id="dash-periodo-fim" style="background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+            <button id="dash-btn-aplicar-periodo" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">Aplicar</button>
           </div>
         </div>
       </div>
       <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-        <div style="flex:1;display:flex;align-items:center;gap:10px;background:rgba(212,175,55,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--texto3);">
+        <div style="flex:1;display:flex;align-items:center;gap:10px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--texto3);">
           <span style="font-size:20px;">⏳</span>
           <span id="camp-banner-texto"></span>
         </div>
-        <div id="sync-live-badge" style="display:flex;align-items:center;gap:6px;padding:12px 16px;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:12px;font-size:12px;font-weight:700;color:var(--ouro-claro);">
+        <div id="sync-live-badge" style="display:flex;align-items:center;gap:6px;padding:12px 16px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.2);border-radius:12px;font-size:12px;font-weight:700;color:var(--ouro-claro);">
           🟢 Ao Vivo
         </div>
       </div>
 
       <!-- META EQUIPE -->
-      <div style="background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,105,20,0.05));border:1px solid rgba(212,175,55,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
+      <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
         <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:14px;">🏆 Meta Geral da Equipe</div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="meta-eq-alvo" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">R$ 0</div></div>
+          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="meta-eq-alvo" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:#2B4FF2;">R$ 0</div></div>
           <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alcançado</div><div id="meta-eq-alcancado" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">R$ 0</div></div>
           <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Falta</div><div id="meta-eq-falta" style="font-size:20px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);">R$ 410k</div></div>
         </div>
@@ -405,8 +405,8 @@
           <span style="font-size:12px;color:var(--texto3);font-weight:600;">Progresso da equipe (vendas à vista)</span>
           <span id="meta-eq-pct" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">0%</span>
         </div>
-        <div style="background:rgba(255,255,255,0.07);border-radius:100px;height:14px;overflow:hidden;">
-          <div id="meta-eq-bar" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);transition:width 1s ease;"></div>
+        <div style="background:rgba(16,26,51,0.06);border-radius:100px;height:14px;overflow:hidden;">
+          <div id="meta-eq-bar" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#B45309,#FFB100,#FFCE45);transition:width 1s ease;"></div>
         </div>
       </div>
 
@@ -421,45 +421,45 @@
       </div>
 
       <!-- GRÁFICO PREMIUM -->
-      <div style="background:linear-gradient(135deg,rgba(10,15,28,0.95),rgba(20,30,55,0.95));border:1px solid rgba(212,175,55,0.18);border-radius:20px;padding:24px;margin-top:20px;position:relative;overflow:hidden;">
+      <div style="background:linear-gradient(135deg,rgba(10,15,28,0.95),rgba(20,30,55,0.95));border:1px solid rgba(255,177,0,0.18);border-radius:20px;padding:24px;margin-top:20px;position:relative;overflow:hidden;">
         <!-- Glow decorativo -->
-        <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(212,175,55,0.08) 0%,transparent 70%);pointer-events:none;"></div>
+        <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,177,0,0.06) 0%,transparent 70%);pointer-events:none;"></div>
         <div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(21,101,192,0.06) 0%,transparent 70%);pointer-events:none;"></div>
 
-        <!-- Header do gráfico -->
+        <!-- Header do gráfico (painel escuro — cores fixas, não seguem o tema claro) -->
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;">
           <div>
-            <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);margin-bottom:4px;">📈 Desempenho da Equipe</div>
-            <div id="dash-chart-periodo-label" style="font-size:12px;color:var(--texto3);font-weight:600;">Carregando...</div>
+            <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#FFCE45;margin-bottom:4px;">📈 Desempenho da Equipe</div>
+            <div id="dash-chart-periodo-label" style="font-size:12px;color:#8891AC;font-weight:600;">Carregando...</div>
           </div>
           <!-- Legenda -->
           <div style="display:flex;gap:16px;flex-wrap:wrap;">
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:50%;background:#D4AF37;"></div><span style="font-size:11px;color:var(--texto3);font-weight:600;">À Vista</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:50%;background:#1976D2;"></div><span style="font-size:11px;color:var(--texto3);font-weight:600;">No Pedido</span></div>
-            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:3px;border-radius:2px;background:#EF5350;border-top:2px dashed #EF5350;"></div><span style="font-size:11px;color:var(--texto3);font-weight:600;">Melhor dia</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:50%;background:#FFB100;"></div><span style="font-size:11px;color:#8891AC;font-weight:600;">À Vista</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:50%;background:#5B9CFF;"></div><span style="font-size:11px;color:#8891AC;font-weight:600;">No Pedido</span></div>
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:3px;border-radius:2px;background:#FF6B6B;border-top:2px dashed #FF6B6B;"></div><span style="font-size:11px;color:#8891AC;font-weight:600;">Melhor dia</span></div>
           </div>
         </div>
 
         <!-- Métricas rápidas do período -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-bottom:20px;" id="dash-chart-metrics">
-          <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">🏆 Melhor Dia</div>
-            <div id="dash-metric-melhor" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">—</div>
+          <div style="background:rgba(255,177,0,0.09);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:10px;text-align:center;">
+            <div style="font-size:9px;color:#8891AC;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">🏆 Melhor Dia</div>
+            <div id="dash-metric-melhor" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#FFCE45;">—</div>
           </div>
-          <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📊 Média/Dia</div>
-            <div id="dash-metric-media" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">—</div>
+          <div style="background:rgba(255,177,0,0.09);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:10px;text-align:center;">
+            <div style="font-size:9px;color:#8891AC;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📊 Média/Dia</div>
+            <div id="dash-metric-media" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#5B9CFF;">—</div>
           </div>
-          <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📈 Total Vista</div>
-            <div id="dash-metric-vista" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:var(--verde-claro);">—</div>
+          <div style="background:rgba(255,177,0,0.09);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:10px;text-align:center;">
+            <div style="font-size:9px;color:#8891AC;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📈 Total Vista</div>
+            <div id="dash-metric-vista" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#FFC94D;">—</div>
           </div>
-          <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📋 Total Pedido</div>
-            <div id="dash-metric-prazo" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">—</div>
+          <div style="background:rgba(255,177,0,0.09);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:10px;text-align:center;">
+            <div style="font-size:9px;color:#8891AC;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📋 Total Pedido</div>
+            <div id="dash-metric-prazo" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#8FA3F7;">—</div>
           </div>
-          <div style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.15);border-radius:10px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📅 Dias Ativos</div>
+          <div style="background:rgba(255,177,0,0.09);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:10px;text-align:center;">
+            <div style="font-size:9px;color:#8891AC;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:3px;">📅 Dias Ativos</div>
             <div id="dash-metric-dias" style="font-size:14px;font-weight:800;font-family:var(--num-font);color:#FFAB40;">—</div>
           </div>
         </div>
@@ -491,7 +491,7 @@
     <div id="admin-equipe" class="tab-panel">
       <div class="section-title">👥 Gestão da <span>Equipe</span></div>
       <div class="filters" style="margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-        <input type="text" id="filtro-busca" placeholder="🔍 Buscar por nome..." style="padding:8px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.12);background:var(--bg-card);color:var(--texto);font-size:13px;font-family:'Inter',sans-serif;outline:none;width:220px;">
+        <input type="text" id="filtro-busca" placeholder="🔍 Buscar por nome..." style="padding:8px 14px;border-radius:100px;border:1px solid rgba(16,26,51,0.14);background:var(--bg-card);color:var(--texto);font-size:13px;font-family:'Manrope',sans-serif;outline:none;width:220px;">
         <div style="display:flex;gap:6px;align-items:center;">
           <span style="font-size:12px;color:var(--texto3);font-weight:600;">Período:</span>
           <button class="filter-btn active" data-tperiodo="campanha">Campanha</button>
@@ -504,7 +504,7 @@
         </div>
       </div>
       <div id="equipe-periodo-label" style="margin-bottom:12px;font-size:12px;color:var(--texto3);font-style:italic;"></div>
-      <div style="background:rgba(212,175,55,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div style="background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <div style="font-size:24px;">📦</div>
         <div>
           <div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;font-weight:700;">Devolução Total da Equipe (material lacrado)</div>
@@ -525,7 +525,7 @@
       <div class="section-title">✅ Preenchimento <span>Diário</span></div>
       <div class="filters" style="margin-bottom:20px;align-items:center;">
         <label style="font-size:13px;color:var(--texto3);font-weight:600;">Data:</label>
-        <input type="date" id="diario-data-filtro" style="padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:var(--bg-card);color:var(--texto);font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+        <input type="date" id="diario-data-filtro" style="padding:8px 14px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:var(--bg-card);color:var(--texto);font-size:13px;font-family:'Manrope',sans-serif;outline:none;">
         <button class="filter-btn active" id="btn-diario-hoje">Hoje</button>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
@@ -534,7 +534,7 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div class="card"><div class="card-title" style="margin-bottom:16px;">✅ <span style="color:var(--ouro)">Já preencheram</span></div><div id="diario-lista-sim" style="display:flex;flex-direction:column;gap:8px;"></div></div>
-        <div class="card"><div class="card-title" style="margin-bottom:16px;">⏳ <span style="color:#D4AF37">Pendentes</span></div><div id="diario-lista-nao" style="display:flex;flex-direction:column;gap:8px;"></div></div>
+        <div class="card"><div class="card-title" style="margin-bottom:16px;">⏳ <span style="color:#B45309">Pendentes</span></div><div id="diario-lista-nao" style="display:flex;flex-direction:column;gap:8px;"></div></div>
       </div>
     </div>
 
@@ -584,20 +584,20 @@
       <div class="card" style="margin-bottom:16px;">
         <div class="card-title" style="margin-bottom:16px;">👥 <span style="color:var(--ouro)">Líderes Cadastrados</span> <span style="font-size:11px;color:var(--texto3);font-weight:500;">(máx. 3)</span></div>
         <div id="adm-lider-lista" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"></div>
-        <div id="adm-form-novo-lider" style="display:none;background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:16px;margin-bottom:12px;">
+        <div id="adm-form-novo-lider" style="display:none;background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.15);border-radius:12px;padding:16px;margin-bottom:12px;">
           <div style="font-size:12px;font-weight:700;color:var(--ouro);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Cadastrar Novo Líder</div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-nome">Nome completo</label><input type="text" id="adm-novo-lider-nome" placeholder="Nome" style="background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;"></div>
-            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-alvo">Alvo de Assistência (R$)</label><input type="text" id="adm-novo-lider-alvo" placeholder="Ex: 50.000,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;"></div>
-            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-senha">Senha (4 dígitos)</label><input type="password" id="adm-novo-lider-senha" placeholder="••••" maxlength="4" style="background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;letter-spacing:3px;"></div>
+            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-nome">Nome completo</label><input type="text" id="adm-novo-lider-nome" placeholder="Nome" style="background:rgba(16,26,51,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;"></div>
+            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-alvo">Alvo de Assistência (R$)</label><input type="text" id="adm-novo-lider-alvo" placeholder="Ex: 50.000,00" inputmode="decimal" autocomplete="off" style="background:rgba(16,26,51,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;"></div>
+            <div class="field-group" style="margin-bottom:0;"><label for="adm-novo-lider-senha">Senha (4 dígitos)</label><input type="password" id="adm-novo-lider-senha" placeholder="••••" maxlength="4" style="background:rgba(16,26,51,0.05);border:1px solid rgba(255,177,0,0.2);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;width:100%;letter-spacing:3px;"></div>
           </div>
           <div id="adm-novo-lider-msg" style="font-size:12px;margin-bottom:8px;display:none;"></div>
           <div style="display:flex;gap:8px;">
-            <button id="btn-adm-salvar-lider" style="padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">💾 Cadastrar</button>
-            <button id="btn-adm-cancelar-lider" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:13px;cursor:pointer;">Cancelar</button>
+            <button id="btn-adm-salvar-lider" style="padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">💾 Cadastrar</button>
+            <button id="btn-adm-cancelar-lider" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:13px;cursor:pointer;">Cancelar</button>
           </div>
         </div>
-        <button id="btn-adm-novo-lider" style="padding:10px 20px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">+ Cadastrar Líder</button>
+        <button id="btn-adm-novo-lider" style="padding:10px 20px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">+ Cadastrar Líder</button>
       </div>
 
       <!-- AGENDA DOS LÍDERES (ADMIN) -->
@@ -613,11 +613,11 @@
       <div class="card">
         <div class="card-title" style="margin-bottom:16px;">📊 <span style="color:var(--ouro)">Relatórios dos Líderes</span></div>
         <div id="adm-relatorios-lider-area">
-          <div id="adm-rel-lider-auth" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.15);border-radius:12px;padding:20px;text-align:center;">
+          <div id="adm-rel-lider-auth" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.15);border-radius:12px;padding:20px;text-align:center;">
             <div style="font-size:14px;color:var(--texto2);margin-bottom:12px;">🔒 Acesso restrito — informe a senha do Administrador de Relatórios</div>
             <div style="display:flex;gap:8px;justify-content:center;align-items:center;">
-              <input type="password" id="adm-rel-lider-senha-input" placeholder="••••" maxlength="4" style="background:rgba(255,255,255,0.06);border:1px solid rgba(212,175,55,0.2);border-radius:8px;padding:10px 14px;color:var(--branco);font-family:var(--body-font);font-size:16px;outline:none;width:120px;text-align:center;letter-spacing:4px;">
-              <button id="btn-adm-rel-lider-ok" style="padding:10px 18px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">Acessar</button>
+              <input type="password" id="adm-rel-lider-senha-input" placeholder="••••" maxlength="4" style="background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:10px 14px;color:var(--branco);font-family:var(--body-font);font-size:16px;outline:none;width:120px;text-align:center;letter-spacing:4px;">
+              <button id="btn-adm-rel-lider-ok" style="padding:10px 18px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">Acessar</button>
             </div>
             <div id="adm-rel-lider-auth-err" style="font-size:12px;color:var(--danger);margin-top:8px;display:none;">Senha incorreta.</div>
           </div>
@@ -634,15 +634,15 @@
       <div class="section-title" style="margin-bottom:16px;">🏅 Semana <span>Máxima</span></div>
 
       <!-- COMPETIÇÃO ATIVA BANNER -->
-      <div id="smax-banner-ativo" style="display:none;background:linear-gradient(135deg,rgba(255,107,0,0.12),rgba(212,175,55,0.08));border:1px solid rgba(255,107,0,0.35);border-radius:16px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B00,#FFD700,#FF6B00);"></div>
+      <div id="smax-banner-ativo" style="display:none;background:linear-gradient(135deg,rgba(255,107,74,0.10),rgba(255,177,0,0.06));border:1px solid rgba(255,107,74,0.35);border-radius:16px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FF6B4A,#FFCE45,#FF6B4A);"></div>
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
           <span style="font-size:28px;">🔥</span>
           <div>
             <div id="smax-banner-nome" style="font-family:var(--display-font);font-size:20px;font-weight:800;color:var(--branco);text-transform:uppercase;letter-spacing:1px;"></div>
             <div id="smax-banner-periodo" style="font-size:12px;color:var(--accent-hot);font-weight:600;margin-top:2px;"></div>
           </div>
-          <div style="margin-left:auto;background:rgba(255,107,0,0.2);border:1px solid rgba(255,107,0,0.4);border-radius:100px;padding:6px 14px;font-size:11px;font-weight:800;color:#FF8C42;text-transform:uppercase;letter-spacing:1px;">🟢 Em andamento</div>
+          <div style="margin-left:auto;background:rgba(255,107,74,0.14);border:1px solid rgba(255,107,74,0.4);border-radius:100px;padding:6px 14px;font-size:11px;font-weight:800;color:#C2410C;text-transform:uppercase;letter-spacing:1px;">🟢 Em andamento</div>
         </div>
         <div id="smax-ranking-rapido" style="display:grid;gap:8px;"></div>
       </div>
@@ -651,17 +651,17 @@
       <div class="card" style="margin-bottom:20px;">
         <div class="card-header">
           <div class="card-title">➕ Nova Competição</div>
-          <button id="btn-smax-toggle-form" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">+ Criar</button>
+          <button id="btn-smax-toggle-form" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">+ Criar</button>
         </div>
         <div id="smax-form" style="display:none;">
           <!-- MODELO DA COMPETIÇÃO -->
-          <div style="margin-bottom:14px;border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:16px;background:rgba(212,175,55,0.03);">
+          <div style="margin-bottom:14px;border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:16px;background:rgba(255,177,0,0.03);">
             <div style="font-size:11px;font-weight:700;color:var(--ouro-claro);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">🎯 Modelo da Competição</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;" id="smax-modelo-grid">
-              <button type="button" data-modelo="individual" class="smax-modelo-btn" style="padding:14px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">
+              <button type="button" data-modelo="individual" class="smax-modelo-btn" style="padding:14px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">
                 👤 Colportor contra Colportor<br><span style="font-size:10px;font-weight:500;color:var(--texto3);">Ganha quem vender mais, individualmente. Sem equipes.</span>
               </button>
-              <button type="button" data-modelo="equipes" class="smax-modelo-btn" style="padding:14px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">
+              <button type="button" data-modelo="equipes" class="smax-modelo-btn" style="padding:14px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">
                 👥 Equipes<br><span style="font-size:10px;font-weight:500;color:var(--texto3);">Você cria as equipes e adiciona os colportores nelas.</span>
               </button>
             </div>
@@ -669,11 +669,11 @@
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div class="field-group" style="margin-bottom:0;">
               <label for="smax-nome">Nome da Competição</label>
-              <input type="text" id="smax-nome" placeholder="Ex: Semana de Fogo" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+              <input type="text" id="smax-nome" placeholder="Ex: Semana de Fogo" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
             </div>
             <div class="field-group" style="margin-bottom:0;">
               <label>Tipo</label>
-              <select id="smax-tipo" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+              <select id="smax-tipo" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
                 <option value="semana" style="background:var(--bg-card);">Semana Máxima</option>
                 <option value="quinzena" style="background:var(--bg-card);">Quinzena Máxima</option>
                 <option value="mes" style="background:var(--bg-card);">Mês Máximo</option>
@@ -682,32 +682,32 @@
             </div>
             <div class="field-group" style="margin-bottom:0;">
               <label for="smax-inicio">Data de Início</label>
-              <input type="date" id="smax-inicio" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+              <input type="date" id="smax-inicio" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
             </div>
             <div class="field-group" style="margin-bottom:0;">
               <label for="smax-fim">Data de Encerramento</label>
-              <input type="date" id="smax-fim" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+              <input type="date" id="smax-fim" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
             </div>
           </div>
           <!-- PREMIAÇÃO -->
-          <div style="margin-bottom:14px;border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:16px;background:rgba(212,175,55,0.03);">
+          <div style="margin-bottom:14px;border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:16px;background:rgba(255,177,0,0.03);">
             <div style="font-size:11px;font-weight:700;color:var(--ouro-claro);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;">🏆 Tipo de Premiação</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;" id="smax-premios-grid">
-              <button type="button" data-premio="Prêmio em Dinheiro" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">💰 Prêmio em Dinheiro</button>
-              <button type="button" data-premio="Prêmio Secreto" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🎁 Prêmio Secreto</button>
-              <button type="button" data-premio="Vale Almoço" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🍽️ Vale Almoço</button>
-              <button type="button" data-premio="Vale Mimo" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🎀 Vale Mimo</button>
-              <button type="button" data-premio="Outro" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(212,175,55,0.25);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;grid-column:1/-1;">✨ Outro</button>
+              <button type="button" data-premio="Prêmio em Dinheiro" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">💰 Prêmio em Dinheiro</button>
+              <button type="button" data-premio="Prêmio Secreto" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🎁 Prêmio Secreto</button>
+              <button type="button" data-premio="Vale Almoço" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🍽️ Vale Almoço</button>
+              <button type="button" data-premio="Vale Mimo" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;">🎀 Vale Mimo</button>
+              <button type="button" data-premio="Outro" class="smax-premio-btn" style="padding:10px 12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;text-align:left;transition:all 0.18s;grid-column:1/-1;">✨ Outro</button>
             </div>
             <div>
               <label style="display:block;font-size:10px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;">Nome do Prêmio (opcional)</label>
-              <input type="text" id="smax-premio-nome" placeholder="Ex: Jantar especial, Viagem, R$ 200..." style="width:100%;background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:11px 14px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+              <input type="text" id="smax-premio-nome" placeholder="Ex: Jantar especial, Viagem, R$ 200..." style="width:100%;background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:11px 14px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
             </div>
           </div>
           <div id="smax-form-msg" style="display:none;font-size:13px;margin-bottom:10px;"></div>
           <div style="display:flex;gap:8px;">
-            <button id="btn-smax-salvar" style="padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFD700,#D4AF37,#A0832A);color:#000;font-family:var(--body-font);font-size:13px;font-weight:900;cursor:pointer;letter-spacing:0.5px;">💾 Salvar Competição</button>
-            <button id="btn-smax-cancelar" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">Cancelar</button>
+            <button id="btn-smax-salvar" style="padding:10px 20px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;font-family:var(--body-font);font-size:13px;font-weight:900;cursor:pointer;letter-spacing:0.5px;">💾 Salvar Competição</button>
+            <button id="btn-smax-cancelar" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">Cancelar</button>
           </div>
         </div>
       </div>
@@ -735,7 +735,7 @@
     <div id="admin-estudos" class="tab-panel">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
         <div class="section-title" style="margin-bottom:0;">📖 Estudos <span>Bíblicos</span></div>
-        <input type="text" id="estudos-busca" placeholder="🔍 Buscar por nome, colportor ou cidade..." style="padding:10px 14px;border-radius:10px;border:1px solid rgba(212,175,55,0.2);background:rgba(0,0,0,0.3);color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;min-width:260px;">
+        <input type="text" id="estudos-busca" placeholder="🔍 Buscar por nome, colportor ou cidade..." style="padding:10px 14px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:rgba(16,26,51,0.03);color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;min-width:260px;">
       </div>
       <div style="background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.25);border-radius:14px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
         <div style="font-size:24px;">📖</div>
@@ -761,15 +761,15 @@
         <div style="font-size:13px;font-weight:700;color:var(--ouro-claro);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;">🎨 Tema do Sistema</div>
         <div style="font-size:11px;color:var(--texto3);margin-bottom:14px;">A cor escolhida é aplicada para todos os usuários do sistema.</div>
         <div id="tema-opcoes" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;">
-          <button class="tema-opcao" data-tema="escuro" style="border:2px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
-            <div style="width:100%;height:30px;border-radius:6px;background:linear-gradient(135deg,#060609,#16161E);border:1px solid rgba(212,175,55,0.3);"></div>
-            <span style="font-size:11px;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:0.5px;">🌑 Escuro</span>
+          <button class="tema-opcao" data-tema="escuro" style="border:2px solid rgba(255,177,0,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
+            <div style="width:100%;height:30px;border-radius:6px;background:linear-gradient(135deg,#101A33,#1B2648);border:1px solid rgba(255,177,0,0.3);"></div>
+            <span style="font-size:11px;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:0.5px;">🏆 Placar</span>
           </button>
-          <button class="tema-opcao" data-tema="claro" style="border:2px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
-            <div style="width:100%;height:30px;border-radius:6px;background:linear-gradient(135deg,#FFFFFF,#F6F1E4);border:1px solid rgba(139,105,20,0.3);"></div>
+          <button class="tema-opcao" data-tema="claro" style="border:2px solid rgba(255,177,0,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
+            <div style="width:100%;height:30px;border-radius:6px;background:linear-gradient(135deg,#FFFFFF,#F6F1E4);border:1px solid rgba(180,83,9,0.3);"></div>
             <span style="font-size:11px;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:0.5px;">☀️ Claro</span>
           </button>
-          <button class="tema-opcao" data-tema="meianoite" style="border:2px solid rgba(212,175,55,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
+          <button class="tema-opcao" data-tema="meianoite" style="border:2px solid rgba(255,177,0,0.2);border-radius:12px;padding:14px 10px;background:var(--bg-card2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all 0.2s;">
             <div style="width:100%;height:30px;border-radius:6px;background:linear-gradient(135deg,#050810,#0F1730);border:1px solid rgba(120,160,255,0.3);"></div>
             <span style="font-size:11px;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:0.5px;">🌙 Meia-Noite</span>
           </button>
@@ -813,10 +813,10 @@
   <div class="content" style="max-width:900px;">
 
     <!-- PROGRESSO DO ALVO -->
-    <div style="background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,105,20,0.05));border:1px solid rgba(212,175,55,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
+    <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
       <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:14px;">🎯 Progresso do Alvo de Assistência</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-        <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="l-alvo-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:#EDD96C;">R$ 0</div></div>
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="l-alvo-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:#2B4FF2;">R$ 0</div></div>
         <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alcançado (À Vista)</div><div id="l-alcancado-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">R$ 0</div></div>
         <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Falta</div><div id="l-falta-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);">R$ 0</div></div>
       </div>
@@ -824,8 +824,8 @@
         <span style="font-size:12px;color:var(--texto3);font-weight:600;">Progresso geral</span>
         <span id="l-pct-display" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">0%</span>
       </div>
-      <div style="background:rgba(255,255,255,0.07);border-radius:100px;height:14px;overflow:hidden;">
-        <div id="l-bar-display" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#8B6914,#D4AF37,#F5D76E);transition:width 1s ease;"></div>
+      <div style="background:rgba(16,26,51,0.06);border-radius:100px;height:14px;overflow:hidden;">
+        <div id="l-bar-display" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#B45309,#FFB100,#FFCE45);transition:width 1s ease;"></div>
       </div>
     </div>
 
@@ -841,19 +841,19 @@
     <div class="card" style="margin-bottom:16px;">
       <div class="card-title" style="margin-bottom:16px;">📝 <span style="color:var(--ouro)">Novo Registro de Assistência</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-data">Data da Assistência</label><input type="date" id="l-reg-data" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-colportor">Colportor Assistido</label><select id="l-reg-colportor" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"><option value="">Selecione...</option></select></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-data">Data da Assistência</label><input type="date" id="l-reg-data" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-colportor">Colportor Assistido</label><select id="l-reg-colportor" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"><option value="">Selecione...</option></select></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-vista">💰 Vendas À Vista (R$)</label><input type="text" id="l-reg-vista" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-prazo">📋 Vendas no Pedido (R$)</label><input type="text" id="l-reg-prazo" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-vista">💰 Vendas À Vista (R$)</label><input type="text" id="l-reg-vista" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-prazo">📋 Vendas no Pedido (R$)</label><input type="text" id="l-reg-prazo" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-horas">⏰ Horas de Trabalho</label><input type="number" id="l-reg-horas" placeholder="0" min="0" step="0.5" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-estudos">📖 Estudos Bíblicos</label><input type="number" id="l-reg-estudos" placeholder="0" min="0" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-visitas">🤝 Visitas Realizadas</label><input type="number" id="l-reg-visitas" placeholder="0" min="0" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-horas">⏰ Horas de Trabalho</label><input type="number" id="l-reg-horas" placeholder="0" min="0" step="0.5" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-estudos">📖 Estudos Bíblicos</label><input type="number" id="l-reg-estudos" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-visitas">🤝 Visitas Realizadas</label><input type="number" id="l-reg-visitas" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
       </div>
-      <button id="btn-l-salvar-reg" style="padding:14px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFD700,#D4AF37,#A0832A);color:#000;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:1px;width:100%;">💾 SALVAR REGISTRO</button>
+      <button id="btn-l-salvar-reg" style="padding:14px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:1px;width:100%;">💾 SALVAR REGISTRO</button>
       <div id="l-reg-msg" style="font-size:12px;margin-top:8px;display:none;"></div>
     </div>
 
@@ -863,8 +863,8 @@
         <div class="card-title" style="margin-bottom:0;">📅 <span style="color:var(--ouro)">Agenda de Assistência</span></div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span id="l-agenda-resumo" style="font-size:11px;color:var(--texto3);"></span>
-          <button id="btn-l-agenda-todos" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">Ver todos</button>
-          <button id="btn-l-agenda-pendentes" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,107,0,0.35);background:rgba(255,107,0,0.08);color:#FF8C42;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">⚠️ Pendentes</button>
+          <button id="btn-l-agenda-todos" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">Ver todos</button>
+          <button id="btn-l-agenda-pendentes" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,107,74,0.35);background:rgba(255,107,0,0.08);color:#C2410C;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">⚠️ Pendentes</button>
         </div>
       </div>
       <div style="font-size:11px;color:var(--texto3);margin-bottom:14px;">Clique em qualquer dia para definir ou editar com qual colportor você estará em assistência.</div>
@@ -887,24 +887,24 @@
 
 <!-- MODAL AGENDA DIA -->
 <div id="modal-agenda-dia" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:400;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:var(--bg-card);border:1px solid rgba(212,175,55,0.3);border-radius:20px;padding:28px;width:100%;max-width:420px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.9);">
-    <button id="mag-btn-fechar" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="background:var(--bg-card);border:1px solid rgba(255,177,0,0.3);border-radius:20px;padding:28px;width:100%;max-width:420px;position:relative;box-shadow:0 32px 80px rgba(16,26,51,0.25);">
+    <button id="mag-btn-fechar" style="position:absolute;top:14px;right:14px;background:rgba(16,26,51,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     <div style="font-size:10px;color:var(--ouro);font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Agenda de Assistência</div>
     <div id="mag-titulo" style="font-size:18px;font-weight:800;color:var(--branco);margin-bottom:2px;"></div>
     <div id="mag-subtitulo" style="font-size:12px;color:var(--texto3);margin-bottom:20px;"></div>
     <div class="field-group" style="margin-bottom:14px;">
       <label for="mag-colportor">👤 Colportor que receberá assistência</label>
       <input type="text" id="mag-colportor" placeholder="Nome do colportor..." autocomplete="off"
-        style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.25);border-radius:10px;padding:13px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+        style="background:rgba(255,177,0,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:10px;padding:13px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
       <div id="mag-sugestoes" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;"></div>
     </div>
     <div class="field-group" style="margin-bottom:20px;">
       <label for="mag-obs">📝 Observação (opcional)</label>
       <input type="text" id="mag-obs" placeholder="Ex: Visita domiciliar, saída às 8h..."
-        style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:13px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+        style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:13px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
     </div>
     <div style="display:flex;gap:8px;">
-      <button id="mag-btn-salvar" style="flex:1;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFD700,#D4AF37,#A0832A);color:#000;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:0.5px;">💾 Salvar</button>
+      <button id="mag-btn-salvar" style="flex:1;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:0.5px;">💾 Salvar</button>
       <button id="mag-btn-limpar" style="padding:14px 16px;border-radius:10px;border:1px solid rgba(239,83,80,0.35);background:rgba(239,83,80,0.08);color:#EF9090;font-family:var(--body-font);font-size:13px;font-weight:700;cursor:pointer;">🗑️ Limpar</button>
     </div>
     <div id="mag-msg" style="font-size:12px;margin-top:10px;display:none;text-align:center;"></div>
@@ -912,28 +912,28 @@
 </div>
 
 <div id="modal-nova-campanha" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:400;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:var(--bg-card);border:1px solid rgba(212,175,55,0.3);border-radius:20px;padding:28px;width:100%;max-width:420px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.9);">
-    <button id="nc-btn-fechar" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+  <div style="background:var(--bg-card);border:1px solid rgba(255,177,0,0.3);border-radius:20px;padding:28px;width:100%;max-width:420px;position:relative;box-shadow:0 32px 80px rgba(16,26,51,0.25);">
+    <button id="nc-btn-fechar" style="position:absolute;top:14px;right:14px;background:rgba(16,26,51,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
     <div style="font-size:10px;color:var(--ouro);font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">Nova Temporada</div>
     <div style="font-size:18px;font-weight:800;color:var(--branco);margin-bottom:4px;">🚀 Criar Nova Campanha</div>
     <div style="font-size:12px;color:var(--texto3);margin-bottom:20px;">A campanha atual será marcada como finalizada (fica só para consulta) e esta nova passa a receber os cadastros.</div>
     <div class="field-group">
       <label for="nc-titulo">Título da Campanha</label>
-      <input type="text" id="nc-titulo" placeholder="Ex: Sonhando Alto 2026.2" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+      <input type="text" id="nc-titulo" placeholder="Ex: Sonhando Alto 2026.2" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
       <div class="field-group">
         <label for="nc-data-inicio">Data de Início</label>
-        <input type="date" id="nc-data-inicio" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+        <input type="date" id="nc-data-inicio" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
       </div>
       <div class="field-group">
         <label for="nc-data-fim">Data de Término</label>
-        <input type="date" id="nc-data-fim" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+        <input type="date" id="nc-data-fim" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
       </div>
     </div>
     <div class="field-group">
       <label for="nc-meta">Meta Geral da Equipe (R$)</label>
-      <input type="text" id="nc-meta" placeholder="Ex: 410.000,00" inputmode="decimal" autocomplete="off" style="background:rgba(212,175,55,0.04);border:1px solid rgba(212,175,55,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
+      <input type="text" id="nc-meta" placeholder="Ex: 410.000,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
     </div>
     <div id="nc-msg" style="font-size:12px;margin-bottom:12px;display:none;"></div>
     <button id="btn-nc-confirmar" class="btn btn-primary">Criar e Ativar Campanha</button>
@@ -943,10 +943,10 @@
 <!-- MODAIS -->
 <div id="modal-vendas-hoje" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;">
   <div style="background:var(--bg-card);border:1px solid var(--borda);border-radius:20px;padding:28px;width:100%;max-width:560px;margin:auto;position:relative;">
-    <button id="btn-fechar-vendas-hoje" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:30px;height:30px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;">✕</button>
+    <button id="btn-fechar-vendas-hoje" style="position:absolute;top:14px;right:14px;background:rgba(16,26,51,0.08);border:none;width:30px;height:30px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;">✕</button>
     <div style="font-size:18px;font-weight:800;color:var(--branco);margin-bottom:4px;">💰 Vendas de Hoje</div>
     <div id="mvh-data" style="font-size:13px;color:var(--verde);margin-bottom:20px;"></div>
-    <div id="mvh-total" style="background:rgba(212,175,55,0.07);border:1px solid rgba(212,175,55,0.2);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+    <div id="mvh-total" style="background:rgba(255,177,0,0.07);border:1px solid rgba(255,177,0,0.2);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
       <span style="font-size:13px;color:var(--texto3);font-weight:600;">Total da Equipe (À Vista)</span>
       <span id="mvh-total-val" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);"></span>
     </div>
@@ -957,7 +957,7 @@
 
 <div id="modal-colportores" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:300;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;">
   <div style="background:var(--bg-card);border:1px solid var(--borda);border-radius:20px;padding:28px;width:100%;max-width:480px;margin:auto;position:relative;">
-    <button id="btn-fechar-colportores" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:30px;height:30px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;">✕</button>
+    <button id="btn-fechar-colportores" style="position:absolute;top:14px;right:14px;background:rgba(16,26,51,0.08);border:none;width:30px;height:30px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;">✕</button>
     <div style="font-size:18px;font-weight:800;color:var(--branco);margin-bottom:4px;">👥 Colportores Cadastrados</div>
     <div id="mcol-count" style="font-size:13px;color:var(--texto3);font-weight:600;margin-bottom:20px;"></div>
     <div id="mcol-lista" style="display:flex;flex-direction:column;gap:8px;"></div>
@@ -971,7 +971,7 @@
       <div class="perfil-avatar" id="modal-avatar"></div>
       <div><div class="perfil-nome" id="modal-nome"></div><div class="perfil-dados" id="modal-dados"></div></div>
     </div>
-    <div style="background:linear-gradient(135deg,rgba(212,175,55,0.07),rgba(139,105,20,0.05));border:1px solid rgba(212,175,55,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
+    <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
       <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:16px;">🎯 Bolsa de Estudos</div>
       <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
         <div style="position:relative;flex-shrink:0;"><canvas id="modal-pizza" width="160" height="160"></canvas>
@@ -981,15 +981,15 @@
           </div>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:12px;min-width:180px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(212,175,55,0.07);border-radius:10px;border-left:3px solid var(--ouro);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">✅ Já vendeu (à vista)</span><span id="modal-vendido" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);"></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,177,0,0.07);border-radius:10px;border-left:3px solid var(--ouro);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">✅ Já vendeu (à vista)</span><span id="modal-vendido" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);"></span></div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(239,83,80,0.07);border-radius:10px;border-left:3px solid var(--danger);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">⬜ Falta alcançar</span><span id="modal-falta" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--danger);"></span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(21,101,192,0.08);border-radius:10px;border-left:3px solid var(--azul-medio);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">🎯 Meta total</span><span id="modal-meta" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:#EDD96C;"></span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(21,101,192,0.08);border-radius:10px;border-left:3px solid var(--azul-medio);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">🎯 Meta total</span><span id="modal-meta" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:#2B4FF2;"></span></div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,214,0,0.07);border-radius:10px;border-left:3px solid var(--amarelo);"><span style="font-size:12px;color:var(--texto3);font-weight:600;">📋 No Pedido</span><span id="modal-prazo-info" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);"></span></div>
           <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,138,101,0.08);border-radius:10px;border-left:3px solid #FF8A65;gap:10px;">
             <span style="font-size:12px;color:var(--texto3);font-weight:600;">📦 Devolução de Material</span>
             <div style="display:flex;align-items:center;gap:8px;">
               <span id="modal-devolucao-info" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:#FF8A65;"></span>
-              <button id="btn-ver-lista-dev-modal" style="padding:4px 10px;border-radius:100px;border:1px solid rgba(255,138,101,0.4);background:rgba(255,138,101,0.1);color:#FF8A65;font-family:'Inter',sans-serif;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;">👁️ Ver lista</button>
+              <button id="btn-ver-lista-dev-modal" style="padding:4px 10px;border-radius:100px;border:1px solid rgba(255,138,101,0.4);background:rgba(255,138,101,0.1);color:#FF8A65;font-family:'Manrope',sans-serif;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap;">👁️ Ver lista</button>
             </div>
           </div>
           <div id="modal-lista-dev-detalhe" style="display:none;background:var(--bg-card2);border-radius:10px;padding:12px 14px;"></div>
@@ -1008,33 +1008,33 @@
     <div class="divider"></div>
     <div style="font-size:14px;font-weight:700;color:var(--texto3);margin-bottom:12px;">⚙️ Gerenciar</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-sm" id="btn-alterar-meta" style="background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);color:var(--ouro);">💰 Alterar Meta</button>
+      <button class="btn btn-sm" id="btn-alterar-meta" style="background:rgba(255,177,0,0.12);border:1px solid rgba(255,177,0,0.3);color:var(--ouro);">💰 Alterar Meta</button>
       <button class="btn btn-sm" id="btn-resetar-senha" style="background:rgba(239,83,80,0.15);border:1px solid rgba(239,83,80,0.3);color:var(--danger);">🔑 Resetar Senha</button>
-      <button class="btn btn-sm" id="btn-pdf-colportor" style="background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.3);color:var(--ouro-claro);">🖨️ Exportar PDF</button>
+      <button class="btn btn-sm" id="btn-pdf-colportor" style="background:rgba(255,177,0,0.12);border:1px solid rgba(255,177,0,0.3);color:var(--ouro-claro);">🖨️ Exportar PDF</button>
     </div>
   </div>
 </div>
 
 <!-- CONFIRM MODAL -->
 <div id="confirm-modal-global" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9998;align-items:center;justify-content:center;">
-  <div style="background:#0F1929;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;width:100%;max-width:340px;margin:16px;text-align:center;">
+  <div style="background:#0F1929;border:1px solid rgba(16,26,51,0.1);border-radius:20px;padding:32px;width:100%;max-width:340px;margin:16px;text-align:center;">
     <div style="font-size:36px;margin-bottom:12px;">⚠️</div>
     <div id="conf-titulo" style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;"></div>
-    <div id="conf-sub" style="font-size:13px;color:#B8C0D0;margin-bottom:24px;"></div>
+    <div id="conf-sub" style="font-size:13px;color:#454A5E;margin-bottom:24px;"></div>
     <div style="display:flex;gap:10px;">
-      <button id="conf-cancel" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#B8C0D0;font-family:Inter,sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancelar</button>
-      <button id="conf-ok" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#EF5350,#C62828);color:#fff;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Confirmar</button>
+      <button id="conf-cancel" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:#454A5E;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancelar</button>
+      <button id="conf-ok" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#EF5350,#C62828);color:#fff;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Confirmar</button>
     </div>
   </div>
 </div>
 <div id="input-modal-global" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9998;align-items:center;justify-content:center;">
-  <div style="background:#0F1929;border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:32px;width:100%;max-width:360px;margin:16px;">
+  <div style="background:#0F1929;border:1px solid rgba(16,26,51,0.1);border-radius:20px;padding:32px;width:100%;max-width:360px;margin:16px;">
     <div id="imod-titulo" style="font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;"></div>
-    <div id="imod-sub" style="font-size:13px;color:#B8C0D0;margin-bottom:20px;"></div>
-    <input id="imod-input" type="text" style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:12px 14px;color:#F0F2F5;font-family:Inter,sans-serif;font-size:15px;outline:none;">
+    <div id="imod-sub" style="font-size:13px;color:#454A5E;margin-bottom:20px;"></div>
+    <input id="imod-input" type="text" style="width:100%;background:rgba(16,26,51,0.03);border:1px solid rgba(16,26,51,0.14);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:'Manrope',sans-serif;font-size:15px;outline:none;">
     <div style="display:flex;gap:10px;margin-top:16px;">
-      <button id="imod-cancel" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:#B8C0D0;font-family:Inter,sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancelar</button>
-      <button id="imod-ok" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:Inter,sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Confirmar</button>
+      <button id="imod-cancel" style="flex:1;padding:12px;border-radius:10px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:#454A5E;font-family:'Manrope',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">Cancelar</button>
+      <button id="imod-ok" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;cursor:pointer;">Confirmar</button>
     </div>
   </div>
 </div>
@@ -1044,22 +1044,22 @@
   <div style="background:var(--bg-card);border:1px solid var(--borda);border-radius:20px;padding:0;width:100%;max-width:480px;margin:auto;overflow:hidden;position:relative;">
 
     <!-- Header com foto -->
-    <div style="background:linear-gradient(135deg,rgba(212,175,55,0.1),rgba(139,105,20,0.08));padding:32px 28px 24px;text-align:center;position:relative;border-bottom:1px solid var(--borda);">
-      <button onclick="fecharPerfilColportor()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+    <div style="background:linear-gradient(135deg,rgba(255,177,0,0.1),rgba(180,83,9,0.08));padding:32px 28px 24px;text-align:center;position:relative;border-bottom:1px solid var(--borda);">
+      <button onclick="fecharPerfilColportor()" style="position:absolute;top:14px;right:14px;background:rgba(16,26,51,0.08);border:none;width:32px;height:32px;border-radius:50%;color:var(--texto2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
 
       <!-- Avatar clicável para foto -->
       <div onclick="document.getElementById('input-foto-perfil').click()" title="Clique para alterar foto"
         role="button" tabindex="0" aria-label="Alterar foto de perfil"
         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('input-foto-perfil').click();}"
-        style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#D4AF37,#7A5C10);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;color:#000;cursor:pointer;margin:0 auto 12px;overflow:hidden;border:3px solid rgba(212,175,55,0.4);position:relative;transition:border-color 0.2s;"
-        onmouseenter="this.style.borderColor='var(--ouro)'" onmouseleave="this.style.borderColor='rgba(212,175,55,0.4)'">
+        style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#FFCE45,#B45309);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:28px;color:#101A33;cursor:pointer;margin:0 auto 12px;overflow:hidden;border:3px solid rgba(255,177,0,0.4);position:relative;transition:border-color 0.2s;"
+        onmouseenter="this.style.borderColor='var(--ouro)'" onmouseleave="this.style.borderColor='rgba(255,177,0,0.4)'"
         <span id="pcol-avatar-ini"></span>
         <img id="pcol-avatar-img" src="" alt="Foto de perfil" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:50%;">
         <div style="position:absolute;inset:0;background:rgba(0,0,0,0);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s;font-size:14px;opacity:0;" onmouseenter="this.style.opacity='1';this.style.background='rgba(0,0,0,0.4)'" onmouseleave="this.style.opacity='0';this.style.background='rgba(0,0,0,0)'">📷</div>
       </div>
       <div id="pcol-nome" style="font-size:20px;font-weight:800;color:var(--branco);margin-bottom:4px;"></div>
       <div id="pcol-tel" style="font-size:13px;color:var(--texto3);margin-bottom:8px;"></div>
-      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(212,175,55,0.08);border:1px solid rgba(212,175,55,0.2);border-radius:100px;padding:4px 12px;">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.2);border-radius:100px;padding:4px 12px;">
         <span style="font-size:11px;color:var(--ouro-claro);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Colportor</span>
       </div>
     </div>
@@ -1088,8 +1088,8 @@
         <div style="font-size:12px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">👤 Alterar Nome</div>
         <div style="display:flex;gap:8px;">
           <input type="text" id="pcol-input-nome" placeholder="Novo nome completo"
-            style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Inter',sans-serif;font-size:14px;outline:none;">
-          <button id="pcol-btn-nome" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
+            style="flex:1;background:rgba(16,26,51,0.03);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Manrope',sans-serif;font-size:14px;outline:none;">
+          <button id="pcol-btn-nome" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
         </div>
         <div id="pcol-msg-nome" style="font-size:12px;margin-top:6px;display:none;"></div>
       </div>
@@ -1099,11 +1099,11 @@
         <div style="font-size:12px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🔑 Alterar Senha</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <input type="password" id="pcol-input-senha-atual" placeholder="Senha atual (4 dígitos)" maxlength="4"
-            style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Inter',sans-serif;font-size:14px;outline:none;letter-spacing:3px;">
+            style="background:rgba(16,26,51,0.03);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Manrope',sans-serif;font-size:14px;outline:none;letter-spacing:3px;">
           <div style="display:flex;gap:8px;">
             <input type="password" id="pcol-input-senha-nova" placeholder="Nova senha (4 dígitos)" maxlength="4"
-              style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Inter',sans-serif;font-size:14px;outline:none;letter-spacing:3px;">
-            <button id="pcol-btn-senha" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
+              style="flex:1;background:rgba(16,26,51,0.03);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Manrope',sans-serif;font-size:14px;outline:none;letter-spacing:3px;">
+            <button id="pcol-btn-senha" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
           </div>
         </div>
         <div id="pcol-msg-senha" style="font-size:12px;margin-top:6px;display:none;"></div>
@@ -1114,16 +1114,16 @@
         <div style="font-size:12px;font-weight:700;color:var(--ouro);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">🎯 Alterar Meta da Bolsa</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-            <button class="pcol-meta-opt" data-val="20000" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto3);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 20k</button>
-            <button class="pcol-meta-opt" data-val="30000" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto3);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 30k</button>
-            <button class="pcol-meta-opt" data-val="40000" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto3);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 40k</button>
-            <button class="pcol-meta-opt" data-val="50000" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:var(--texto3);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 50k</button>
+            <button class="pcol-meta-opt" data-val="20000" style="padding:8px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto3);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 20k</button>
+            <button class="pcol-meta-opt" data-val="30000" style="padding:8px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto3);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 30k</button>
+            <button class="pcol-meta-opt" data-val="40000" style="padding:8px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto3);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 40k</button>
+            <button class="pcol-meta-opt" data-val="50000" style="padding:8px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto3);font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;">R$ 50k</button>
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <span style="font-size:12px;color:var(--texto3);white-space:nowrap;">Personalizado:</span>
             <input type="number" id="pcol-input-meta" placeholder="Ex: 35000" min="1000"
-              style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Inter',sans-serif;font-size:14px;outline:none;">
-            <button id="pcol-btn-meta" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#D4AF37,#8B6914);color:#000;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
+              style="flex:1;background:rgba(16,26,51,0.03);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:10px 12px;color:var(--branco);font-family:'Manrope',sans-serif;font-size:14px;outline:none;">
+            <button id="pcol-btn-meta" style="padding:10px 16px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Salvar</button>
           </div>
         </div>
         <div id="pcol-msg-meta" style="font-size:12px;margin-top:6px;display:none;"></div>
@@ -1135,7 +1135,7 @@
           <div style="font-size:12px;font-weight:700;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">📷 Foto de Perfil</div>
           <div style="font-size:12px;color:var(--texto2);">Sua foto aparece no avatar e no painel do líder</div>
         </div>
-        <button onclick="document.getElementById('input-foto-perfil').click()" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(212,175,55,0.08);color:var(--ouro-claro);font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">📷 Alterar Foto</button>
+        <button onclick="document.getElementById('input-foto-perfil').click()" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">📷 Alterar Foto</button>
       </div>
 
     </div>
