@@ -497,6 +497,14 @@
   @media(max-width:600px){
     .registro-grid{grid-template-columns:1fr;}
     .content{padding:14px;}
+    .section-title{font-size:21px;}
+    .meta-title{font-size:12px;letter-spacing:2px;}
+    .date-day{font-size:36px;}
+    .logo-title{font-size:21px;}
+    .perfil-box{padding:20px;}
+    /* Grades de 3 colunas escritas em linha (não usam classe) viram 1 coluna
+       para caber campos, rótulos e valores sem espremer em telas pequenas. */
+    [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
     .login-box{padding:32px 20px;margin:16px;}
     .meta-grid{grid-template-columns:1fr;}
     .navbar-top{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
