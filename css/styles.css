@@ -505,6 +505,10 @@
     /* Grades de 3 colunas escritas em linha (não usam classe) viram 1 coluna
        para caber campos, rótulos e valores sem espremer em telas pequenas. */
     [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
+    /* Preenchimento diário: "Já preencheram" / "Pendentes" lado a lado
+       não cabem no celular (o botão "Notificar" empurra a largura toda
+       para fora da tela) — empilha em 1 coluna. */
+    #admin-diario-listas{grid-template-columns:1fr!important;}
     .login-box{padding:32px 20px;margin:16px;}
     .meta-grid{grid-template-columns:1fr;}
     .navbar-top{flex-wrap:wrap;height:auto;padding:10px 16px;gap:8px;}
