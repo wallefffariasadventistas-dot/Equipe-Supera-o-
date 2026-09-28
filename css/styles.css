@@ -236,7 +236,7 @@
      STAT CARDS — SCOREBOARD PANEL
   ════════════════════════════════ */
   .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:20px;}
-  .stat-card{background:#101A33;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;position:relative;overflow:hidden;cursor:default;transition:all 0.25s;}
+  .stat-card{background:#101A33;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;position:relative;overflow:hidden;cursor:default;transition:all 0.25s;container-type:inline-size;}
   .stat-card:hover{border-color:rgba(255,177,0,0.35);transform:translateY(-2px);box-shadow:0 10px 26px rgba(16,26,51,0.22);}
   .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
   .stat-card.green::before{background:linear-gradient(90deg,#B45309,#FFB100,#FFCE45);}
@@ -244,8 +244,11 @@
   .stat-card.yellow::before{background:linear-gradient(90deg,#FFCE45,#FFE199);}
   .stat-card.orange::before{background:linear-gradient(90deg,#FF6B4A,#FFB100);}
   .stat-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8891AC;font-weight:700;margin-bottom:10px;}
-  /* NÚMEROS grandes em Sora, estilo placar luminoso */
-  .stat-value{font-size:36px;font-weight:700;color:#FFCE45;font-family:var(--num-font);line-height:1;margin-bottom:6px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums;}
+  /* NÚMEROS grandes em Sora, estilo placar luminoso — encolhe com o
+     card (container query) em vez de estourar a largura e ser cortado
+     pelo overflow:hidden; break-word é a garantia final para valores
+     muito compridos. */
+  .stat-value{font-size:clamp(18px, 9cqi, 36px);font-weight:700;color:#FFCE45;font-family:var(--num-font);line-height:1.05;margin-bottom:6px;letter-spacing:-0.5px;font-variant-numeric:tabular-nums;overflow-wrap:break-word;word-break:break-word;}
   .stat-card.blue .stat-value{color:#8FA3F7;}
   .stat-card.yellow .stat-value{color:#FFE199;}
   .stat-card.orange .stat-value{color:#FF9478;}
@@ -492,7 +495,6 @@
     .grid-2{grid-template-columns:1fr;}
     .rank-name{font-size:17px;}
     .rank-value{font-size:22px;}
-    .stat-value{font-size:28px;}
   }
   @media(max-width:600px){
     .registro-grid{grid-template-columns:1fr;}
