@@ -102,6 +102,20 @@ document.getElementById('campanha-selector').addEventListener('change', function
   if (activeBtn && activeTab) abrirTabAdmin(activeTab.id, activeBtn);
 });
 
+document.getElementById('btn-renomear-campanha').addEventListener('click', function() {
+  const sel = document.getElementById('campanha-selector');
+  const id = sel.value;
+  const c = todasCampanhas.find(x => x.id === id);
+  if (!c) { mostrarToast('Selecione uma campanha primeiro.', true); return; }
+  mostrarInputModal('Renomear Campanha', `Nome atual: ${c.titulo}`, 'Novo título', async val => {
+    if (!val) { mostrarToast('Título não pode ficar vazio.', true); return; }
+    await updateDoc(doc(db, 'campanhas', id), { titulo: val });
+    c.titulo = val;
+    renderSeletorCampanha();
+    mostrarToast('Campanha renomeada!');
+  });
+});
+
 document.getElementById('btn-nova-campanha').addEventListener('click', function() {
   document.getElementById('nc-titulo').value = '';
   document.getElementById('nc-data-inicio').value = '';
