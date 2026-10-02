@@ -40,6 +40,14 @@
   html[data-theme="meianoite"] .login-box{background:rgba(10,15,30,0.95);}
   .tema-opcao.selecionada{border-color:var(--ouro) !important;box-shadow:0 0 0 3px rgba(255,177,0,0.18),0 4px 16px rgba(255,177,0,0.18) !important;}
   .tema-opcao:hover{border-color:rgba(255,177,0,0.5);}
+
+  /* LOGO — se adapta ao tema: cor original em fundo claro, branco em fundo escuro (Meia-Noite) */
+  #screen-login .logo-login-img{filter:drop-shadow(0 4px 28px rgba(255,177,0,0.4));}
+  #screen-cadastro .logo-login-img{filter:drop-shadow(0 4px 20px rgba(255,177,0,0.35));}
+  .logo-navbar-img{filter:drop-shadow(0 0 6px rgba(255,177,0,0.4));}
+  html[data-theme="meianoite"] #screen-login .logo-login-img{filter:brightness(0) invert(1) drop-shadow(0 4px 28px rgba(255,177,0,0.4));}
+  html[data-theme="meianoite"] #screen-cadastro .logo-login-img{filter:brightness(0) invert(1) drop-shadow(0 4px 20px rgba(255,177,0,0.35));}
+  html[data-theme="meianoite"] .logo-navbar-img{filter:brightness(0) invert(1) drop-shadow(0 0 6px rgba(255,177,0,0.4));}
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:var(--body-font);background:var(--bg-dark);color:var(--texto);min-height:100vh;overflow-x:hidden;}
   .screen{display:none;min-height:100vh;}
