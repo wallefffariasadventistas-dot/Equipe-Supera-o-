@@ -536,18 +536,16 @@ function toggleMetaCustom() {
 }
 window.toggleMetaCustom = toggleMetaCustom;
 
-// Mostra o seletor de campanha no cadastro só quando há mais de uma campanha ativa.
+// Mostra sempre qual campanha a pessoa está se cadastrando; se houver mais
+// de uma ativa, ela pode escolher — com apenas uma, o campo fica travado.
 function popularCampanhaCadastro() {
   const wrap = document.getElementById('cad-campanha-wrap');
   const sel  = document.getElementById('cad-campanha');
   const ativas = todasCampanhas.filter(c => c.ativa);
-  if (ativas.length > 1) {
-    sel.innerHTML = ativas.map(c => `<option value="${c.id}">${escapeHtml(c.titulo)}</option>`).join('');
-    sel.value = CAMPANHA_ATIVA ? CAMPANHA_ATIVA.id : ativas[0].id;
-    wrap.style.display = 'block';
-  } else {
-    wrap.style.display = 'none';
-  }
+  sel.innerHTML = ativas.map(c => `<option value="${c.id}">${escapeHtml(c.titulo)}</option>`).join('');
+  sel.value = CAMPANHA_ATIVA ? CAMPANHA_ATIVA.id : (ativas[0] && ativas[0].id);
+  sel.disabled = ativas.length <= 1;
+  wrap.style.display = 'block';
 }
 
 document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
@@ -559,8 +557,7 @@ document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
   const senha2 = document.getElementById('cad-senha2').value.trim();
   const err    = document.getElementById('cad-error');
   const suc    = document.getElementById('cad-success');
-  const campanhaWrapVisivel = document.getElementById('cad-campanha-wrap').style.display === 'block';
-  const campanhaEscolhida = campanhaWrapVisivel ? document.getElementById('cad-campanha').value : (CAMPANHA_ATIVA && CAMPANHA_ATIVA.id);
+  const campanhaEscolhida = document.getElementById('cad-campanha').value || (CAMPANHA_ATIVA && CAMPANHA_ATIVA.id);
   err.style.display='none'; suc.style.display='none';
 
   if (!nome||!tel||!metaS||!senha) { err.style.display='block'; err.textContent='Preencha todos os campos.'; return; }
