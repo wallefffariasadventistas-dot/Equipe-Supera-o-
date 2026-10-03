@@ -23,14 +23,33 @@
 
 <!-- LOGIN -->
 <div id="screen-login" class="screen active">
-  <div class="login-box">
+  <div class="login-menu-wrap">
     <div class="logo-area">
-      <div style="margin-bottom:20px;">
-        <img src="" class="logo-login-img" alt="Superação Colportagem"
-          style="width:220px;height:auto;object-fit:contain;">
-      </div>
+      <img src="" class="logo-login-img" alt="Superação Colportagem" style="width:150px;height:auto;object-fit:contain;">
     </div>
-        <div class="field-group">
+    <div class="login-menu-grid">
+      <button class="login-menu-btn primary" id="btn-menu-colportor">
+        <span class="login-menu-icon">👤</span><span>Entrar como Colportor</span>
+      </button>
+      <button class="login-menu-btn" id="btn-menu-cadastro">
+        <span class="login-menu-icon">✨</span><span>Criar Conta Nova</span>
+      </button>
+      <button class="login-menu-btn" id="btn-menu-lider">
+        <span class="login-menu-icon">📋</span><span>Área do Líder</span>
+      </button>
+      <button class="login-menu-btn" id="btn-menu-admin">
+        <span class="login-menu-icon">👑</span><span>Administrador</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ENTRAR COMO COLPORTOR -->
+<div class="perfil-modal" id="modal-login-colportor">
+  <div class="perfil-box" style="max-width:400px;position:relative;">
+    <button class="modal-close" id="btn-fechar-modal-colportor">✕</button>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">👤 Entrar</div>
+    <div class="field-group">
       <label for="login-nome">Nome completo</label>
       <input type="text" id="login-nome" placeholder="Seu nome completo" autocomplete="off">
     </div>
@@ -39,71 +58,73 @@
       <input type="password" id="login-senha" placeholder="••••" maxlength="4">
     </div>
     <div id="login-error" class="error-msg">Nome ou senha inválidos.</div>
-    <button class="btn btn-primary" id="btn-entrar">Entrar</button>
-    <button class="btn btn-secondary" id="btn-ir-cadastro">Criar Conta</button>
-    <div class="divider" style="margin:20px 0 16px"></div>
-    <div id="admin-area" style="display:none;">
-      <div class="field-group">
-        <label for="admin-senha-input">🔑 Senha do Administrador</label>
-        <input type="password" id="admin-senha-input" placeholder="••••" maxlength="4">
-      </div>
-      <div id="admin-error" class="error-msg">Senha incorreta.</div>
-      <button class="btn btn-admin" id="btn-confirmar-admin">Entrar como Administrador</button>
-      <button class="btn btn-secondary" style="margin-top:8px" id="btn-fechar-admin">Cancelar</button>
-    </div>
-    <button class="btn btn-admin" id="btn-abrir-admin">👑 Área do Administrador</button>
-    <div class="divider" style="margin:16px 0 12px"></div>
-    <button class="btn btn-secondary" id="btn-abrir-lider-login" style="border-color:rgba(255,177,0,0.3);color:var(--ouro-claro);">📋 Área do Líder</button>
-    <div id="lider-login-area" style="display:none;margin-top:12px;">
-      <div class="field-group">
-        <label for="lider-login-nome">Nome do Líder</label>
-        <input type="text" id="lider-login-nome" placeholder="Seu nome" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;">
-      </div>
-      <div class="field-group">
-        <label for="lider-login-senha">Senha (4 dígitos)</label>
-        <input type="password" id="lider-login-senha" placeholder="••••" maxlength="4" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;letter-spacing:4px;font-size:20px;">
-      </div>
-      <div id="lider-login-error" class="error-msg" style="display:none;">Nome ou senha inválidos.</div>
-      <button class="btn btn-admin" id="btn-confirmar-lider-login">Entrar como Líder</button>
-      <button class="btn btn-secondary" style="margin-top:8px;" id="btn-fechar-lider-login">Cancelar</button>
-    </div>
+    <button class="btn btn-primary mt-16" id="btn-entrar">Entrar</button>
   </div>
 </div>
 
-<!-- CADASTRO -->
-<div id="screen-cadastro" class="screen">
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px;">
-    <div class="login-box" style="max-width:480px;">
-      <div class="logo-area">
-        <div style="margin-bottom:16px;">
-          <img src="" class="logo-login-img" alt="Superação Colportagem"
-            style="width:200px;height:auto;object-fit:contain;">
-        </div>
-      </div>
-      <div class="field-group"><label for="cad-nome">Nome completo</label><input type="text" id="cad-nome" placeholder="Seu nome completo"></div>
-      <div class="field-group"><label for="cad-tel">Telefone</label><input type="tel" id="cad-tel" placeholder="(86) 99999-9999"></div>
-      <div class="field-group">
-        <label>🎯 Alvo da Bolsa de Estudos</label>
-        <select id="cad-meta" onchange="toggleMetaCustom()">
-          <option value="">Selecione seu alvo...</option>
-          <option value="20000">R$ 20.000</option>
-          <option value="30000">R$ 30.000</option>
-          <option value="40000">R$ 40.000</option>
-          <option value="50000">R$ 50.000</option>
-          <option value="custom">Personalizado</option>
-        </select>
-      </div>
-      <div class="field-group" id="meta-custom-wrap" style="display:none;">
-        <label for="cad-meta-custom">Valor personalizado (R$)</label>
-        <input type="text" id="cad-meta-custom" placeholder="Ex: 35.000,00" inputmode="decimal" autocomplete="off">
-      </div>
-      <div class="field-group"><label for="cad-senha">Senha de 4 dígitos</label><input type="password" id="cad-senha" placeholder="••••" maxlength="4"></div>
-      <div class="field-group"><label for="cad-senha2">Confirmar senha</label><input type="password" id="cad-senha2" placeholder="••••" maxlength="4"></div>
-      <div id="cad-error" class="error-msg"></div>
-      <div id="cad-success" class="success-msg">✅ Conta criada! Entrando...</div>
-      <button class="btn btn-primary mt-16" id="btn-criar-conta">Criar Conta</button>
-      <button class="btn btn-secondary" id="btn-voltar-login">← Voltar</button>
+<!-- MODAL: CRIAR CONTA -->
+<div class="perfil-modal" id="modal-cadastro">
+  <div class="perfil-box" style="max-width:460px;position:relative;">
+    <button class="modal-close" id="btn-fechar-modal-cadastro">✕</button>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">✨ Criar Conta</div>
+    <div class="field-group"><label for="cad-nome">Nome completo</label><input type="text" id="cad-nome" placeholder="Seu nome completo"></div>
+    <div class="field-group"><label for="cad-tel">Telefone</label><input type="tel" id="cad-tel" placeholder="(86) 99999-9999"></div>
+    <div class="field-group" id="cad-campanha-wrap" style="display:none;">
+      <label for="cad-campanha">🏁 Campanha</label>
+      <select id="cad-campanha"></select>
     </div>
+    <div class="field-group">
+      <label>🎯 Alvo da Bolsa de Estudos</label>
+      <select id="cad-meta" onchange="toggleMetaCustom()">
+        <option value="">Selecione seu alvo...</option>
+        <option value="20000">R$ 20.000</option>
+        <option value="30000">R$ 30.000</option>
+        <option value="40000">R$ 40.000</option>
+        <option value="50000">R$ 50.000</option>
+        <option value="custom">Personalizado</option>
+      </select>
+    </div>
+    <div class="field-group" id="meta-custom-wrap" style="display:none;">
+      <label for="cad-meta-custom">Valor personalizado (R$)</label>
+      <input type="text" id="cad-meta-custom" placeholder="Ex: 35.000,00" inputmode="decimal" autocomplete="off">
+    </div>
+    <div class="field-group"><label for="cad-senha">Senha de 4 dígitos</label><input type="password" id="cad-senha" placeholder="••••" maxlength="4"></div>
+    <div class="field-group"><label for="cad-senha2">Confirmar senha</label><input type="password" id="cad-senha2" placeholder="••••" maxlength="4"></div>
+    <div id="cad-error" class="error-msg"></div>
+    <div id="cad-success" class="success-msg">✅ Conta criada! Entrando...</div>
+    <button class="btn btn-primary mt-16" id="btn-criar-conta">Criar Conta</button>
+  </div>
+</div>
+
+<!-- MODAL: ÁREA DO LÍDER -->
+<div class="perfil-modal" id="modal-lider-login">
+  <div class="perfil-box" style="max-width:400px;position:relative;">
+    <button class="modal-close" id="btn-fechar-modal-lider">✕</button>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">📋 Área do Líder</div>
+    <div class="field-group">
+      <label for="lider-login-nome">Nome do Líder</label>
+      <input type="text" id="lider-login-nome" placeholder="Seu nome" autocomplete="off">
+    </div>
+    <div class="field-group">
+      <label for="lider-login-senha">Senha (4 dígitos)</label>
+      <input type="password" id="lider-login-senha" placeholder="••••" maxlength="4">
+    </div>
+    <div id="lider-login-error" class="error-msg" style="display:none;">Nome ou senha inválidos.</div>
+    <button class="btn btn-admin mt-16" id="btn-confirmar-lider-login">Entrar como Líder</button>
+  </div>
+</div>
+
+<!-- MODAL: ADMINISTRADOR -->
+<div class="perfil-modal" id="modal-admin-login">
+  <div class="perfil-box" style="max-width:400px;position:relative;">
+    <button class="modal-close" id="btn-fechar-modal-admin">✕</button>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">👑 Administrador</div>
+    <div class="field-group">
+      <label for="admin-senha-input">🔑 Senha do Administrador</label>
+      <input type="password" id="admin-senha-input" placeholder="••••" maxlength="4">
+    </div>
+    <div id="admin-error" class="error-msg">Senha incorreta.</div>
+    <button class="btn btn-admin mt-16" id="btn-confirmar-admin">Entrar como Administrador</button>
   </div>
 </div>
 
