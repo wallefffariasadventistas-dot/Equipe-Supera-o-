@@ -27,20 +27,10 @@
     <div class="logo-area">
       <img src="" class="logo-login-img" alt="Superação Colportagem" style="width:150px;height:auto;object-fit:contain;">
     </div>
-    <div class="login-menu-grid">
-      <button class="login-menu-btn primary" id="btn-menu-colportor">
-        <span class="login-menu-icon">👤</span><span>Entrar como Colportor</span>
-      </button>
-      <button class="login-menu-btn" id="btn-menu-cadastro">
-        <span class="login-menu-icon">✨</span><span>Criar Conta Nova</span>
-      </button>
-      <button class="login-menu-btn" id="btn-menu-lider">
-        <span class="login-menu-icon">📋</span><span>Área do Líder</span>
-      </button>
-      <button class="login-menu-btn" id="btn-menu-admin">
-        <span class="login-menu-icon">👑</span><span>Administrador</span>
-      </button>
-    </div>
+    <button class="btn btn-primary" id="btn-menu-colportor">Entrar</button>
+    <button class="btn btn-secondary" id="btn-menu-cadastro">Criar Conta</button>
+    <button class="btn btn-admin" id="btn-menu-admin">👑 Área do Administrador</button>
+    <button class="btn btn-secondary" id="btn-menu-lider" style="border-color:rgba(255,177,0,0.3);color:var(--ouro-claro);">📋 Área do Líder</button>
   </div>
 </div>
 
@@ -48,7 +38,7 @@
 <div class="perfil-modal" id="modal-login-colportor">
   <div class="perfil-box" style="max-width:400px;position:relative;">
     <button class="modal-close" id="btn-fechar-modal-colportor">✕</button>
-    <div class="section-title" style="font-size:20px;margin-bottom:20px;">👤 Entrar</div>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">Entrar</div>
     <div class="field-group">
       <label for="login-nome">Nome completo</label>
       <input type="text" id="login-nome" placeholder="Seu nome completo" autocomplete="off">
@@ -66,7 +56,7 @@
 <div class="perfil-modal" id="modal-cadastro">
   <div class="perfil-box" style="max-width:460px;position:relative;">
     <button class="modal-close" id="btn-fechar-modal-cadastro">✕</button>
-    <div class="section-title" style="font-size:20px;margin-bottom:20px;">✨ Criar Conta</div>
+    <div class="section-title" style="font-size:20px;margin-bottom:20px;">Criar Conta</div>
     <div class="field-group"><label for="cad-nome">Nome completo</label><input type="text" id="cad-nome" placeholder="Seu nome completo"></div>
     <div class="field-group"><label for="cad-tel">Telefone</label><input type="tel" id="cad-tel" placeholder="(86) 99999-9999"></div>
     <div class="field-group" id="cad-campanha-wrap" style="display:none;">
