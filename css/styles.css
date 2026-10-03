@@ -87,7 +87,7 @@
   ════════════════════════════════ */
   .navbar{
     background:rgba(255,255,255,0.95);
-    padding:0;
+    padding:env(safe-area-inset-top) 0 0;
     display:flex;
     flex-direction:column;
     position:sticky;
