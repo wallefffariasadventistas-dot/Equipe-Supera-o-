@@ -55,6 +55,19 @@ async function carregarCampanhas() {
     const snap = await getDocs(collection(db,'campanhas'));
     todasCampanhas = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .sort((a,b) => (b.criadoEm||'').localeCompare(a.criadoEm||''));
+
+    // Uma campanha só vira "finalizada" quando sua data de encerramento já
+    // passou — nunca por causa da criação de outra campanha. Podem existir
+    // várias campanhas ativas ao mesmo tempo.
+    const hoje = getHoje();
+    const expiradas = todasCampanhas.filter(c => c.ativa && c.dataFim && c.dataFim < hoje);
+    if (expiradas.length) {
+      expiradas.forEach(c => { c.ativa = false; });
+      const batch = writeBatch(db);
+      expiradas.forEach(c => batch.update(doc(db,'campanhas',c.id), { ativa: false }));
+      batch.commit().catch(e => console.warn('Não foi possível finalizar automaticamente as campanhas expiradas.', e));
+    }
+
     CAMPANHA_ATIVA = todasCampanhas.find(c => c.ativa) || todasCampanhas[0] || null;
     if (!campanhaVisualizada && CAMPANHA_ATIVA) campanhaVisualizada = CAMPANHA_ATIVA.id;
     if (CAMPANHA_ATIVA) {
@@ -66,6 +79,7 @@ async function carregarCampanhas() {
         if (el) { el.min = AGENDA_INICIO; el.max = DATA_ENCERRAMENTO; }
       });
     }
+
     renderSeletorCampanha();
   } catch (e) {
     console.warn('Não foi possível carregar as campanhas.', e);
@@ -143,11 +157,10 @@ document.getElementById('btn-nc-confirmar').addEventListener('click', async func
   if (!metaEquipe || metaEquipe <= 0) { msgEl.textContent = '⚠️ Informe uma meta geral válida.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
   try {
     showSyncStatus('💾 Criando campanha...', 'saving');
-    const batch = writeBatch(db);
-    todasCampanhas.filter(c => c.ativa).forEach(c => batch.update(doc(db,'campanhas',c.id), { ativa: false }));
+    // Não finaliza outras campanhas: várias podem ficar ativas ao mesmo
+    // tempo, cada uma só finaliza quando sua própria data de encerramento passa.
     const novoId = Date.now().toString();
-    batch.set(doc(db,'campanhas',novoId), { titulo, dataInicio, dataFim, metaEquipe, ativa: true, criadoEm: getHoje() });
-    await batch.commit();
+    await setDoc(doc(db,'campanhas',novoId), { titulo, dataInicio, dataFim, metaEquipe, ativa: true, criadoEm: getHoje() });
     showSyncStatus('✅ Campanha criada!', 'saved');
     await carregarCampanhas();
     campanhaVisualizada = novoId;
@@ -533,9 +546,10 @@ document.getElementById('btn-entrar').addEventListener('click', async () => {
   if (!nome||!senha) { err.style.display='block'; err.textContent='Preencha nome e senha.'; return; }
   if (!CAMPANHA_ATIVA) { err.style.display='block'; err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; return; }
 
-  const snap = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
-  if (snap.empty) { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
-  const user = snap.docs.find(d=>d.data().senha===senha);
+  // Busca em qualquer campanha ativa (pode haver mais de uma ao mesmo tempo).
+  const idsAtivas = todasCampanhas.filter(c => c.ativa).map(c => c.id);
+  const snap = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase())));
+  const user = snap.docs.find(d => idsAtivas.includes(d.data().campanhaId) && d.data().senha===senha);
   if (!user)  { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
 
   currentUser = { id: user.id, ...user.data() };
@@ -2926,9 +2940,10 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
   if (!nome || !senha) { err.textContent='Preencha nome e senha.'; err.style.display='block'; return; }
   if (!CAMPANHA_ATIVA) { err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; err.style.display='block'; return; }
   try {
-    const snap = await getDocs(query(collection(db,'lideres'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
-    if (snap.empty) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
-    const liderDoc = snap.docs.find(d=>d.data().senha===senha);
+    // Busca em qualquer campanha ativa (pode haver mais de uma ao mesmo tempo).
+    const idsAtivas = todasCampanhas.filter(c => c.ativa).map(c => c.id);
+    const snap = await getDocs(query(collection(db,'lideres'), where('nomeLC','==',nome.toLowerCase())));
+    const liderDoc = snap.docs.find(d => idsAtivas.includes(d.data().campanhaId) && d.data().senha===senha);
     if (!liderDoc) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
     currentLider = { id: liderDoc.id, ...liderDoc.data() };
     salvarSessao('lider', currentLider.id);
