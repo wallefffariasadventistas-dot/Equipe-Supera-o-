@@ -289,7 +289,7 @@
   .color-green{color:var(--ouro);font-family:var(--num-font);font-weight:700;}
   .color-yellow{color:var(--ouro-claro);font-family:var(--num-font);font-weight:700;}
   .color-red{color:var(--danger);}
-  .color-blue{color:#2B4FF2;font-family:var(--num-font);font-weight:700;}
+  .color-blue{color:#16A34A;font-family:var(--num-font);font-weight:700;} /* usado para valores de "alvo"/meta — verde jade, apesar do nome da classe */
   .color-white{color:var(--branco);}
 
   /* ════════════════════════════════
