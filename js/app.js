@@ -2403,8 +2403,13 @@ function exportarPDFColportor(uid) {
     th{background:#0a0f1c;color:#fff;padding:8px 6px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;}
     tr:nth-child(even) td{background:#f9f9f9;}
     .ftr{text-align:center;font-size:10px;color:#aaa;padding:14px;border-top:1px solid #eee;margin-top:16px;}
-    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.no-print{display:none!important;}}
   </style></head><body>
+
+  <div class="no-print" style="position:sticky;top:0;z-index:999;background:#101A33;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <span style="color:#C4CADE;font-size:11px;">Use o menu do navegador para imprimir ou salvar como PDF</span>
+    <button onclick="window.close()" style="background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;border:none;border-radius:8px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">← Voltar ao app</button>
+  </div>
 
   <!-- HEADER -->
   <div class="hdr">
@@ -2771,8 +2776,12 @@ function exportarPDFRelatorio() {
     th{background:#0a0f1c;color:#fff;padding:10px 8px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:1px;}
     tr:nth-child(even) td{background:#f9f9f9;}
     .ftr{text-align:center;font-size:11px;color:#999;padding:16px;border-top:1px solid #eee;margin-top:20px;}
-    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.no-print{display:none!important;}}
   </style></head><body>
+  <div class="no-print" style="position:sticky;top:0;z-index:999;background:#101A33;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <span style="color:#C4CADE;font-size:11px;">Use o menu do navegador para imprimir ou salvar como PDF</span>
+    <button onclick="window.close()" style="background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;border:none;border-radius:8px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">← Voltar ao app</button>
+  </div>
   <div class="hdr">
     <div><div class="hdr-title">🏆 Superação Piauí — Relatório</div><div class="hdr-sub">Campanha de Colportagem 2026</div></div>
     <div style="font-size:12px;opacity:0.7;text-align:right;">Gerado em<br><strong>${hoje}</strong></div>
@@ -2819,7 +2828,11 @@ function exportarPDFGraficos() {
   .hdr{background:linear-gradient(135deg,#0a0f1c,#1a2a4a);color:#fff;padding:24px 36px;display:flex;justify-content:space-between;align-items:center;}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:24px 36px;}
   .ftr{text-align:center;font-size:11px;color:#999;padding:14px;border-top:1px solid #eee;}
-  @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}</style></head><body>
+  @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.no-print{display:none!important;}}</style></head><body>
+  <div class="no-print" style="position:sticky;top:0;z-index:999;background:#101A33;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <span style="color:#C4CADE;font-size:11px;">Use o menu do navegador para imprimir ou salvar como PDF</span>
+    <button onclick="window.close()" style="background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;border:none;border-radius:8px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;">← Voltar ao app</button>
+  </div>
   <div class="hdr">
     <div><div style="font-size:20px;font-weight:800;">📈 Gráficos da Equipe</div><div style="font-size:11px;opacity:0.6;margin-top:3px;">Superação Piauí · Campanha 2026</div></div>
     <div style="font-size:11px;opacity:0.7;text-align:right;">Gerado em<br><strong>${hoje}</strong></div>
