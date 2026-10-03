@@ -130,6 +130,27 @@ document.getElementById('btn-renomear-campanha').addEventListener('click', funct
   });
 });
 
+document.getElementById('btn-toggle-ativa-campanha').addEventListener('click', function() {
+  const sel = document.getElementById('campanha-selector');
+  const id = sel.value;
+  const c = todasCampanhas.find(x => x.id === id);
+  if (!c) { mostrarToast('Selecione uma campanha primeiro.', true); return; }
+  const novoEstado = !c.ativa;
+  mostrarConfirm(
+    novoEstado ? 'Reativar Campanha' : 'Finalizar Campanha',
+    novoEstado
+      ? `Reativar "${c.titulo}"? Colportores e líder dessa campanha voltam a poder fazer login.`
+      : `Finalizar "${c.titulo}" agora, antes da data de encerramento? Colportores e líder dessa campanha não vão mais conseguir fazer login.`,
+    async () => {
+      await updateDoc(doc(db, 'campanhas', id), { ativa: novoEstado });
+      c.ativa = novoEstado;
+      if (novoEstado) CAMPANHA_ATIVA = CAMPANHA_ATIVA || c;
+      renderSeletorCampanha();
+      mostrarToast(novoEstado ? '🟢 Campanha reativada!' : 'Campanha finalizada.');
+    }
+  );
+});
+
 document.getElementById('btn-nova-campanha').addEventListener('click', function() {
   document.getElementById('nc-titulo').value = '';
   document.getElementById('nc-data-inicio').value = '';
