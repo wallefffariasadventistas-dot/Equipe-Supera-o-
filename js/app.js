@@ -71,7 +71,7 @@ async function carregarCampanhas() {
     console.warn('Não foi possível carregar as campanhas.', e);
   }
 }
-carregarCampanhas();
+const campanhasCarregadasPromise = carregarCampanhas();
 
 function getCampanhaPorId(id) {
   return todasCampanhas.find(c => c.id === id) || null;
@@ -447,6 +447,20 @@ function onDataUpdate() {
   }
 }
 
+// ── SESSÃO PERSISTENTE ──
+// Mantém a pessoa logada entre aberturas do app (fechar e abrir de novo não
+// pede senha outra vez); só desloga quando ela clica em "Sair".
+const SESSAO_KEY = 'superacaoSessao';
+function salvarSessao(tipo, id) {
+  try { localStorage.setItem(SESSAO_KEY, JSON.stringify({ tipo, id })); } catch(e) {}
+}
+function limparSessao() {
+  try { localStorage.removeItem(SESSAO_KEY); } catch(e) {}
+}
+function lerSessao() {
+  try { return JSON.parse(localStorage.getItem(SESSAO_KEY)); } catch(e) { return null; }
+}
+
 // ── LOGIN ──
 // Menu inicial: 4 opções, cada uma abre seu próprio modal para digitar os
 // dados — assim a tela de entrada nunca precisa rolar.
@@ -493,6 +507,7 @@ document.getElementById('btn-fechar-modal-admin').onclick = ()=>fecharModalLogin
 document.getElementById('btn-confirmar-admin').onclick = function() {
   const s = document.getElementById('admin-senha-input').value.trim();
   if (s===ADMIN_SENHA) {
+    salvarSessao('admin', null);
     fecharModalLogin('modal-admin-login');
     showScreen('screen-admin');
     startListeners();
@@ -507,8 +522,8 @@ document.getElementById('btn-confirmar-admin').onclick = function() {
 document.getElementById('admin-senha-input').onkeydown = function(e) {
   if(e.key==='Enter') document.getElementById('btn-confirmar-admin').onclick();
 };
-document.getElementById('btn-logout-col').onclick = ()=>{ currentUser=null; stopListeners(); showScreen('screen-login'); };
-document.getElementById('btn-logout-adm').onclick = ()=>{ stopListeners(); showScreen('screen-login'); };
+document.getElementById('btn-logout-col').onclick = ()=>{ currentUser=null; limparSessao(); stopListeners(); showScreen('screen-login'); };
+document.getElementById('btn-logout-adm').onclick = ()=>{ limparSessao(); stopListeners(); showScreen('screen-login'); };
 
 document.getElementById('btn-entrar').addEventListener('click', async () => {
   const nome  = document.getElementById('login-nome').value.trim();
@@ -524,11 +539,12 @@ document.getElementById('btn-entrar').addEventListener('click', async () => {
   if (!user)  { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
 
   currentUser = { id: user.id, ...user.data() };
+  salvarSessao('colportor', user.id);
   fecharModalLogin('modal-login-colportor');
   entrarComoColportor();
 });
 
-document.getElementById('btn-logout-adm').addEventListener('click', ()=>{ stopListeners(); showScreen('screen-login'); });
+document.getElementById('btn-logout-adm').addEventListener('click', ()=>{ limparSessao(); stopListeners(); showScreen('screen-login'); });
 
 // ── CADASTRO ──
 function toggleMetaCustom() {
@@ -578,6 +594,7 @@ document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
     const campanhaId = campanhaEscolhida;
     await setDoc(doc(db,'usuarios',id), { nome, nomeLC:nome.toLowerCase(), tel, meta, senha, campanhaId, criadoEm:getHoje() });
     currentUser = { id, nome, tel, meta, senha, campanhaId, criadoEm:getHoje() };
+    salvarSessao('colportor', id);
     showSyncStatus('✅ Conta criada!','saved');
     suc.style.display='block';
     setTimeout(()=>{ fecharModalLogin('modal-cadastro'); entrarComoColportor(); }, 1200);
@@ -2914,6 +2931,7 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
     const liderDoc = snap.docs.find(d=>d.data().senha===senha);
     if (!liderDoc) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
     currentLider = { id: liderDoc.id, ...liderDoc.data() };
+    salvarSessao('lider', currentLider.id);
     document.getElementById('nav-nome-lider').textContent = currentLider.nome.split(' ')[0];
     fecharModalLogin('modal-lider-login');
     showScreen('screen-lider');
@@ -2928,6 +2946,7 @@ document.getElementById('lider-login-senha').onkeydown = function(e) {
 };
 document.getElementById('btn-logout-lider').onclick = function() {
   currentLider = null;
+  limparSessao();
   showScreen('screen-login');
 };
 
@@ -4358,3 +4377,42 @@ document.addEventListener('click', function(e){
 });
 bindTodasMascaras();
 document.getElementById('diario-data-filtro').value = getHoje();
+
+// Restaura a sessão salva (colportor/líder/administrador), se houver, para
+// que reabrir o app não peça login de novo — só "Sair" limpa a sessão.
+(async function restaurarSessaoSalva() {
+  const sessao = lerSessao();
+  if (!sessao) return;
+  await campanhasCarregadasPromise;
+  try {
+    if (sessao.tipo === 'colportor') {
+      const snap = await getDoc(doc(db,'usuarios',sessao.id));
+      if (snap.exists()) {
+        currentUser = { id: snap.id, ...snap.data() };
+        entrarComoColportor();
+      } else {
+        limparSessao();
+      }
+    } else if (sessao.tipo === 'lider') {
+      const snap = await getDoc(doc(db,'lideres',sessao.id));
+      if (snap.exists()) {
+        currentLider = { id: snap.id, ...snap.data() };
+        document.getElementById('nav-nome-lider').textContent = currentLider.nome.split(' ')[0];
+        showScreen('screen-lider');
+        document.getElementById('l-reg-data').value = getHoje();
+        bindTodasMascaras();
+        await renderLiderPainel();
+        await renderAgendaLider();
+      } else {
+        limparSessao();
+      }
+    } else if (sessao.tipo === 'admin') {
+      showScreen('screen-admin');
+      startListeners();
+      renderAdminDashboard();
+      abrirTabAdmin('admin-dashboard', document.getElementById('atbtn-dashboard'));
+    }
+  } catch (e) {
+    console.warn('Não foi possível restaurar a sessão salva.', e);
+  }
+})();
