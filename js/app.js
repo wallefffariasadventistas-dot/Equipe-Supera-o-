@@ -448,21 +448,52 @@ function onDataUpdate() {
 }
 
 // ── LOGIN ──
-// Attach admin buttons via direct onclick for reliability in iframe
-document.getElementById('btn-abrir-admin').onclick = function() {
-  document.getElementById('admin-area').style.display='block';
-  document.getElementById('btn-abrir-admin').style.display='none';
+// Menu inicial: 4 opções, cada uma abre seu próprio modal para digitar os
+// dados — assim a tela de entrada nunca precisa rolar.
+function abrirModalLogin(id) { document.getElementById(id).classList.add('open'); }
+function fecharModalLogin(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.perfil-modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target===m) m.classList.remove('open'); });
+});
+
+document.getElementById('btn-menu-colportor').onclick = function() {
+  document.getElementById('login-error').style.display='none';
+  document.getElementById('login-nome').value='';
+  document.getElementById('login-senha').value='';
+  abrirModalLogin('modal-login-colportor');
+  setTimeout(()=>document.getElementById('login-nome').focus(),80);
+};
+document.getElementById('btn-fechar-modal-colportor').onclick = ()=>fecharModalLogin('modal-login-colportor');
+
+document.getElementById('btn-menu-cadastro').onclick = function() {
+  document.getElementById('cad-error').style.display='none';
+  document.getElementById('cad-success').style.display='none';
+  popularCampanhaCadastro();
+  abrirModalLogin('modal-cadastro');
+};
+document.getElementById('btn-fechar-modal-cadastro').onclick = ()=>fecharModalLogin('modal-cadastro');
+
+document.getElementById('btn-menu-lider').onclick = function() {
+  document.getElementById('lider-login-error').style.display='none';
+  document.getElementById('lider-login-nome').value='';
+  document.getElementById('lider-login-senha').value='';
+  abrirModalLogin('modal-lider-login');
+  setTimeout(()=>document.getElementById('lider-login-nome').focus(),80);
+};
+document.getElementById('btn-fechar-modal-lider').onclick = ()=>fecharModalLogin('modal-lider-login');
+
+document.getElementById('btn-menu-admin').onclick = function() {
   document.getElementById('admin-error').style.display='none';
   document.getElementById('admin-senha-input').value='';
+  abrirModalLogin('modal-admin-login');
   setTimeout(()=>document.getElementById('admin-senha-input').focus(),80);
 };
-document.getElementById('btn-fechar-admin').onclick = function() {
-  document.getElementById('admin-area').style.display='none';
-  document.getElementById('btn-abrir-admin').style.display='block';
-};
+document.getElementById('btn-fechar-modal-admin').onclick = ()=>fecharModalLogin('modal-admin-login');
+
 document.getElementById('btn-confirmar-admin').onclick = function() {
   const s = document.getElementById('admin-senha-input').value.trim();
   if (s===ADMIN_SENHA) {
+    fecharModalLogin('modal-admin-login');
     showScreen('screen-admin');
     startListeners();
     renderAdminDashboard();
@@ -476,8 +507,6 @@ document.getElementById('btn-confirmar-admin').onclick = function() {
 document.getElementById('admin-senha-input').onkeydown = function(e) {
   if(e.key==='Enter') document.getElementById('btn-confirmar-admin').onclick();
 };
-document.getElementById('btn-ir-cadastro').onclick = ()=>showScreen('screen-cadastro');
-document.getElementById('btn-voltar-login').onclick = ()=>showScreen('screen-login');
 document.getElementById('btn-logout-col').onclick = ()=>{ currentUser=null; stopListeners(); showScreen('screen-login'); };
 document.getElementById('btn-logout-adm').onclick = ()=>{ stopListeners(); showScreen('screen-login'); };
 
@@ -495,6 +524,7 @@ document.getElementById('btn-entrar').addEventListener('click', async () => {
   if (!user)  { err.style.display='block'; err.textContent='Nome ou senha inválidos.'; return; }
 
   currentUser = { id: user.id, ...user.data() };
+  fecharModalLogin('modal-login-colportor');
   entrarComoColportor();
 });
 
@@ -506,6 +536,20 @@ function toggleMetaCustom() {
 }
 window.toggleMetaCustom = toggleMetaCustom;
 
+// Mostra o seletor de campanha no cadastro só quando há mais de uma campanha ativa.
+function popularCampanhaCadastro() {
+  const wrap = document.getElementById('cad-campanha-wrap');
+  const sel  = document.getElementById('cad-campanha');
+  const ativas = todasCampanhas.filter(c => c.ativa);
+  if (ativas.length > 1) {
+    sel.innerHTML = ativas.map(c => `<option value="${c.id}">${escapeHtml(c.titulo)}</option>`).join('');
+    sel.value = CAMPANHA_ATIVA ? CAMPANHA_ATIVA.id : ativas[0].id;
+    wrap.style.display = 'block';
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
 document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
   const nome   = document.getElementById('cad-nome').value.trim();
   const tel    = document.getElementById('cad-tel').value.trim();
@@ -515,6 +559,8 @@ document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
   const senha2 = document.getElementById('cad-senha2').value.trim();
   const err    = document.getElementById('cad-error');
   const suc    = document.getElementById('cad-success');
+  const campanhaWrapVisivel = document.getElementById('cad-campanha-wrap').style.display === 'block';
+  const campanhaEscolhida = campanhaWrapVisivel ? document.getElementById('cad-campanha').value : (CAMPANHA_ATIVA && CAMPANHA_ATIVA.id);
   err.style.display='none'; suc.style.display='none';
 
   if (!nome||!tel||!metaS||!senha) { err.style.display='block'; err.textContent='Preencha todos os campos.'; return; }
@@ -523,20 +569,21 @@ document.getElementById('btn-criar-conta').addEventListener('click', async ()=>{
   const meta = metaS==='custom' ? moedaParaFloat(metaC) : parseFloat(metaS);
   if (!meta||meta<=0) { err.style.display='block'; err.textContent='Informe um valor de meta válido.'; return; }
   if (!CAMPANHA_ATIVA) { err.style.display='block'; err.textContent='Carregando dados da campanha, aguarde um instante e tente novamente.'; return; }
+  if (!campanhaEscolhida) { err.style.display='block'; err.textContent='Selecione a campanha.'; return; }
 
-  // Check duplicate name (apenas dentro da campanha ativa)
-  const dup = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',CAMPANHA_ATIVA.id)));
+  // Check duplicate name (apenas dentro da campanha escolhida)
+  const dup = await getDocs(query(collection(db,'usuarios'), where('nomeLC','==',nome.toLowerCase()), where('campanhaId','==',campanhaEscolhida)));
   if (!dup.empty) { err.style.display='block'; err.textContent='Já existe uma conta com este nome nesta campanha.'; return; }
 
   showSyncStatus('💾 Criando conta...','saving');
   try {
     const id = Date.now().toString();
-    const campanhaId = CAMPANHA_ATIVA.id;
+    const campanhaId = campanhaEscolhida;
     await setDoc(doc(db,'usuarios',id), { nome, nomeLC:nome.toLowerCase(), tel, meta, senha, campanhaId, criadoEm:getHoje() });
     currentUser = { id, nome, tel, meta, senha, campanhaId, criadoEm:getHoje() };
     showSyncStatus('✅ Conta criada!','saved');
     suc.style.display='block';
-    setTimeout(()=>entrarComoColportor(), 1200);
+    setTimeout(()=>{ fecharModalLogin('modal-cadastro'); entrarComoColportor(); }, 1200);
   } catch(e) { err.style.display='block'; err.textContent='Erro ao criar conta: '+e.message; showSyncStatus('❌ Erro','error'); }
 });
 
@@ -2857,18 +2904,6 @@ let LIDER_REL_SENHA = '4321';
 let currentLider = null;
 
 // ── LOGIN / LOGOUT LÍDER ──
-document.getElementById('btn-abrir-lider-login').onclick = function() {
-  document.getElementById('lider-login-area').style.display = 'block';
-  document.getElementById('btn-abrir-lider-login').style.display = 'none';
-  document.getElementById('lider-login-error').style.display = 'none';
-  document.getElementById('lider-login-nome').value = '';
-  document.getElementById('lider-login-senha').value = '';
-  setTimeout(()=>document.getElementById('lider-login-nome').focus(), 80);
-};
-document.getElementById('btn-fechar-lider-login').onclick = function() {
-  document.getElementById('lider-login-area').style.display = 'none';
-  document.getElementById('btn-abrir-lider-login').style.display = 'block';
-};
 document.getElementById('btn-confirmar-lider-login').onclick = async function() {
   const nome  = document.getElementById('lider-login-nome').value.trim();
   const senha = document.getElementById('lider-login-senha').value.trim();
@@ -2883,6 +2918,7 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
     if (!liderDoc) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
     currentLider = { id: liderDoc.id, ...liderDoc.data() };
     document.getElementById('nav-nome-lider').textContent = currentLider.nome.split(' ')[0];
+    fecharModalLogin('modal-lider-login');
     showScreen('screen-lider');
     document.getElementById('l-reg-data').value = getHoje();
     bindTodasMascaras();
@@ -2896,8 +2932,6 @@ document.getElementById('lider-login-senha').onkeydown = function(e) {
 document.getElementById('btn-logout-lider').onclick = function() {
   currentLider = null;
   showScreen('screen-login');
-  document.getElementById('lider-login-area').style.display = 'none';
-  document.getElementById('btn-abrir-lider-login').style.display = 'block';
 };
 
 // ── PAINEL DO LÍDER ──
