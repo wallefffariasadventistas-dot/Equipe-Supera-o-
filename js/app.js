@@ -2134,6 +2134,49 @@ function nomePeriodo(p) {
 
 let tabelaPeriodo = 'campanha';
 
+// ── RELATÓRIO GERAL — FILTRO DE PERÍODO ──
+// Além dos filtros rápidos, suporta um período personalizado (De/Até).
+// O mesmo filtro selecionado na tela vale também para os exports (PDF/Excel).
+let relFiltro  = 'campanha'; // 'campanha' | 'semana' | '15dias' | 'mes' | 'periodo'
+let relDataIni = null;
+let relDataFim = null;
+function filtrarRegsPorIntervalo(regs, ini, fim) {
+  if (!ini || !fim) return regs;
+  return regs.filter(r => r.data >= ini && r.data <= fim);
+}
+function getRelatorioLabel() {
+  if (relFiltro === 'periodo' && relDataIni && relDataFim) return `${formatarData(relDataIni)} a ${formatarData(relDataFim)}`;
+  return nomePeriodo(relFiltro);
+}
+function getRelatorioRegsEquipe() {
+  return relFiltro === 'periodo'
+    ? filtrarRegsPorIntervalo(liveRegistros, relDataIni, relDataFim)
+    : filtrarRegsPorPeriodo(liveRegistros, relFiltro);
+}
+function getRelatorioRegsUser(uid) {
+  return relFiltro === 'periodo'
+    ? filtrarRegsPorIntervalo(getRegsUser(uid), relDataIni, relDataFim)
+    : filtrarRegsPorPeriodo(getRegsUser(uid), relFiltro);
+}
+document.querySelectorAll('[data-rel-filtro]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('[data-rel-filtro]').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    relFiltro = this.getAttribute('data-rel-filtro');
+    const picker = document.getElementById('rel-picker-periodo');
+    if (picker) picker.style.display = relFiltro==='periodo' ? 'flex' : 'none';
+    if (relFiltro !== 'periodo') renderRelatorioGeral();
+  });
+});
+const btnRelAplicarPeriodo = document.getElementById('rel-btn-aplicar-periodo');
+if (btnRelAplicarPeriodo) btnRelAplicarPeriodo.addEventListener('click', () => {
+  const ini = document.getElementById('rel-data-ini')?.value;
+  const fim = document.getElementById('rel-data-fim')?.value;
+  if (!ini || !fim || ini > fim) { mostrarToast('Período inválido.', true); return; }
+  relDataIni = ini; relDataFim = fim;
+  renderRelatorioGeral();
+});
+
 function renderTabelaEquipe() {
   const busca = (document.getElementById('filtro-busca').value||'').toLowerCase();
   const lista = liveUsuarios.filter(u=>!busca||u.nome.toLowerCase().includes(busca)).sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
@@ -2700,17 +2743,25 @@ document.querySelectorAll('[data-graf-adm]').forEach(btn=>{
 
 // ── RELATÓRIO GERAL ──
 function renderRelatorioGeral() {
-  const tv=liveRegistros.reduce((s,r)=>s+(r.vista||0),0);
-  const tp=liveRegistros.reduce((s,r)=>s+(r.prazo||0),0);
-  const ranking=liveUsuarios.map(u=>{const regsU=getRegsUser(u.id);return {nome:u.nome,vista:getVistaUser(u.id),meta:u.meta,pct:u.meta>0?(getVistaUser(u.id)/u.meta*100).toFixed(1):0,estudos:regsU.reduce((s,r)=>s+(r.estudos||0),0)};}).sort((a,b)=>b.vista-a.vista);
+  const labelEl = document.getElementById('rel-periodo-label');
+  if (labelEl) labelEl.textContent = relFiltro==='campanha' ? '' : `Mostrando: ${getRelatorioLabel()}`;
+  const regsEq=getRelatorioRegsEquipe();
+  const tv=regsEq.reduce((s,r)=>s+(r.vista||0),0);
+  const tp=regsEq.reduce((s,r)=>s+(r.prazo||0),0);
+  const ranking=liveUsuarios.map(u=>{
+    const regsU=getRelatorioRegsUser(u.id);
+    const vista=regsU.reduce((s,r)=>s+(r.vista||0),0);
+    const vistaTotal=getVistaUser(u.id); // sempre campanha completa, para % da meta
+    return {nome:u.nome,vista,meta:u.meta,pct:u.meta>0?(vistaTotal/u.meta*100).toFixed(1):0,estudos:regsU.reduce((s,r)=>s+(r.estudos||0),0)};
+  }).sort((a,b)=>b.vista-a.vista);
   document.getElementById('adm-relatorio-geral').innerHTML=`
     <div class="section-title" style="margin-bottom:20px">📊 Relatório Geral</div>
     <div class="stats-grid">
       <div class="stat-card green"><div class="stat-label">💰 Total À Vista</div><div class="stat-value" style="font-size:20px">${fmtMini(tv)}</div><div class="stat-sub">Toda a equipe</div></div>
       <div class="stat-card blue"><div class="stat-label">📋 Total no Pedido</div><div class="stat-value" style="font-size:20px">${fmtMini(tp)}</div><div class="stat-sub">Toda a equipe</div></div>
-      <div class="stat-card yellow"><div class="stat-label">📦 Total Ofertas</div><div class="stat-value">${liveRegistros.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
-      <div class="stat-card orange"><div class="stat-label">🙏 Total Orações</div><div class="stat-value">${liveRegistros.reduce((s,r)=>s+(r.oracoes||0),0)}</div></div>
-      <div class="stat-card green"><div class="stat-label">📖 Estudos Bíblicos</div><div class="stat-value">${liveRegistros.reduce((s,r)=>s+(r.estudos||0),0)}</div><div class="stat-sub">Toda a equipe</div></div>
+      <div class="stat-card yellow"><div class="stat-label">📦 Total Ofertas</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
+      <div class="stat-card orange"><div class="stat-label">🙏 Total Orações</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.oracoes||0),0)}</div></div>
+      <div class="stat-card green"><div class="stat-label">📖 Estudos Bíblicos</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.estudos||0),0)}</div><div class="stat-sub">Toda a equipe</div></div>
       <div class="stat-card blue"><div class="stat-label">👥 Colportores</div><div class="stat-value">${liveUsuarios.length}</div></div>
     </div>
     <div class="divider"></div>
@@ -2810,36 +2861,39 @@ function exportarExcelEquipe() {
 
 function exportarExcelRelatorio() {
   const BOM='\uFEFF';
-  const tv=liveRegistros.reduce((s,r)=>s+(r.vista||0),0), tp=liveRegistros.reduce((s,r)=>s+(r.prazo||0),0);
+  const regsEq=getRelatorioRegsEquipe();
+  const tv=regsEq.reduce((s,r)=>s+(r.vista||0),0), tp=regsEq.reduce((s,r)=>s+(r.prazo||0),0);
   const linhas=[
     'RELATÓRIO GERAL — EQUIPE SUPERAÇÃO PIAUÍ',
+    `Período: ${getRelatorioLabel()}`,
     `Gerado em: ${new Date().toLocaleDateString('pt-BR')}`,
     '',
     'RESUMO',
     `Total À Vista (R$),${tv.toFixed(2)}`,
     `Total no Pedido (R$),${tp.toFixed(2)}`,
-    `Total Ofertas,${liveRegistros.reduce((s,r)=>s+(r.ofertas||0),0)}`,
-    `Total Orações,${liveRegistros.reduce((s,r)=>s+(r.oracoes||0),0)}`,
-    `Total Horas,${liveRegistros.reduce((s,r)=>s+(r.horas||0),0)}`,
-    `Total Estudos Bíblicos,${liveRegistros.reduce((s,r)=>s+(r.estudos||0),0)}`,
+    `Total Ofertas,${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}`,
+    `Total Orações,${regsEq.reduce((s,r)=>s+(r.oracoes||0),0)}`,
+    `Total Horas,${regsEq.reduce((s,r)=>s+(r.horas||0),0)}`,
+    `Total Estudos Bíblicos,${regsEq.reduce((s,r)=>s+(r.estudos||0),0)}`,
     `Colportores,${liveUsuarios.length}`,
     '',
     'RANKING',
     'Pos,Nome,Telefone,Meta (R$),À Vista (R$),No Pedido (R$),% Meta,Dias,Ofertas,Orações,Horas,Estudos Bíblicos'
   ];
   liveUsuarios.map(u=>{
-    const regs=getRegsUser(u.id);
+    const regs=getRelatorioRegsUser(u.id);
     return {nome:u.nome,tel:u.tel||'',meta:u.meta,
       vista:regs.reduce((s,r)=>s+(r.vista||0),0),prazo:regs.reduce((s,r)=>s+(r.prazo||0),0),
+      vistaTotal:getVistaUser(u.id),
       dias:contarDiasTrabalhados(regs),of:regs.reduce((s,r)=>s+(r.ofertas||0),0),
       or:regs.reduce((s,r)=>s+(r.oracoes||0),0),hr:regs.reduce((s,r)=>s+(r.horas||0),0),est:regs.reduce((s,r)=>s+(r.estudos||0),0)};
   }).sort((a,b)=>b.vista-a.vista).forEach((u,i)=>{
-    const pct=u.meta>0?(u.vista/u.meta*100).toFixed(1):0;
+    const pct=u.meta>0?(u.vistaTotal/u.meta*100).toFixed(1):0;
     linhas.push(`${i+1},${csvField(u.nome)},${csvField(u.tel)},${u.meta},${u.vista.toFixed(2)},${u.prazo.toFixed(2)},${pct}%,${u.dias},${u.of},${u.or},${u.hr},${u.est||0}`);
   });
-  linhas.push('','REGISTROS DIÁRIOS','Nome,Data,À Vista (R$),No Pedido (R$),Ofertas,Orações,Horas,Estudos Bíblicos');
+  linhas.push('','REGISTROS DIÁRIOS (do período selecionado)','Nome,Data,À Vista (R$),No Pedido (R$),Ofertas,Orações,Horas,Estudos Bíblicos');
   liveUsuarios.forEach(u=>{
-    getRegsUser(u.id).forEach(r=>{
+    getRelatorioRegsUser(u.id).forEach(r=>{
       linhas.push(`${csvField(u.nome)},${formatarData(r.data)},${(r.vista||0).toFixed(2)},${(r.prazo||0).toFixed(2)},${r.ofertas||0},${r.oracoes||0},${r.horas||0},${r.estudos||0}`);
     });
   });
@@ -2861,22 +2915,23 @@ function exportarExcelGraficos() {
 
 function exportarPDFRelatorio() {
   const hoje=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
-  const tv=liveRegistros.reduce((s,r)=>s+(r.vista||0),0);
-  const tp=liveRegistros.reduce((s,r)=>s+(r.prazo||0),0);
-  const to=liveRegistros.reduce((s,r)=>s+(r.ofertas||0),0);
-  const tor=liveRegistros.reduce((s,r)=>s+(r.oracoes||0),0);
-  const th=liveRegistros.reduce((s,r)=>s+(r.horas||0),0);
-  const test=liveRegistros.reduce((s,r)=>s+(r.estudos||0),0);
+  const regsEq=getRelatorioRegsEquipe();
+  const tv=regsEq.reduce((s,r)=>s+(r.vista||0),0);
+  const tp=regsEq.reduce((s,r)=>s+(r.prazo||0),0);
+  const to=regsEq.reduce((s,r)=>s+(r.ofertas||0),0);
+  const tor=regsEq.reduce((s,r)=>s+(r.oracoes||0),0);
+  const th=regsEq.reduce((s,r)=>s+(r.horas||0),0);
+  const test=regsEq.reduce((s,r)=>s+(r.estudos||0),0);
   const metaEqAtual = (getCampanhaPorId(campanhaVisualizada) || CAMPANHA_ATIVA)?.metaEquipe || 0;
   const pctEq=(metaEqAtual>0 ? tv/metaEqAtual*100 : 0).toFixed(1);
   const ranking=liveUsuarios.map(u=>{
-    const regs=getRegsUser(u.id);
-    return {nome:u.nome,meta:u.meta,vista:regs.reduce((s,r)=>s+(r.vista||0),0),
+    const regs=getRelatorioRegsUser(u.id);
+    return {nome:u.nome,meta:u.meta,vista:regs.reduce((s,r)=>s+(r.vista||0),0),vistaTotal:getVistaUser(u.id),
       prazo:regs.reduce((s,r)=>s+(r.prazo||0),0),dias:contarDiasTrabalhados(regs),of:regs.reduce((s,r)=>s+(r.ofertas||0),0),est:regs.reduce((s,r)=>s+(r.estudos||0),0)};
   }).sort((a,b)=>b.vista-a.vista);
   const medals=['🥇','🥈','🥉'];
   const rows=ranking.map((u,i)=>{
-    const pct=u.meta>0?(u.vista/u.meta*100).toFixed(1):0;
+    const pct=u.meta>0?(u.vistaTotal/u.meta*100).toFixed(1):0;
     const bar=Math.min(100,parseFloat(pct));
     return `<tr style="border-bottom:1px solid #eee;">
       <td style="padding:10px 8px;font-weight:800;font-size:16px;">${medals[i]||i+1+'º'}</td>
@@ -2930,7 +2985,10 @@ function exportarPDFRelatorio() {
     <div><div class="hdr-title">🏆 Superação Piauí — Relatório</div><div class="hdr-sub">Campanha de Colportagem 2026</div></div>
     <div style="font-size:12px;opacity:0.7;text-align:right;">Gerado em<br><strong>${hoje}</strong></div>
   </div>
-  <div class="sec">
+  <div class="sec" style="padding-bottom:0;">
+    <div style="display:inline-block;background:#FFF3CD;border:1px solid #FFB100;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;color:#7a5600;margin-bottom:8px;">📅 Período: ${escapeHtml(getRelatorioLabel())}</div>
+  </div>
+  <div class="sec" style="padding-top:12px;">
     <div class="sec-title">Resumo Geral</div>
     <div class="stats">
       <div class="sbox g"><div class="slb">💰 À Vista</div><div class="svl">R$${(tv/1000).toFixed(1)}k</div></div>

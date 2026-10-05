@@ -664,13 +664,28 @@
     </div>
 
     <div id="admin-relatorio" class="tab-panel">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
-        <div class="section-title" style="margin-bottom:0;">📄 Relatório Geral — <span>45 Dias</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+        <div class="section-title" style="margin-bottom:0;">📄 Relatório <span>Geral</span></div>
         <div style="display:flex;gap:8px;">
           <button id="btn-relatorio-pdf" class="btn-export">🖨️ Exportar PDF</button>
           <button id="btn-relatorio-excel" class="btn-export">📊 Exportar Excel</button>
         </div>
       </div>
+      <div class="filters" id="rel-filtros" style="margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <button class="filter-btn active" data-rel-filtro="campanha">Campanha inteira</button>
+        <button class="filter-btn" data-rel-filtro="semana">Última semana</button>
+        <button class="filter-btn" data-rel-filtro="15dias">15 dias</button>
+        <button class="filter-btn" data-rel-filtro="mes">Este mês</button>
+        <button class="filter-btn" data-rel-filtro="periodo">📆 Período personalizado</button>
+      </div>
+      <div id="rel-picker-periodo" style="display:none;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+        <label style="font-size:12px;color:var(--texto3);font-weight:600;">De:</label>
+        <input type="date" id="rel-data-ini" style="background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+        <label style="font-size:12px;color:var(--texto3);font-weight:600;">Até:</label>
+        <input type="date" id="rel-data-fim" style="background:rgba(16,26,51,0.04);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:6px 10px;color:var(--branco);font-family:var(--body-font);font-size:13px;outline:none;">
+        <button id="rel-btn-aplicar-periodo" style="padding:6px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,#FFCE45,#B45309);color:#101A33;font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">Aplicar</button>
+      </div>
+      <div id="rel-periodo-label" style="margin-bottom:12px;font-size:12px;color:var(--texto3);font-style:italic;"></div>
       <div class="card" id="adm-relatorio-geral"></div>
     </div>
 
