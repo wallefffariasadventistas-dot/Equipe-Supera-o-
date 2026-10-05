@@ -4469,6 +4469,12 @@ document.addEventListener('click', function(e){
 });
 bindTodasMascaras();
 document.getElementById('diario-data-filtro').value = getHoje();
+// Os filtros do Dashboard (Hoje/7 Dias/Data/Período) só eram vinculados de
+// forma reativa, pela primeira atualização de dados enquanto a aba Dashboard
+// já estivesse ativa — o que nunca acontecia para o líder, que abre o painel
+// direto na aba "Meu Registro". A função já é segura para chamar mais de uma
+// vez (ignora se já vinculada), então chamamos uma vez aqui sempre.
+bindDashDatePicker();
 
 // Restaura a sessão salva (colportor/líder/administrador), se houver, para
 // que reabrir o app não peça login de novo — só "Sair" limpa a sessão.
