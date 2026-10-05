@@ -159,7 +159,7 @@
         <div class="dias-remaining">⏳ Dia <strong id="painel-dia-num">0</strong> trabalhado(s) · <span id="painel-dias-restantes"></span> dias até 25/08/2026</div>
       </div>
       <div class="stats-grid">
-        <div class="stat-card green"><div class="stat-label">📦 Ofertas hoje</div><div class="stat-value" id="painel-ofertas-hoje">—</div><div class="stat-sub">Total: <span id="painel-ofertas-total">0</span></div></div>
+        <div class="stat-card green"><div class="stat-label">📦 Visitas hoje</div><div class="stat-value" id="painel-ofertas-hoje">—</div><div class="stat-sub">Total: <span id="painel-ofertas-total">0</span></div></div>
         <div class="stat-card blue"><div class="stat-label">💰 Vendas hoje (à vista)</div><div class="stat-value" id="painel-vendas-hoje">—</div><div class="stat-sub">Total acumulado</div></div>
         <div class="stat-card yellow"><div class="stat-label">🙏 Orações hoje</div><div class="stat-value" id="painel-oracoes-hoje">—</div><div class="stat-sub">Total: <span id="painel-oracoes-total">0</span></div></div>
         <div class="stat-card orange"><div class="stat-label">⏰ Horas hoje</div><div class="stat-value" id="painel-horas-hoje">—</div><div class="stat-sub">Total: <span id="painel-horas-total">0h</span></div></div>
@@ -192,7 +192,7 @@
         </div>
         <div class="card">
           <div class="registro-grid">
-            <div class="field-group"><label for="reg-ofertas">📦 Quantidade de Ofertas</label><input type="number" id="reg-ofertas" placeholder="Ex: 15" min="0"></div>
+            <div class="field-group"><label for="reg-ofertas">📦 Quantidade de Visitas</label><input type="number" id="reg-ofertas" placeholder="Ex: 15" min="0"></div>
             <div class="field-group"><label for="reg-vista">💵 Vendas à Vista (R$)</label><input type="text" id="reg-vista" placeholder="0,00" inputmode="decimal" autocomplete="off"></div>
             <div class="field-group"><label for="reg-prazo">📋 Vendas no Pedido (R$)</label><input type="text" id="reg-prazo" placeholder="0,00" inputmode="decimal" autocomplete="off"></div>
             <div class="field-group"><label for="reg-oracoes">🙏 Orações nas Visitas</label><input type="number" id="reg-oracoes" placeholder="Ex: 8" min="0"></div>
@@ -294,7 +294,7 @@
         <div style="font-size:12px;color:var(--texto3);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">📋 Registros Diários</div>
         <div class="table-wrap">
           <table class="historico-table">
-            <thead><tr><th>Data</th><th>Ofertas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Est. Bíb.</th><th>Ações</th></tr></thead>
+            <thead><tr><th>Data</th><th>Visitas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Est. Bíb.</th><th>Ações</th></tr></thead>
             <tbody id="historico-body"></tbody>
           </table>
         </div>
@@ -315,7 +315,7 @@
       </div>
       <div class="charts-grid">
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--verde)"></div>Vendas por Dia</div><canvas id="chart-vendas-col" height="160"></canvas></div>
-        <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--azul-medio)"></div>Ofertas por Dia</div><canvas id="chart-ofertas-col" height="160"></canvas></div>
+        <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--azul-medio)"></div>Visitas por Dia</div><canvas id="chart-ofertas-col" height="160"></canvas></div>
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--amarelo)"></div>Orações por Dia</div><canvas id="chart-oracoes-col" height="160"></canvas></div>
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--laranja)"></div>Horas Trabalhadas</div><canvas id="chart-horas-col" height="160"></canvas></div>
       </div>
@@ -434,7 +434,7 @@
 
       <div class="stats-grid">
         <div class="stat-card green" style="cursor:pointer;" onclick="abrirModalVendasHoje()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirModalVendasHoje();}"><div class="stat-label" id="dash-label-vendas">💰 Vendas Hoje</div><div class="stat-value" id="adm-vendas-hoje">R$ 0</div><div class="stat-sub" style="color:var(--ouro);font-weight:600;">Ver detalhes →</div></div>
-        <div class="stat-card blue"><div class="stat-label" id="dash-label-ofertas">📦 Ofertas Hoje</div><div class="stat-value" id="adm-ofertas-hoje">0</div><div class="stat-sub">Toda a equipe</div></div>
+        <div class="stat-card blue"><div class="stat-label" id="dash-label-ofertas">📦 Visitas Hoje</div><div class="stat-value" id="adm-ofertas-hoje">0</div><div class="stat-sub">Toda a equipe</div></div>
         <div class="stat-card yellow"><div class="stat-label" id="dash-label-oracoes">🙏 Orações Hoje</div><div class="stat-value" id="adm-oracoes-hoje">0</div><div class="stat-sub">Toda a equipe</div></div>
         <div class="stat-card orange"><div class="stat-label" id="dash-label-horas">⏰ Horas Hoje</div><div class="stat-value" id="adm-horas-hoje">0h</div><div class="stat-sub">Toda a equipe</div></div>
         <div class="stat-card blue"><div class="stat-label" id="dash-label-estudos">📖 Estudos Hoje</div><div class="stat-value" id="adm-estudos-hoje">0</div><div class="stat-sub">Toda a equipe</div></div>
@@ -575,7 +575,7 @@
       <div class="section-title">🏆 <span>Ranking</span> da Equipe</div>
       <div class="filters">
         <button class="filter-btn active" data-rank="vendas">💰 Vendas</button>
-        <button class="filter-btn" data-rank="ofertas">📦 Ofertas</button>
+        <button class="filter-btn" data-rank="ofertas">📦 Visitas</button>
         <button class="filter-btn" data-rank="oracoes">🙏 Orações</button>
         <button class="filter-btn" data-rank="horas">⏰ Horas</button>
       </div>
@@ -656,7 +656,7 @@
       </div>
       <div class="charts-grid">
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--verde)"></div>Vendas por Dia (Equipe)</div><canvas id="adm-chart-vendas" height="160"></canvas></div>
-        <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--azul-medio)"></div>Ofertas por Dia (Equipe)</div><canvas id="adm-chart-ofertas" height="160"></canvas></div>
+        <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--azul-medio)"></div>Visitas por Dia (Equipe)</div><canvas id="adm-chart-ofertas" height="160"></canvas></div>
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--amarelo)"></div>Orações por Dia (Equipe)</div><canvas id="adm-chart-oracoes" height="160"></canvas></div>
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:var(--laranja)"></div>Horas por Dia (Equipe)</div><canvas id="adm-chart-horas" height="160"></canvas></div>
         <div class="chart-card"><div class="chart-title"><div class="dot" style="background:#7C3AED"></div>Estudos Bíblicos por Dia (Equipe)</div><canvas id="adm-chart-estudos" height="160"></canvas></div>
@@ -777,6 +777,10 @@
                 👥 Equipes<br><span style="font-size:10px;font-weight:500;color:var(--texto3);">Você cria as equipes e adiciona os colportores nelas.</span>
               </button>
             </div>
+          </div>
+          <div class="field-group">
+            <label for="smax-campanha">Campanha</label>
+            <select id="smax-campanha" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></select>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
             <div class="field-group" style="margin-bottom:0;">
@@ -1031,7 +1035,7 @@
       <div style="font-size:14px;font-weight:700;color:var(--texto3);margin-bottom:12px;">✏️ Editar Registros</div>
       <div class="table-wrap">
         <table class="admin-table">
-          <thead><tr><th>Data</th><th>Ofertas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Ações</th></tr></thead>
+          <thead><tr><th>Data</th><th>Visitas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Ações</th></tr></thead>
           <tbody id="modal-registros"></tbody>
         </table>
       </div>

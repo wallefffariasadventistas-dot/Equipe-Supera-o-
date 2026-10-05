@@ -1259,7 +1259,7 @@ function renderPainel() {
   const ult = [...regs].reverse().slice(0,5);
   const cont = document.getElementById('ultimos-registros');
   if (!ult.length) { cont.innerHTML='<div class="empty-state"><div class="empty-icon">📝</div><div>Registre seu primeiro dia!</div></div>'; return; }
-  cont.innerHTML='<div class="table-wrap"><table class="historico-table"><thead><tr><th>Data</th><th>À Vista</th><th>Ofertas</th><th>Orações</th></tr></thead><tbody>'
+  cont.innerHTML='<div class="table-wrap"><table class="historico-table"><thead><tr><th>Data</th><th>À Vista</th><th>Visitas</th><th>Orações</th></tr></thead><tbody>'
     +ult.map(r=>`<tr><td>${formatarData(r.data)}<br><span style="font-size:10px;color:var(--texto3)">${getDiaSemana(r.data).slice(0,3)}</span></td><td style="color:var(--ouro-claro);font-family:var(--num-font);font-weight:700">${fmtMini(r.vista||0)}</td><td>${r.ofertas||0}</td><td>${r.oracoes||0}</td></tr>`).join('')
     +'</tbody></table></div>';
 }
@@ -1411,7 +1411,7 @@ function renderResumoHistorico() {
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${fmtMini(prazo)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--azul-medio);">
-          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Ofertas</div>
+          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Visitas</div>
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${regs.reduce((s,r)=>s+(r.ofertas||0),0)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--amarelo);">
@@ -1439,7 +1439,7 @@ function renderResumoHistorico() {
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${fmtMini(medPeriodo.mediaVendas)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--azul-medio);">
-          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Média Ofertas/dia</div>
+          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Média Visitas/dia</div>
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${medPeriodo.mediaOfertas.toFixed(1)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--laranja);">
@@ -1540,7 +1540,7 @@ function renderRelatorioIndividual() {
     <div class="stats-grid">
       <div class="stat-card green"><div class="stat-label">📅 Dias Trabalhados</div><div class="stat-value">${contarDiasTrabalhados(regs)}</div><div class="stat-sub">até ${formatarData(DATA_ENCERRAMENTO)}</div></div>
       <div class="stat-card blue"><div class="stat-label">⏰ Horas Totais</div><div class="stat-value">${fmtHoras(regs.reduce((s,r)=>s+(r.horas||0),0))}</div></div>
-      <div class="stat-card yellow"><div class="stat-label">📦 Ofertas Totais</div><div class="stat-value">${regs.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
+      <div class="stat-card yellow"><div class="stat-label">📦 Visitas Totais</div><div class="stat-value">${regs.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
       <div class="stat-card orange"><div class="stat-label">🙏 Orações Totais</div><div class="stat-value">${regs.reduce((s,r)=>s+(r.oracoes||0),0)}</div></div>
       <div class="stat-card green"><div class="stat-label">💰 Vendas à Vista</div><div class="stat-value" style="font-size:20px">${fmtMini(tv)}</div></div>
       <div class="stat-card blue"><div class="stat-label">📋 No Pedido</div><div class="stat-value" style="font-size:20px">${fmtMini(tp)}</div></div>
@@ -1555,7 +1555,7 @@ function renderRelatorioIndividual() {
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ouro-claro);font-weight:700;margin-bottom:12px;">📊 Médias Diárias (por dia trabalhado)</div>
       <div class="stats-grid">
         <div class="stat-card green"><div class="stat-label">💰 Média de Vendas/dia</div><div class="stat-value" style="font-size:18px">${fmtMini(med.mediaVendas)}</div></div>
-        <div class="stat-card yellow"><div class="stat-label">📦 Média de Ofertas/dia</div><div class="stat-value">${med.mediaOfertas.toFixed(1)}</div></div>
+        <div class="stat-card yellow"><div class="stat-label">📦 Média de Visitas/dia</div><div class="stat-value">${med.mediaOfertas.toFixed(1)}</div></div>
         <div class="stat-card orange"><div class="stat-label">⏰ Média de Horas/dia</div><div class="stat-value">${fmtHoras(med.mediaHoras)}</div></div>
         <div class="stat-card blue"><div class="stat-label">📅 Dias Trabalhados</div><div class="stat-value">${med.dias}</div></div>
       </div>
@@ -1625,7 +1625,7 @@ function renderAdminDashboard() {
   const lh  = document.getElementById('dash-label-horas');
   const le  = document.getElementById('dash-label-estudos');
   if(lv)  lv.textContent  = `💰 Vendas — ${label}`;
-  if(lo)  lo.textContent  = `📦 Ofertas — ${label}`;
+  if(lo)  lo.textContent  = `📦 Visitas — ${label}`;
   if(lor) lor.textContent = `🙏 Orações — ${label}`;
   if(lh)  lh.textContent  = `⏰ Horas — ${label}`;
   if(le)  le.textContent  = `📖 Estudos — ${label}`;
@@ -1967,7 +1967,7 @@ function renderRanking() {
   }
 
   // ── TOP 3 CARDS ──
-  const valLabel = {vendas:'vendas à vista',ofertas:'ofertas',oracoes:'orações',horas:'horas trabalhadas'}[rankOrdem];
+  const valLabel = {vendas:'vendas à vista',ofertas:'visitas',oracoes:'orações',horas:'horas trabalhadas'}[rankOrdem];
 
   const top3HTML = '<div class="top3-wrap">' +
     usuarios.slice(0,3).map((u, i) => {
@@ -2362,7 +2362,7 @@ function renderPerfilConteudo(uid) {
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${fmtMini(prazo)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--azul-medio);">
-          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Ofertas</div>
+          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Visitas</div>
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${regs.reduce((s,r)=>s+(r.ofertas||0),0)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--amarelo);">
@@ -2389,7 +2389,7 @@ function renderPerfilConteudo(uid) {
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">${fmtMini(medPeriodo.mediaVendas)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--azul-medio);">
-          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Média Ofertas/dia</div>
+          <div style="font-size:10px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;">📦 Média Visitas/dia</div>
           <div style="font-size:18px;font-weight:800;font-family:var(--num-font);color:var(--azul-claro);">${medPeriodo.mediaOfertas.toFixed(1)}</div>
         </div>
         <div style="background:var(--bg-card2);border-radius:10px;padding:12px;text-align:center;border-left:3px solid var(--laranja);">
@@ -2629,7 +2629,7 @@ function exportarPDFColportor(uid) {
     <div class="stats">
       <div class="sbox g"><div class="slb">💰 À Vista</div><div class="svl">R$${(pVista/1000).toFixed(1)}k</div></div>
       <div class="sbox b"><div class="slb">📋 No Pedido</div><div class="svl">R$${(pPrazo/1000).toFixed(1)}k</div></div>
-      <div class="sbox y"><div class="slb">📦 Ofertas</div><div class="svl">${pOfertas}</div></div>
+      <div class="sbox y"><div class="slb">📦 Visitas</div><div class="svl">${pOfertas}</div></div>
       <div class="sbox o"><div class="slb">🙏 Orações</div><div class="svl">${pOracoes}</div></div>
       <div class="sbox p"><div class="slb">⏰ Horas</div><div class="svl">${fmtHoras(pHoras)}</div></div>
       <div class="sbox v"><div class="slb">📖 Estudos</div><div class="svl">${pEstudos}</div></div>
@@ -2640,7 +2640,7 @@ function exportarPDFColportor(uid) {
     <div class="sec-title">📊 Médias Diárias — ${labelPeriodo} (por dia registrado)</div>
     <div class="stats" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px;">
       <div class="sbox g"><div class="slb">💰 Média Vendas/dia</div><div class="svl">R$ ${medPeriodo.mediaVendas.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</div></div>
-      <div class="sbox b"><div class="slb">📦 Média Ofertas/dia</div><div class="svl">${medPeriodo.mediaOfertas.toFixed(1)}</div></div>
+      <div class="sbox b"><div class="slb">📦 Média Visitas/dia</div><div class="svl">${medPeriodo.mediaOfertas.toFixed(1)}</div></div>
       <div class="sbox o"><div class="slb">⏰ Média Horas/dia</div><div class="svl">${fmtHoras(medPeriodo.mediaHoras)}</div></div>
       <div class="sbox d"><div class="slb">📅 Dias Trabalhados</div><div class="svl">${medPeriodo.dias}</div></div>
     </div>
@@ -2648,7 +2648,7 @@ function exportarPDFColportor(uid) {
     <!-- TABELA DE REGISTROS -->
     <div class="sec-title">📋 Registros do Período</div>
     <table>
-      <thead><tr><th>Data</th><th>À Vista</th><th>No Pedido</th><th>Ofertas</th><th>Orações</th><th>Horas</th><th>Estudos</th></tr></thead>
+      <thead><tr><th>Data</th><th>À Vista</th><th>No Pedido</th><th>Visitas</th><th>Orações</th><th>Horas</th><th>Estudos</th></tr></thead>
       <tbody>${rowsHTML}</tbody>
     </table>
   </div>
@@ -2682,7 +2682,7 @@ function renderPreenchimentoDiario() {
       const reg=regsData.find(r=>r.userId===u.id);
       const div=document.createElement('div');
       div.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.15);border-radius:10px;';
-      div.innerHTML=`<div style="width:36px;height:36px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:var(--branco);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--verde-claro);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">À vista: ${fmtMini(reg?.vista||0)} · ${reg?.ofertas||0} ofertas</div></div><div style="font-size:11px;color:var(--verde);font-weight:700;flex-shrink:0;">✅</div>`;
+      div.innerHTML=`<div style="width:36px;height:36px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:var(--branco);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--verde-claro);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">À vista: ${fmtMini(reg?.vista||0)} · ${reg?.ofertas||0} visitas</div></div><div style="font-size:11px;color:var(--verde);font-weight:700;flex-shrink:0;">✅</div>`;
       const btnD=document.createElement('button');
       btnD.className='admin-only-action';
       btnD.textContent='🗑️'; btnD.style.cssText='padding:5px 8px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;cursor:pointer;font-size:12px;';
@@ -2759,7 +2759,7 @@ function renderRelatorioGeral() {
     <div class="stats-grid">
       <div class="stat-card green"><div class="stat-label">💰 Total À Vista</div><div class="stat-value" style="font-size:20px">${fmtMini(tv)}</div><div class="stat-sub">Toda a equipe</div></div>
       <div class="stat-card blue"><div class="stat-label">📋 Total no Pedido</div><div class="stat-value" style="font-size:20px">${fmtMini(tp)}</div><div class="stat-sub">Toda a equipe</div></div>
-      <div class="stat-card yellow"><div class="stat-label">📦 Total Ofertas</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
+      <div class="stat-card yellow"><div class="stat-label">📦 Total Visitas</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}</div></div>
       <div class="stat-card orange"><div class="stat-label">🙏 Total Orações</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.oracoes||0),0)}</div></div>
       <div class="stat-card green"><div class="stat-label">📖 Estudos Bíblicos</div><div class="stat-value">${regsEq.reduce((s,r)=>s+(r.estudos||0),0)}</div><div class="stat-sub">Toda a equipe</div></div>
       <div class="stat-card blue"><div class="stat-label">👥 Colportores</div><div class="stat-value">${liveUsuarios.length}</div></div>
@@ -2848,7 +2848,7 @@ document.getElementById('input-foto-perfil').addEventListener('change',async fun
 
 function exportarExcelEquipe() {
   const BOM='\uFEFF';
-  const linhas=['Nome,Telefone,Meta (R$),Vendas À Vista (R$),Vendas no Pedido (R$),% Meta,Dias,Ofertas,Orações,Horas,Estudos Bíblicos'];
+  const linhas=['Nome,Telefone,Meta (R$),Vendas À Vista (R$),Vendas no Pedido (R$),% Meta,Dias,Visitas,Orações,Horas,Estudos Bíblicos'];
   liveUsuarios.forEach(u=>{
     const regs=getRegsUser(u.id);
     const v=regs.reduce((s,r)=>s+(r.vista||0),0), p=regs.reduce((s,r)=>s+(r.prazo||0),0);
@@ -2871,14 +2871,14 @@ function exportarExcelRelatorio() {
     'RESUMO',
     `Total À Vista (R$),${tv.toFixed(2)}`,
     `Total no Pedido (R$),${tp.toFixed(2)}`,
-    `Total Ofertas,${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}`,
+    `Total Visitas,${regsEq.reduce((s,r)=>s+(r.ofertas||0),0)}`,
     `Total Orações,${regsEq.reduce((s,r)=>s+(r.oracoes||0),0)}`,
     `Total Horas,${regsEq.reduce((s,r)=>s+(r.horas||0),0)}`,
     `Total Estudos Bíblicos,${regsEq.reduce((s,r)=>s+(r.estudos||0),0)}`,
     `Colportores,${liveUsuarios.length}`,
     '',
     'RANKING',
-    'Pos,Nome,Telefone,Meta (R$),À Vista (R$),No Pedido (R$),% Meta,Dias,Ofertas,Orações,Horas,Estudos Bíblicos'
+    'Pos,Nome,Telefone,Meta (R$),À Vista (R$),No Pedido (R$),% Meta,Dias,Visitas,Orações,Horas,Estudos Bíblicos'
   ];
   liveUsuarios.map(u=>{
     const regs=getRelatorioRegsUser(u.id);
@@ -2891,7 +2891,7 @@ function exportarExcelRelatorio() {
     const pct=u.meta>0?(u.vistaTotal/u.meta*100).toFixed(1):0;
     linhas.push(`${i+1},${csvField(u.nome)},${csvField(u.tel)},${u.meta},${u.vista.toFixed(2)},${u.prazo.toFixed(2)},${pct}%,${u.dias},${u.of},${u.or},${u.hr},${u.est||0}`);
   });
-  linhas.push('','REGISTROS DIÁRIOS (do período selecionado)','Nome,Data,À Vista (R$),No Pedido (R$),Ofertas,Orações,Horas,Estudos Bíblicos');
+  linhas.push('','REGISTROS DIÁRIOS (do período selecionado)','Nome,Data,À Vista (R$),No Pedido (R$),Visitas,Orações,Horas,Estudos Bíblicos');
   liveUsuarios.forEach(u=>{
     getRelatorioRegsUser(u.id).forEach(r=>{
       linhas.push(`${csvField(u.nome)},${formatarData(r.data)},${(r.vista||0).toFixed(2)},${(r.prazo||0).toFixed(2)},${r.ofertas||0},${r.oracoes||0},${r.horas||0},${r.estudos||0}`);
@@ -2904,7 +2904,7 @@ function exportarExcelRelatorio() {
 function exportarExcelGraficos() {
   const BOM='\uFEFF';
   const datas=[...new Set(liveRegistros.map(r=>r.data))].sort();
-  const linhas=['DADOS DOS GRÁFICOS — EQUIPE SUPERAÇÃO PIAUÍ','','Data,Vendas À Vista (R$),Ofertas,Orações,Horas,Estudos Bíblicos'];
+  const linhas=['DADOS DOS GRÁFICOS — EQUIPE SUPERAÇÃO PIAUÍ','','Data,Vendas À Vista (R$),Visitas,Orações,Horas,Estudos Bíblicos'];
   datas.forEach(d=>{
     const rD=liveRegistros.filter(r=>r.data===d);
     linhas.push(`${formatarData(d)},${rD.reduce((s,r)=>s+(r.vista||0),0).toFixed(2)},${rD.reduce((s,r)=>s+(r.ofertas||0),0)},${rD.reduce((s,r)=>s+(r.oracoes||0),0)},${rD.reduce((s,r)=>s+(r.horas||0),0)},${rD.reduce((s,r)=>s+(r.estudos||0),0)}`);
@@ -2993,7 +2993,7 @@ function exportarPDFRelatorio() {
     <div class="stats">
       <div class="sbox g"><div class="slb">💰 À Vista</div><div class="svl">R$${(tv/1000).toFixed(1)}k</div></div>
       <div class="sbox b"><div class="slb">📋 No Pedido</div><div class="svl">R$${(tp/1000).toFixed(1)}k</div></div>
-      <div class="sbox y"><div class="slb">📦 Ofertas</div><div class="svl">${to}</div></div>
+      <div class="sbox y"><div class="slb">📦 Visitas</div><div class="svl">${to}</div></div>
       <div class="sbox o"><div class="slb">🙏 Orações</div><div class="svl">${tor}</div></div>
       <div class="sbox p"><div class="slb">⏰ Horas</div><div class="svl">${fmtHoras(th)}</div></div>
       <div class="sbox v"><div class="slb">📖 Estudos</div><div class="svl">${test}</div></div>
@@ -3003,7 +3003,7 @@ function exportarPDFRelatorio() {
       <div class="mbarbg"><div class="mbarfil" style="width:${Math.min(100,parseFloat(pctEq))}%"></div></div>
     </div>
     <div class="sec-title">🏆 Ranking Final</div>
-    <table><thead><tr><th>#</th><th>Nome</th><th>À Vista</th><th>No Pedido</th><th>Meta</th><th>% Meta</th><th>Dias</th><th>Ofertas</th><th>Estudos</th></tr></thead>
+    <table><thead><tr><th>#</th><th>Nome</th><th>À Vista</th><th>No Pedido</th><th>Meta</th><th>% Meta</th><th>Dias</th><th>Visitas</th><th>Estudos</th></tr></thead>
     <tbody>${rows}</tbody></table>
   </div>
   <div class="ftr">Equipe Superação Piauí · Campanha 2026 · ${hoje}</div>
@@ -3017,7 +3017,7 @@ function exportarPDFRelatorio() {
 function exportarPDFGraficos() {
   const hoje=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
   const ids=['adm-chart-vendas','adm-chart-ofertas','adm-chart-oracoes','adm-chart-horas','adm-chart-estudos'];
-  const titulos=['Vendas por Dia (À Vista)','Ofertas por Dia','Orações por Dia','Horas Trabalhadas','Estudos Bíblicos por Dia'];
+  const titulos=['Vendas por Dia (À Vista)','Visitas por Dia','Orações por Dia','Horas Trabalhadas','Estudos Bíblicos por Dia'];
   const cores=['#FFB100','#1976D2','#FFCE45','#FF6D00','#6D28D9'];
   const imgs=ids.map(id=>{const c=document.getElementById(id);return c?c.toDataURL('image/png'):null;});
   const blocos=imgs.map((img,i)=>img?`
@@ -3552,6 +3552,23 @@ function smaxRankingIndividual(comp) {
 let smaxEditId = null;
 let smaxCompAtual = null;
 
+// Só mostra a competição se ela pertencer à campanha que o admin está
+// visualizando no momento. Competições antigas sem campanhaId (criadas antes
+// desse filtro existir) continuam aparecendo em todas até que o admin edite
+// e selecione a campanha correta — assim nenhum dado antigo é escondido sem querer.
+function smaxPertenceACampanhaAtual(comp) {
+  return !comp.campanhaId || comp.campanhaId === campanhaVisualizada;
+}
+
+function smaxPopularSelectCampanha(valorSelecionado) {
+  const sel = document.getElementById('smax-campanha');
+  if (!sel) return;
+  sel.innerHTML = todasCampanhas.map(c =>
+    `<option value="${c.id}">${c.ativa ? '🟢' : '⚪'} ${escapeHtml(c.titulo)}</option>`
+  ).join('');
+  sel.value = valorSelecionado || campanhaVisualizada || '';
+}
+
 async function renderSmaxAdmin() {
   await renderSmaxLista();
   await renderSmaxBannerAtivo();
@@ -3560,7 +3577,7 @@ async function renderSmaxAdmin() {
 async function renderSmaxBannerAtivo() {
   try {
     const snap = await getDocs(collection(db, 'competicoes'));
-    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(smaxPertenceACampanhaAtual);
     const ativa = comps.find(c => smaxStatusComp(c) === 'ativa');
     const banner = document.getElementById('smax-banner-ativo');
     if (!ativa) { banner.style.display = 'none'; return; }
@@ -3608,7 +3625,7 @@ async function renderSmaxLista() {
   const lista = document.getElementById('smax-lista');
   try {
     const snap = await getDocs(collection(db, 'competicoes'));
-    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a,b) => b.inicio.localeCompare(a.inicio));
+    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(smaxPertenceACampanhaAtual).sort((a,b) => b.inicio.localeCompare(a.inicio));
     if (!comps.length) {
       lista.innerHTML = '<div style="text-align:center;padding:32px;color:var(--texto3);font-size:13px;">Nenhuma competição cadastrada ainda.</div>';
       return;
@@ -3624,8 +3641,13 @@ async function renderSmaxLista() {
           <div style="flex:1;">
             <div style="font-size:16px;font-weight:800;color:var(--branco);margin-bottom:4px;">${comp.nome}</div>
             <div style="font-size:11px;color:var(--texto3);margin-bottom:8px;">🏷️ ${smaxTipoLabel(comp.tipo)} · 📅 ${formatarData(comp.inicio)} → ${formatarData(comp.fim)}</div>
-            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(100,180,255,0.08);border:1px solid rgba(100,180,255,0.25);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#87CEEB;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
-              ${ehIndividual ? '👤 Colportor x Colportor' : '👥 Equipes'}
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
+              <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(100,180,255,0.08);border:1px solid rgba(100,180,255,0.25);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#87CEEB;text-transform:uppercase;letter-spacing:1px;">
+                ${ehIndividual ? '👤 Colportor x Colportor' : '👥 Equipes'}
+              </div>
+              ${comp.campanhaId
+                ? `<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(0,200,80,0.08);border:1px solid rgba(0,200,80,0.25);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#5FD98A;text-transform:uppercase;letter-spacing:1px;">🏳️ ${escapeHtml(getCampanhaPorId(comp.campanhaId)?.titulo || '—')}</div>`
+                : `<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,206,69,0.1);border:1px solid rgba(255,206,69,0.3);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:800;color:#FFCE45;text-transform:uppercase;letter-spacing:1px;">⚠️ Sem campanha definida</div>`}
             </div>
             ${comp.premioTipo ? `
             <div style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(255,177,0,0.18),rgba(180,83,9,0.12));border:1px solid rgba(255,177,0,0.45);border-radius:10px;padding:8px 14px;margin-bottom:10px;">
@@ -3677,6 +3699,7 @@ async function renderSmaxLista() {
         if (!snap.exists()) return;
         const comp = { id: snap.id, ...snap.data() };
         smaxEditId = id;
+        smaxPopularSelectCampanha(comp.campanhaId);
         document.getElementById('smax-nome').value = comp.nome;
         document.getElementById('smax-tipo').value = comp.tipo;
         document.getElementById('smax-inicio').value = comp.inicio;
@@ -3908,6 +3931,7 @@ document.querySelectorAll('.smax-premio-btn').forEach(btn => {
 // ── Form criar/editar ──
 document.getElementById('btn-smax-toggle-form').addEventListener('click', () => {
   smaxEditId = null;
+  smaxPopularSelectCampanha(campanhaVisualizada);
   document.getElementById('smax-nome').value = '';
   document.getElementById('smax-tipo').value = 'semana';
   document.getElementById('smax-inicio').value = '';
@@ -3929,6 +3953,7 @@ document.getElementById('btn-smax-cancelar').addEventListener('click', () => {
 
 document.getElementById('btn-smax-salvar').addEventListener('click', async () => {
   if (!apenasAdmin()) return;
+  const campanhaId = document.getElementById('smax-campanha').value;
   const nome   = document.getElementById('smax-nome').value.trim();
   const tipo   = document.getElementById('smax-tipo').value;
   const inicio = document.getElementById('smax-inicio').value;
@@ -3950,10 +3975,10 @@ document.getElementById('btn-smax-salvar').addEventListener('click', async () =>
   try {
     showSyncStatus('💾 Salvando...', 'saving');
     if (smaxEditId) {
-      await updateDoc(doc(db, 'competicoes', smaxEditId), { nome, tipo, inicio, fim, modelo, premioTipo, premioNome });
+      await updateDoc(doc(db, 'competicoes', smaxEditId), { nome, tipo, inicio, fim, modelo, premioTipo, premioNome, campanhaId });
     } else {
       const id = 'comp_' + Date.now();
-      await setDoc(doc(db, 'competicoes', id), { nome, tipo, inicio, fim, modelo, premioTipo, premioNome, equipes: [], criadoEm: getHoje() });
+      await setDoc(doc(db, 'competicoes', id), { nome, tipo, inicio, fim, modelo, premioTipo, premioNome, campanhaId, equipes: [], criadoEm: getHoje() });
     }
     showSyncStatus('✅ Salvo!', 'saved');
     msgEl.textContent = smaxEditId ? '✅ Competição atualizada!' : '✅ Competição criada!';
@@ -3978,6 +4003,7 @@ async function renderSmaxColportor() {
   try {
     const snap = await getDocs(collection(db, 'competicoes'));
     const comps = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(c => !c.campanhaId || c.campanhaId === currentUser.campanhaId)
       .sort((a, b) => {
         const ord = { ativa: 0, pendente: 1, encerrada: 2 };
         return (ord[smaxStatusComp(a)] || 9) - (ord[smaxStatusComp(b)] || 9);
@@ -4047,7 +4073,7 @@ async function renderSmaxDashWidget() {
   if (!widgetArea) return;
   try {
     const snap = await getDocs(collection(db, 'competicoes'));
-    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const comps = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(smaxPertenceACampanhaAtual);
     const ativa = comps.find(c => smaxStatusComp(c) === 'ativa');
     if (!ativa) { widgetArea.style.display = 'none'; return; }
     widgetArea.style.display = 'block';
