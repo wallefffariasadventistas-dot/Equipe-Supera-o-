@@ -557,3 +557,11 @@
     #screen-login .logo-login-img{width:120px!important;}
     #screen-login .logo-area{margin-bottom:14px!important;}
   }
+
+  /* ════════════════════════════════
+     MODO DE VISUALIZAÇÃO DO LÍDER
+     O líder vê o mesmo painel que o admin (Dashboard, Relatórios, Ranking,
+     Equipe, etc.), mas não edita nada e não revela senhas — só o admin.
+  ════════════════════════════════ */
+  body.lider-visualizando .admin-only-action{display:none!important;}
+  body.lider-visualizando .senha-mascarada{cursor:not-allowed!important;opacity:0.55;}
