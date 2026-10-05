@@ -117,6 +117,7 @@ document.getElementById('campanha-selector').addEventListener('change', function
 });
 
 document.getElementById('btn-renomear-campanha').addEventListener('click', function() {
+  if (!apenasAdmin()) return;
   const sel = document.getElementById('campanha-selector');
   const id = sel.value;
   const c = todasCampanhas.find(x => x.id === id);
@@ -131,6 +132,7 @@ document.getElementById('btn-renomear-campanha').addEventListener('click', funct
 });
 
 document.getElementById('btn-toggle-ativa-campanha').addEventListener('click', function() {
+  if (!apenasAdmin()) return;
   const sel = document.getElementById('campanha-selector');
   const id = sel.value;
   const c = todasCampanhas.find(x => x.id === id);
@@ -166,6 +168,7 @@ document.getElementById('modal-nova-campanha').addEventListener('click', functio
   if (e.target === this) this.style.display = 'none';
 });
 document.getElementById('btn-nc-confirmar').addEventListener('click', async function() {
+  if (!apenasAdmin()) return;
   const titulo = document.getElementById('nc-titulo').value.trim();
   const dataInicio = document.getElementById('nc-data-inicio').value;
   const dataFim = document.getElementById('nc-data-fim').value;
@@ -463,6 +466,7 @@ function onDataUpdate() {
     if (activeTab) {
       const id = activeTab.id;
       if (id==='admin-dashboard') { renderAdminDashboard(); bindDashDatePicker(); }
+      if (id==='admin-meuregistro') popularSelectColportoresLider();
       if (id==='admin-ranking')   { renderRanking(); renderRankingBolsa(); }
       if (id==='admin-equipe')    renderTabelaEquipe();
       if (id==='admin-diario')    renderPreenchimentoDiario();
@@ -493,6 +497,31 @@ function limparSessao() {
 }
 function lerSessao() {
   try { return JSON.parse(localStorage.getItem(SESSAO_KEY)); } catch(e) { return null; }
+}
+
+// ── MODO DE VISUALIZAÇÃO DO LÍDER ──
+// O líder entra no mesmo painel que o admin (Dashboard, Relatórios, Ranking,
+// Equipe, Preenchimento, Gráficos, Semana Máxima, Premiações, Estudos) para
+// ver tudo, mas não pode editar nada nem revelar senhas — isso é de uso
+// exclusivo do admin. apenasAdmin() é chamado em toda ação que grava no
+// banco alcançável a partir da tela admin, como trava de segurança
+// (além de os próprios controles de edição ficarem escondidos para o líder).
+function apenasAdmin() {
+  if (currentLider) {
+    mostrarToast('Apenas o administrador pode editar. Você está no modo de visualização do líder.', true);
+    return false;
+  }
+  return true;
+}
+function aplicarModoVisualizacao(ehLider) {
+  document.body.classList.toggle('lider-visualizando', ehLider);
+  document.getElementById('atbtn-meuregistro').style.display = ehLider ? '' : 'none';
+  const titulo = document.getElementById('admin-nav-title');
+  if (titulo) {
+    titulo.innerHTML = ehLider
+      ? `Líder ${currentLider ? escapeHtml(currentLider.nome.split(' ')[0]) : ''} · <span>Superação Piauí</span>`
+      : 'Admin · <span>Superação Piauí</span>';
+  }
 }
 
 // ── LOGIN ──
@@ -541,8 +570,10 @@ document.getElementById('btn-fechar-modal-admin').onclick = ()=>fecharModalLogin
 document.getElementById('btn-confirmar-admin').onclick = function() {
   const s = document.getElementById('admin-senha-input').value.trim();
   if (s===ADMIN_SENHA) {
+    currentLider = null;
     salvarSessao('admin', null);
     fecharModalLogin('modal-admin-login');
+    aplicarModoVisualizacao(false);
     showScreen('screen-admin');
     startListeners();
     renderAdminDashboard();
@@ -557,7 +588,16 @@ document.getElementById('admin-senha-input').onkeydown = function(e) {
   if(e.key==='Enter') document.getElementById('btn-confirmar-admin').onclick();
 };
 document.getElementById('btn-logout-col').onclick = ()=>{ currentUser=null; limparSessao(); stopListeners(); showScreen('screen-login'); };
-document.getElementById('btn-logout-adm').onclick = ()=>{ limparSessao(); stopListeners(); showScreen('screen-login'); };
+// Botão compartilhado por admin e líder (líder usa o mesmo painel, só em modo de visualização).
+function sairDoPainel() {
+  currentLider = null;
+  limparSessao();
+  stopListeners();
+  aplicarModoVisualizacao(false);
+  showScreen('screen-login');
+}
+document.getElementById('btn-logout-adm').onclick = sairDoPainel;
+document.getElementById('btn-logout-nav').onclick = sairDoPainel;
 
 document.getElementById('btn-entrar').addEventListener('click', async () => {
   const nome  = document.getElementById('login-nome').value.trim();
@@ -578,8 +618,6 @@ document.getElementById('btn-entrar').addEventListener('click', async () => {
   fecharModalLogin('modal-login-colportor');
   entrarComoColportor();
 });
-
-document.getElementById('btn-logout-adm').addEventListener('click', ()=>{ limparSessao(); stopListeners(); showScreen('screen-login'); });
 
 // ── CADASTRO ──
 function toggleMetaCustom() {
@@ -673,6 +711,7 @@ function abrirTabAdmin(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   if (id==='admin-dashboard') renderAdminDashboard();
+  if (id==='admin-meuregistro') { renderLiderPainel(); renderAgendaLider(); }
   if (id==='admin-ranking')   { renderRanking(); renderRankingBolsa(); }
   if (id==='admin-equipe')    renderTabelaEquipe();
   if (id==='admin-diario')    renderPreenchimentoDiario();
@@ -717,6 +756,7 @@ document.querySelectorAll('.tema-opcao').forEach(btn=>{
 });
 
 document.getElementById('btn-salvar-tema').addEventListener('click', async () => {
+  if (!apenasAdmin()) return;
   const temaMsg = document.getElementById('tema-msg');
   const nome = temaSelecionadoAdm || TEMA_ATUAL;
   try {
@@ -745,6 +785,7 @@ function mostrarMsgSenhaAdmin(texto, sucesso) {
 }
 
 document.getElementById('btn-salvar-senha-adm').addEventListener('click', async () => {
+  if (!apenasAdmin()) return;
   const atual    = document.getElementById('cfg-senha-atual').value.trim();
   const nova     = document.getElementById('cfg-senha-nova').value.trim();
   const confirma = document.getElementById('cfg-senha-confirma').value.trim();
@@ -1169,9 +1210,10 @@ function renderTabelaEstudosAdmin() {
       <td><span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:0.5px;${e.presenca==='com'?'background:rgba(76,175,80,0.15);color:#81C784;border:1px solid rgba(76,175,80,0.3);':'background:rgba(239,83,80,0.12);color:#EF9090;border:1px solid rgba(239,83,80,0.3);'}">${e.presenca==='com'?'Com presença adv.':'Sem presença adv.'}</span></td>
       <td style="color:var(--ouro-claro);font-weight:700;">${escapeHtml(e.colportorNome)||'—'}</td>
       <td style="font-size:12px;color:var(--texto3);">${e.criadoEm?formatarData(e.criadoEm):'—'}</td>
-      <td><button data-del-est-adm="${e.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></td>
+      <td><button data-del-est-adm="${e.id}" class="admin-only-action" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></td>
     </tr>`).join('');
   tbody.querySelectorAll('[data-del-est-adm]').forEach(b=>b.addEventListener('click', function(){
+    if (!apenasAdmin()) return;
     const id = this.getAttribute('data-del-est-adm');
     mostrarConfirm('Apagar este estudo?','Esta ação não pode ser desfeita.', async ()=>{
       await deleteDoc(doc(db,'estudosBiblicos',id));
@@ -2123,11 +2165,12 @@ function renderTabelaEquipe() {
       <td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;background:rgba(16,26,51,0.08);border-radius:100px;height:8px;min-width:60px;"><div style="height:100%;border-radius:100px;width:${Math.min(100,pctN)}%;background:${pctN>=100?'var(--ouro)':pctN>=50?'#CC8C00':'#FFC94D'};"></div></div><span style="font-family:var(--num-font);font-size:12px;font-weight:700;color:${pctN>=100?'var(--ouro-claro)':pctN>=50?'#3D5DF2':'#FFC94D'}">${pct}%</span></div></td>
       <td style="color:#FF8A65;font-family:var(--num-font);font-weight:700">${devU>0?fmtMini(devU):'—'}</td>
       <td><span class="senha-mascarada" data-senha="${escapeHtml(u.senha)}" style="font-family:var(--num-font);color:var(--texto3);background:rgba(16,26,51,0.05);padding:3px 8px;border-radius:6px;letter-spacing:3px;cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></td>
-      <td><div class="admin-actions"><button data-ver="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">👤 Ver</button><button data-remover="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></div></td>
+      <td><div class="admin-actions"><button data-ver="${u.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">👤 Ver</button><button data-remover="${u.id}" class="admin-only-action" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button></div></td>
     </tr>`;
   }).join('');
   tbody.querySelectorAll('[data-ver]').forEach(b=>b.addEventListener('click',function(){ abrirPerfil(this.getAttribute('data-ver')); }));
   tbody.querySelectorAll('[data-remover]').forEach(b=>b.addEventListener('click',function(){
+    if (!apenasAdmin()) return;
     const uid=this.getAttribute('data-remover');
     const u=liveUsuarios.find(x=>x.id===uid);
     if(!u) return;
@@ -2370,6 +2413,7 @@ function renderPerfilConteudo(uid) {
   bindMascarasInline(document.getElementById('modal-registros').closest('table') || document.getElementById('modal-registros').parentElement);
   // Bind save
   document.querySelectorAll('[data-save]').forEach(btn=>btn.addEventListener('click',async function(){
+    if (!apenasAdmin()) return;
     const i=this.getAttribute('data-save');
     const row=document.getElementById('mrow-'+i);
     const upd={};
@@ -2382,6 +2426,7 @@ function renderPerfilConteudo(uid) {
   }));
   // Bind delete
   document.querySelectorAll('[data-delreg]').forEach(btn=>btn.addEventListener('click',function(){
+    if (!apenasAdmin()) return;
     const rid=this.getAttribute('data-delreg');
     mostrarConfirm('Apagar este registro?','',async()=>{
       await deleteDoc(doc(db,'registros',rid));
@@ -2393,6 +2438,7 @@ function renderPerfilConteudo(uid) {
 document.getElementById('btn-fechar-perfil').addEventListener('click',()=>document.getElementById('perfil-modal').classList.remove('open'));
 document.getElementById('perfil-modal').addEventListener('click',e=>{ if(e.target===document.getElementById('perfil-modal')) document.getElementById('perfil-modal').classList.remove('open'); });
 document.getElementById('btn-alterar-meta').addEventListener('click',()=>{
+  if (!apenasAdmin()) return;
   const u=liveUsuarios.find(x=>x.id===modalColportorId); if(!u) return;
   mostrarInputModal('Alterar Meta',`Meta atual: ${fmtMoeda(u.meta)}`,'Novo valor em R$',async val=>{
     const n=parseFloat(val);
@@ -2401,6 +2447,7 @@ document.getElementById('btn-alterar-meta').addEventListener('click',()=>{
   });
 });
 document.getElementById('btn-resetar-senha').addEventListener('click',()=>{
+  if (!apenasAdmin()) return;
   mostrarInputModal('Resetar Senha','Nova senha (4 dígitos numéricos):','••••',async val=>{
     if(/^\d{4}$/.test(val)){await updateDoc(doc(db,'usuarios',modalColportorId),{senha:val});mostrarToast('Senha atualizada com sucesso!');}
     else mostrarToast('Senha inválida.',true);
@@ -2594,8 +2641,9 @@ function renderPreenchimentoDiario() {
       div.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,177,0,0.06);border:1px solid rgba(255,177,0,0.15);border-radius:10px;';
       div.innerHTML=`<div style="width:36px;height:36px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--verde),var(--azul));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#000;">${escapeHtml(iniciais(u.nome))}</div><div style="flex:1;min-width:0;"><div style="font-size:14px;font-weight:700;color:var(--branco);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(u.nome)}</div><div style="font-size:12px;color:var(--verde-claro);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">À vista: ${fmtMini(reg?.vista||0)} · ${reg?.ofertas||0} ofertas</div></div><div style="font-size:11px;color:var(--verde);font-weight:700;flex-shrink:0;">✅</div>`;
       const btnD=document.createElement('button');
+      btnD.className='admin-only-action';
       btnD.textContent='🗑️'; btnD.style.cssText='padding:5px 8px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;cursor:pointer;font-size:12px;';
-      if(reg) btnD.addEventListener('click',()=>mostrarConfirm('Apagar registro de '+u.nome+' em '+formatarData(data)+'?','',async()=>{ await deleteDoc(doc(db,'registros',reg.id)); mostrarToast('Apagado.'); }));
+      if(reg) btnD.addEventListener('click',()=>{ if (!apenasAdmin()) return; mostrarConfirm('Apagar registro de '+u.nome+' em '+formatarData(data)+'?','',async()=>{ await deleteDoc(doc(db,'registros',reg.id)); mostrarToast('Apagado.'); }); });
       div.appendChild(btnD); listaSim.appendChild(div);
     });
   }
@@ -2968,22 +3016,19 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
     if (!liderDoc) { err.textContent='Nome ou senha inválidos.'; err.style.display='block'; return; }
     currentLider = { id: liderDoc.id, ...liderDoc.data() };
     salvarSessao('lider', currentLider.id);
-    document.getElementById('nav-nome-lider').textContent = currentLider.nome.split(' ')[0];
     fecharModalLogin('modal-lider-login');
-    showScreen('screen-lider');
+    // Líder vê o mesmo painel do admin (Dashboard, Relatórios, Ranking, Equipe
+    // etc.), só em modo de visualização — não edita nada, não vê senhas.
+    aplicarModoVisualizacao(true);
+    showScreen('screen-admin');
+    startListeners();
+    abrirTabAdmin('admin-meuregistro', document.getElementById('atbtn-meuregistro'));
     document.getElementById('l-reg-data').value = getHoje();
     bindTodasMascaras();
-    await renderLiderPainel();
-    await renderAgendaLider();
   } catch(e) { err.textContent='Erro: '+e.message; err.style.display='block'; }
 };
 document.getElementById('lider-login-senha').onkeydown = function(e) {
   if(e.key==='Enter') document.getElementById('btn-confirmar-lider-login').onclick();
-};
-document.getElementById('btn-logout-lider').onclick = function() {
-  currentLider = null;
-  limparSessao();
-  showScreen('screen-login');
 };
 
 // ── PAINEL DO LÍDER ──
@@ -3100,6 +3145,7 @@ async function renderAdmLiderLista() {
       div.style.cssText='display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:10px;';
       div.innerHTML=`<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#FFB100,#B45309);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#000;">${escapeHtml(iniciais(l.nome))}</div><div style="flex:1;"><div style="font-size:15px;font-weight:700;color:var(--branco);">${escapeHtml(l.nome)}</div><div style="font-size:12px;color:var(--texto3);">Alvo: ${fmtMini(l.alvo||0)} · Senha: <span class="senha-mascarada" data-senha="${escapeHtml(l.senha)}" style="letter-spacing:2px;color:var(--texto2);cursor:pointer;" title="Clique para mostrar/ocultar">••••</span></div></div><button data-del-lider="${l.id}" style="padding:6px 10px;border-radius:7px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🗑️</button>`;
       div.querySelector('[data-del-lider]').addEventListener('click', function(){
+        if (!apenasAdmin()) return;
         const lid=this.getAttribute('data-del-lider');
         mostrarConfirm('Remover este líder?','Os registros de assistência serão mantidos.',async()=>{
           await deleteDoc(doc(db,'lideres',lid));
@@ -3125,6 +3171,7 @@ document.getElementById('btn-adm-cancelar-lider').addEventListener('click', ()=>
   document.getElementById('btn-adm-novo-lider').style.display='inline-block';
 });
 document.getElementById('btn-adm-salvar-lider').addEventListener('click', async ()=>{
+  if (!apenasAdmin()) return;
   const nome  = document.getElementById('adm-novo-lider-nome').value.trim();
   const alvo  = moedaParaFloat(document.getElementById('adm-novo-lider-alvo').value);
   const senha = document.getElementById('adm-novo-lider-senha').value.trim();
@@ -3518,9 +3565,9 @@ async function renderSmaxLista() {
             ${smaxStatusBadge(status)}
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;">
-            ${ehIndividual ? '' : `<button data-smax-equipes="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">👥 Equipes</button>`}
-            <button data-smax-edit="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(100,180,255,0.3);background:rgba(100,180,255,0.07);color:#87CEEB;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">✏️ Editar</button>
-            <button data-smax-del="${comp.id}" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.07);color:#EF9090;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">🗑️ Apagar</button>
+            ${ehIndividual ? '' : `<button data-smax-equipes="${comp.id}" class="admin-only-action" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">👥 Equipes</button>`}
+            <button data-smax-edit="${comp.id}" class="admin-only-action" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(100,180,255,0.3);background:rgba(100,180,255,0.07);color:#87CEEB;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">✏️ Editar</button>
+            <button data-smax-del="${comp.id}" class="admin-only-action" style="padding:7px 12px;border-radius:8px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.07);color:#EF9090;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">🗑️ Apagar</button>
           </div>
         </div>
         ${ranking.length ? `
@@ -3538,6 +3585,7 @@ async function renderSmaxLista() {
 
     lista.querySelectorAll('[data-smax-del]').forEach(btn => {
       btn.addEventListener('click', function() {
+        if (!apenasAdmin()) return;
         const id = this.getAttribute('data-smax-del');
         mostrarConfirm('Apagar competição?', 'Esta ação não pode ser desfeita.', async () => {
           await deleteDoc(doc(db, 'competicoes', id));
@@ -3549,6 +3597,7 @@ async function renderSmaxLista() {
 
     lista.querySelectorAll('[data-smax-edit]').forEach(btn => {
       btn.addEventListener('click', async function() {
+        if (!apenasAdmin()) return;
         const id = this.getAttribute('data-smax-edit');
         const snap = await getDoc(doc(db, 'competicoes', id));
         if (!snap.exists()) return;
@@ -3579,6 +3628,7 @@ async function renderSmaxLista() {
 
     lista.querySelectorAll('[data-smax-equipes]').forEach(btn => {
       btn.addEventListener('click', async function() {
+        if (!apenasAdmin()) return;
         const id = this.getAttribute('data-smax-equipes');
         await abrirGestaoEquipes(id);
       });
@@ -3643,6 +3693,7 @@ async function renderGestaoEquipes(compId) {
     });
 
     secao.querySelector('#btn-smax-add-equipe').addEventListener('click', async () => {
+      if (!apenasAdmin()) return;
       const nome = secao.querySelector('#smax-nova-equipe-nome').value.trim();
       if (!nome) { mostrarToast('Informe o nome da equipe.', true); return; }
       const novasEquipes = [...equipes, { nome, membros: [] }];
@@ -3654,6 +3705,7 @@ async function renderGestaoEquipes(compId) {
     // Bind add member buttons
     secao.querySelectorAll('[data-smax-add-membro]').forEach(btn => {
       btn.addEventListener('click', async function() {
+        if (!apenasAdmin()) return;
         const eqIdx = parseInt(this.getAttribute('data-eq-idx'));
         const uid = this.getAttribute('data-smax-add-membro');
         const novasEquipes = [...equipes];
@@ -3667,6 +3719,7 @@ async function renderGestaoEquipes(compId) {
     // Bind remove member buttons
     secao.querySelectorAll('[data-smax-rem-membro]').forEach(btn => {
       btn.addEventListener('click', async function() {
+        if (!apenasAdmin()) return;
         const eqIdx = parseInt(this.getAttribute('data-eq-idx'));
         const uid = this.getAttribute('data-smax-rem-membro');
         const novasEquipes = [...equipes];
@@ -3679,6 +3732,7 @@ async function renderGestaoEquipes(compId) {
     // Bind delete equipe buttons
     secao.querySelectorAll('[data-smax-del-equipe]').forEach(btn => {
       btn.addEventListener('click', async function() {
+        if (!apenasAdmin()) return;
         const eqIdx = parseInt(this.getAttribute('data-smax-del-equipe'));
         mostrarConfirm('Apagar esta equipe?', 'Os colportores ficarão sem equipe.', async () => {
           const novasEquipes = equipes.filter((_, i) => i !== eqIdx);
@@ -3800,6 +3854,7 @@ document.getElementById('btn-smax-cancelar').addEventListener('click', () => {
 });
 
 document.getElementById('btn-smax-salvar').addEventListener('click', async () => {
+  if (!apenasAdmin()) return;
   const nome   = document.getElementById('smax-nome').value.trim();
   const tipo   = document.getElementById('smax-tipo').value;
   const inicio = document.getElementById('smax-inicio').value;
@@ -4408,6 +4463,7 @@ async function renderAdmAgendaContainer(lider, container) {
 document.addEventListener('click', function(e){
   const el = e.target.closest('.senha-mascarada');
   if (!el) return;
+  if (currentLider) { mostrarToast('Apenas o administrador pode ver senhas.', true); return; }
   const senha = el.getAttribute('data-senha') || '';
   el.textContent = el.textContent === '••••' ? senha : '••••';
 });
@@ -4433,16 +4489,17 @@ document.getElementById('diario-data-filtro').value = getHoje();
       const snap = await getDoc(doc(db,'lideres',sessao.id));
       if (snap.exists()) {
         currentLider = { id: snap.id, ...snap.data() };
-        document.getElementById('nav-nome-lider').textContent = currentLider.nome.split(' ')[0];
-        showScreen('screen-lider');
+        aplicarModoVisualizacao(true);
+        showScreen('screen-admin');
+        startListeners();
+        abrirTabAdmin('admin-meuregistro', document.getElementById('atbtn-meuregistro'));
         document.getElementById('l-reg-data').value = getHoje();
         bindTodasMascaras();
-        await renderLiderPainel();
-        await renderAgendaLider();
       } else {
         limparSessao();
       }
     } else if (sessao.tipo === 'admin') {
+      aplicarModoVisualizacao(false);
       showScreen('screen-admin');
       startListeners();
       renderAdminDashboard();

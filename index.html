@@ -352,27 +352,29 @@
     <div class="navbar-top">
     <div class="nav-brand">
       <div class="nav-logo" style="background:none;padding:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><img src="" class="logo-navbar-img" alt="Superação Colportagem" style="width:32px;height:32px;object-fit:contain;"></div>
-      <div><div class="nav-title">Admin · <span>Superação Piauí</span></div></div>
+      <div><div class="nav-title" id="admin-nav-title">Admin · <span>Superação Piauí</span></div></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <select id="campanha-selector" style="background:rgba(255,177,0,0.06);border:1px solid rgba(16,26,51,0.14);border-radius:8px;padding:8px 10px;color:var(--branco);font-family:var(--body-font);font-size:12px;font-weight:600;outline:none;max-width:min(320px,100%);"></select>
-      <button id="btn-renomear-campanha" title="Renomear campanha selecionada" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;cursor:pointer;white-space:nowrap;">✏️</button>
-      <button id="btn-toggle-ativa-campanha" title="Ativar/Finalizar campanha selecionada" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;cursor:pointer;white-space:nowrap;">🔄</button>
-      <button id="btn-nova-campanha" style="padding:8px 14px;border-radius:8px;border:1px solid rgba(255,177,0,0.35);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🚀 Nova Campanha</button>
+      <button id="btn-renomear-campanha" class="admin-only-action" title="Renomear campanha selecionada" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;cursor:pointer;white-space:nowrap;">✏️</button>
+      <button id="btn-toggle-ativa-campanha" class="admin-only-action" title="Ativar/Finalizar campanha selecionada" style="padding:8px 10px;border-radius:8px;border:1px solid rgba(16,26,51,0.14);background:transparent;color:var(--texto2);font-family:var(--body-font);font-size:12px;cursor:pointer;white-space:nowrap;">🔄</button>
+      <button id="btn-nova-campanha" class="admin-only-action" style="padding:8px 14px;border-radius:8px;border:1px solid rgba(255,177,0,0.35);background:rgba(255,177,0,0.06);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">🚀 Nova Campanha</button>
+      <button id="btn-logout-nav" class="btn-logout" style="padding:7px 14px;font-size:12px;">Sair</button>
     </div>
     </div>
     <div class="tab-nav">
       <button class="tab-btn active" id="atbtn-dashboard"><span class="dock-icon">📊</span><span class="dock-label">Dashboard</span></button>
+      <button class="tab-btn" id="atbtn-meuregistro" style="display:none;"><span class="dock-icon">📝</span><span class="dock-label">Meu Registro</span></button>
       <button class="tab-btn" id="atbtn-ranking"><span class="dock-icon">🏆</span><span class="dock-label">Ranking</span></button>
       <button class="tab-btn" id="atbtn-equipe"><span class="dock-icon">👥</span><span class="dock-label">Equipe</span></button>
       <button class="tab-btn" id="atbtn-diario"><span class="dock-icon">✅</span><span class="dock-label">Preenchimento</span></button>
       <button class="tab-btn" id="atbtn-graficos"><span class="dock-icon">📈</span><span class="dock-label">Gráficos</span></button>
       <button class="tab-btn" id="atbtn-relatorio"><span class="dock-icon">📄</span><span class="dock-label">Relatório</span></button>
-      <button class="tab-btn" id="atbtn-lider"><span class="dock-icon">👑</span><span class="dock-label">Área do Líder</span></button>
+      <button class="tab-btn admin-only-action" id="atbtn-lider"><span class="dock-icon">👑</span><span class="dock-label">Área do Líder</span></button>
       <button class="tab-btn" id="atbtn-semana-maxima"><span class="dock-icon">🏅</span><span class="dock-label">Semana Máxima</span></button>
       <button class="tab-btn" id="atbtn-premiacoes"><span class="dock-icon">🏆</span><span class="dock-label">Premiações</span></button>
       <button class="tab-btn" id="atbtn-estudos"><span class="dock-icon">📖</span><span class="dock-label">Estudos Bíblicos</span></button>
-      <button class="tab-btn" id="atbtn-config"><span class="dock-icon">⚙️</span><span class="dock-label">Configurações</span></button>
+      <button class="tab-btn admin-only-action" id="atbtn-config"><span class="dock-icon">⚙️</span><span class="dock-label">Configurações</span></button>
     </div>
   </nav>
   <div class="content">
@@ -493,6 +495,81 @@
 
     <!-- SEMANA MÁXIMA WIDGET no Dashboard -->
     <div id="smax-dash-widget" style="display:none;"></div>
+
+    <!-- MEU REGISTRO (só líder) — próprio progresso de assistência, visível só para líder -->
+    <div id="admin-meuregistro" class="tab-panel" style="max-width:900px;">
+
+      <!-- PROGRESSO DO ALVO -->
+      <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:14px;">🎯 Progresso do Alvo de Assistência</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
+          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="l-alvo-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:#16A34A;">R$ 0</div></div>
+          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alcançado (À Vista)</div><div id="l-alcancado-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">R$ 0</div></div>
+          <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Falta</div><div id="l-falta-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);">R$ 0</div></div>
+        </div>
+        <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;color:var(--texto3);font-weight:600;">Progresso geral</span>
+          <span id="l-pct-display" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">0%</span>
+        </div>
+        <div style="background:rgba(16,26,51,0.06);border-radius:100px;height:14px;overflow:hidden;">
+          <div id="l-bar-display" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#B45309,#FFB100,#FFCE45);transition:width 1s ease;"></div>
+        </div>
+      </div>
+
+      <!-- CARDS DE TOTAIS -->
+      <div class="stats-grid" style="margin-bottom:20px;">
+        <div class="stat-card blue"><div class="stat-label">📋 No Pedido</div><div class="stat-value" id="l-prazo-display" style="font-size:24px;">R$ 0</div></div>
+        <div class="stat-card orange"><div class="stat-label">⏰ Horas Totais</div><div class="stat-value" id="l-horas-display" style="font-size:24px;">0h</div></div>
+        <div class="stat-card yellow"><div class="stat-label">📖 Estudos Bíblicos</div><div class="stat-value" id="l-estudos-display" style="font-size:24px;">0</div></div>
+        <div class="stat-card green"><div class="stat-label">🤝 Visitas Realizadas</div><div class="stat-value" id="l-visitas-display" style="font-size:24px;">0</div><div class="stat-sub">registros de assistência</div></div>
+      </div>
+
+      <!-- FORMULÁRIO DE REGISTRO -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title" style="margin-bottom:16px;">📝 <span style="color:var(--ouro)">Novo Registro de Assistência</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-data">Data da Assistência</label><input type="date" id="l-reg-data" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-colportor">Colportor Assistido</label><select id="l-reg-colportor" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"><option value="">Selecione...</option></select></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-vista">💰 Vendas À Vista (R$)</label><input type="text" id="l-reg-vista" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-prazo">📋 Vendas no Pedido (R$)</label><input type="text" id="l-reg-prazo" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-horas">⏰ Horas de Trabalho</label><input type="number" id="l-reg-horas" placeholder="0" min="0" step="0.5" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-estudos">📖 Estudos Bíblicos</label><input type="number" id="l-reg-estudos" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+          <div class="field-group" style="margin-bottom:0;"><label for="l-reg-visitas">🤝 Visitas Realizadas</label><input type="number" id="l-reg-visitas" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
+        </div>
+        <button id="btn-l-salvar-reg" style="padding:14px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:1px;width:100%;">💾 SALVAR REGISTRO</button>
+        <div id="l-reg-msg" style="font-size:12px;margin-top:8px;display:none;"></div>
+      </div>
+
+      <!-- AGENDA DE ASSISTÊNCIA -->
+      <div class="card" style="margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+          <div class="card-title" style="margin-bottom:0;">📅 <span style="color:var(--ouro)">Agenda de Assistência</span></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span id="l-agenda-resumo" style="font-size:11px;color:var(--texto3);"></span>
+            <button id="btn-l-agenda-todos" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">Ver todos</button>
+            <button id="btn-l-agenda-pendentes" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,107,74,0.35);background:rgba(255,107,0,0.08);color:#C2410C;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">⚠️ Pendentes</button>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--texto3);margin-bottom:14px;">Clique em qualquer dia para definir ou editar com qual colportor você estará em assistência.</div>
+        <div id="l-agenda-container" style="display:flex;flex-direction:column;gap:4px;max-height:520px;overflow-y:auto;"></div>
+      </div>
+
+      <!-- HISTÓRICO -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:16px;">📋 <span style="color:var(--ouro)">Histórico de Assistências</span></div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Data</th><th>Colportor Assistido</th><th>À Vista</th><th>No Pedido</th><th>Horas</th><th>Estudos</th><th>Visitas</th><th>Ações</th></tr></thead>
+            <tbody id="l-historico-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
 
     <div id="admin-ranking" class="tab-panel">
       <div class="section-title">🏆 <span>Ranking</span> da Equipe</div>
@@ -668,7 +745,7 @@
       </div>
 
       <!-- CRIAR NOVA COMPETIÇÃO -->
-      <div class="card" style="margin-bottom:20px;">
+      <div class="card admin-only-action" style="margin-bottom:20px;">
         <div class="card-header">
           <div class="card-title">➕ Nova Competição</div>
           <button id="btn-smax-toggle-form" style="padding:8px 16px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:12px;font-weight:700;cursor:pointer;">+ Criar</button>
@@ -817,93 +894,10 @@
 </div>
 
 <!-- SCREEN LÍDER -->
-<div id="screen-lider" class="screen">
-  <nav class="navbar">
-    <div class="navbar-top">
-    <div class="nav-brand">
-      <div class="nav-logo" style="background:none;padding:0;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:24px;">👑</div>
-      <div><div class="nav-title">Líder · <span>Superação Piauí</span></div></div>
-    </div>
-    <div class="nav-user">
-      <div><div class="nav-name" id="nav-nome-lider"></div><div class="nav-role" style="color:var(--ouro-claro);">Relatório Pessoal</div></div>
-      <button class="btn-logout" id="btn-logout-lider">Sair</button>
-    </div>
-    </div>
-  </nav>
-  <div class="content" style="max-width:900px;">
-
-    <!-- PROGRESSO DO ALVO -->
-    <div style="background:linear-gradient(135deg,rgba(255,177,0,0.07),rgba(180,83,9,0.05));border:1px solid rgba(255,177,0,0.2);border-radius:18px;padding:24px;margin-bottom:20px;">
-      <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--ouro);font-weight:700;margin-bottom:14px;">🎯 Progresso do Alvo de Assistência</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-        <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alvo</div><div id="l-alvo-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:#16A34A;">R$ 0</div></div>
-        <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Alcançado (À Vista)</div><div id="l-alcancado-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">R$ 0</div></div>
-        <div style="text-align:center;"><div style="font-size:11px;color:var(--texto3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:600;">Falta</div><div id="l-falta-display" style="font-size:22px;font-weight:800;font-family:var(--num-font);color:var(--amarelo);">R$ 0</div></div>
-      </div>
-      <div style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;color:var(--texto3);font-weight:600;">Progresso geral</span>
-        <span id="l-pct-display" style="font-size:16px;font-weight:800;font-family:var(--num-font);color:var(--ouro-claro);">0%</span>
-      </div>
-      <div style="background:rgba(16,26,51,0.06);border-radius:100px;height:14px;overflow:hidden;">
-        <div id="l-bar-display" style="height:100%;border-radius:100px;width:0%;background:linear-gradient(90deg,#B45309,#FFB100,#FFCE45);transition:width 1s ease;"></div>
-      </div>
-    </div>
-
-    <!-- CARDS DE TOTAIS -->
-    <div class="stats-grid" style="margin-bottom:20px;">
-      <div class="stat-card blue"><div class="stat-label">📋 No Pedido</div><div class="stat-value" id="l-prazo-display" style="font-size:24px;">R$ 0</div></div>
-      <div class="stat-card orange"><div class="stat-label">⏰ Horas Totais</div><div class="stat-value" id="l-horas-display" style="font-size:24px;">0h</div></div>
-      <div class="stat-card yellow"><div class="stat-label">📖 Estudos Bíblicos</div><div class="stat-value" id="l-estudos-display" style="font-size:24px;">0</div></div>
-      <div class="stat-card green"><div class="stat-label">🤝 Visitas Realizadas</div><div class="stat-value" id="l-visitas-display" style="font-size:24px;">0</div><div class="stat-sub">registros de assistência</div></div>
-    </div>
-
-    <!-- FORMULÁRIO DE REGISTRO -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-title" style="margin-bottom:16px;">📝 <span style="color:var(--ouro)">Novo Registro de Assistência</span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-data">Data da Assistência</label><input type="date" id="l-reg-data" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-colportor">Colportor Assistido</label><select id="l-reg-colportor" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"><option value="">Selecione...</option></select></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-vista">💰 Vendas À Vista (R$)</label><input type="text" id="l-reg-vista" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-prazo">📋 Vendas no Pedido (R$)</label><input type="text" id="l-reg-prazo" placeholder="0,00" inputmode="decimal" autocomplete="off" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;">
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-horas">⏰ Horas de Trabalho</label><input type="number" id="l-reg-horas" placeholder="0" min="0" step="0.5" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-estudos">📖 Estudos Bíblicos</label><input type="number" id="l-reg-estudos" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-        <div class="field-group" style="margin-bottom:0;"><label for="l-reg-visitas">🤝 Visitas Realizadas</label><input type="number" id="l-reg-visitas" placeholder="0" min="0" style="background:rgba(255,177,0,0.04);border:1px solid rgba(255,177,0,0.18);border-radius:10px;padding:12px 14px;color:var(--branco);font-family:var(--body-font);font-size:14px;outline:none;width:100%;"></div>
-      </div>
-      <button id="btn-l-salvar-reg" style="padding:14px 24px;border-radius:10px;border:none;background:linear-gradient(135deg,#FFCE45,#FFB100,#B45309);color:#101A33;font-family:var(--body-font);font-size:14px;font-weight:900;cursor:pointer;letter-spacing:1px;width:100%;">💾 SALVAR REGISTRO</button>
-      <div id="l-reg-msg" style="font-size:12px;margin-top:8px;display:none;"></div>
-    </div>
-
-    <!-- AGENDA DE ASSISTÊNCIA -->
-    <div class="card" style="margin-bottom:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-        <div class="card-title" style="margin-bottom:0;">📅 <span style="color:var(--ouro)">Agenda de Assistência</span></div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span id="l-agenda-resumo" style="font-size:11px;color:var(--texto3);"></span>
-          <button id="btn-l-agenda-todos" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.07);color:var(--ouro-claro);font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">Ver todos</button>
-          <button id="btn-l-agenda-pendentes" style="padding:6px 12px;border-radius:8px;border:1px solid rgba(255,107,74,0.35);background:rgba(255,107,0,0.08);color:#C2410C;font-family:var(--body-font);font-size:11px;font-weight:700;cursor:pointer;">⚠️ Pendentes</button>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--texto3);margin-bottom:14px;">Clique em qualquer dia para definir ou editar com qual colportor você estará em assistência.</div>
-      <div id="l-agenda-container" style="display:flex;flex-direction:column;gap:4px;max-height:520px;overflow-y:auto;"></div>
-    </div>
-
-    <!-- HISTÓRICO -->
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px;">📋 <span style="color:var(--ouro)">Histórico de Assistências</span></div>
-      <div class="table-wrap">
-        <table class="admin-table">
-          <thead><tr><th>Data</th><th>Colportor Assistido</th><th>À Vista</th><th>No Pedido</th><th>Horas</th><th>Estudos</th><th>Visitas</th><th>Ações</th></tr></thead>
-          <tbody id="l-historico-body"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-</div>
+<!-- "Meu Registro" fica dentro de #screen-admin como aba (abaixo), visível só
+     para quem entra como líder — é o mesmo conteúdo que a tela dedicada ao
+     líder tinha antes, movido para dentro do painel compartilhado para que
+     o líder também veja Dashboard/Relatórios/etc. como o admin. -->
 
 <!-- MODAL AGENDA DIA -->
 <div id="modal-agenda-dia" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:400;align-items:center;justify-content:center;padding:20px;">
@@ -1018,18 +1012,20 @@
     </div>
     <div class="stats-grid" id="modal-stats" style="margin-bottom:20px;"></div>
     <div class="divider"></div>
-    <div style="font-size:14px;font-weight:700;color:var(--texto3);margin-bottom:12px;">✏️ Editar Registros</div>
-    <div class="table-wrap">
-      <table class="admin-table">
-        <thead><tr><th>Data</th><th>Ofertas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Ações</th></tr></thead>
-        <tbody id="modal-registros"></tbody>
-      </table>
+    <div class="admin-only-action">
+      <div style="font-size:14px;font-weight:700;color:var(--texto3);margin-bottom:12px;">✏️ Editar Registros</div>
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Data</th><th>Ofertas</th><th>À Vista</th><th>No Pedido</th><th>Orações</th><th>Horas</th><th>Ações</th></tr></thead>
+          <tbody id="modal-registros"></tbody>
+        </table>
+      </div>
+      <div class="divider"></div>
     </div>
-    <div class="divider"></div>
     <div style="font-size:14px;font-weight:700;color:var(--texto3);margin-bottom:12px;">⚙️ Gerenciar</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="btn btn-sm" id="btn-alterar-meta" style="background:rgba(255,177,0,0.12);border:1px solid rgba(255,177,0,0.3);color:var(--ouro);">💰 Alterar Meta</button>
-      <button class="btn btn-sm" id="btn-resetar-senha" style="background:rgba(239,83,80,0.15);border:1px solid rgba(239,83,80,0.3);color:var(--danger);">🔑 Resetar Senha</button>
+      <button class="btn btn-sm admin-only-action" id="btn-alterar-meta" style="background:rgba(255,177,0,0.12);border:1px solid rgba(255,177,0,0.3);color:var(--ouro);">💰 Alterar Meta</button>
+      <button class="btn btn-sm admin-only-action" id="btn-resetar-senha" style="background:rgba(239,83,80,0.15);border:1px solid rgba(239,83,80,0.3);color:var(--danger);">🔑 Resetar Senha</button>
       <button class="btn btn-sm" id="btn-pdf-colportor" style="background:rgba(255,177,0,0.12);border:1px solid rgba(255,177,0,0.3);color:var(--ouro-claro);">🖨️ Exportar PDF</button>
     </div>
   </div>
