@@ -723,7 +723,7 @@ function abrirTabAdmin(id, btn) {
   if (id==='admin-estudos')    renderTabelaEstudosAdmin();
   if (id==='admin-config')    renderConfigAdmin();
 }
-['dashboard','ranking','equipe','diario','graficos','relatorio','lider','semana-maxima','premiacoes','estudos','config'].forEach(id=>{
+['dashboard','meuregistro','ranking','equipe','diario','graficos','relatorio','lider','semana-maxima','premiacoes','estudos','config'].forEach(id=>{
   document.getElementById('atbtn-'+id).addEventListener('click', function(){ abrirTabAdmin('admin-'+id,this); });
 });
 
