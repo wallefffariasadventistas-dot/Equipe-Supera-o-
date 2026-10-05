@@ -3019,6 +3019,11 @@ document.getElementById('btn-confirmar-lider-login').onclick = async function() 
     fecharModalLogin('modal-lider-login');
     // Líder vê o mesmo painel do admin (Dashboard, Relatórios, Ranking, Equipe
     // etc.), só em modo de visualização — não edita nada, não vê senhas.
+    // O dashboard/equipe/etc. começam mostrando a própria campanha do líder
+    // (pode trocar pelo seletor depois, já que pode haver mais de uma ativa).
+    campanhaVisualizada = currentLider.campanhaId;
+    recomputeLiveArrays();
+    renderSeletorCampanha();
     aplicarModoVisualizacao(true);
     showScreen('screen-admin');
     startListeners();
@@ -3032,11 +3037,22 @@ document.getElementById('lider-login-senha').onkeydown = function(e) {
 };
 
 // ── PAINEL DO LÍDER ──
+// Colportores da PRÓPRIA campanha do líder — independe de qual campanha o
+// seletor do painel está exibindo no momento (admin/líder podem estar
+// vendo o dashboard de outra campanha, mas "Meu Registro" é sempre sobre a
+// equipe do próprio líder). Usa allUsuarios (lista completa), não
+// liveUsuarios (que segue o seletor de visualização).
+function colportoresDoLider() {
+  if (!currentLider) return [];
+  return allUsuarios
+    .filter(u => u.campanhaId === currentLider.campanhaId && u.tipo !== 'admin' && u.tipo !== 'lider')
+    .sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+}
 function popularSelectColportoresLider() {
   const sel = document.getElementById('l-reg-colportor');
   if (!sel) return;
   const atual = sel.value;
-  const colportores = liveUsuarios.filter(u => u.tipo !== 'admin' && u.tipo !== 'lider').sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
+  const colportores = colportoresDoLider();
   sel.innerHTML = '<option value="">Selecione...</option>' + colportores.map(u => `<option value="${u.id}">${escapeHtml(u.nome)}</option>`).join('');
   if (colportores.some(u=>u.id===atual)) sel.value = atual;
 }
@@ -4233,7 +4249,7 @@ function abrirModalAgendaDia(iso, mapa) {
   document.getElementById('mag-msg').style.display = 'none';
 
   // sugestoes de colportores - addEventListener pois script module bloqueia onclick inline
-  const colportores = liveUsuarios.filter(u => u.tipo !== 'admin' && u.tipo !== 'lider').map(u => u.nome);
+  const colportores = colportoresDoLider().map(u => u.nome);
   const sugEl = document.getElementById('mag-sugestoes');
   const inputCol = document.getElementById('mag-colportor');
 
@@ -4288,7 +4304,7 @@ document.getElementById('mag-btn-salvar').onclick = async () => {
   const obs       = document.getElementById('mag-obs').value.trim();
   const msgEl     = document.getElementById('mag-msg');
   if (!nomeDigitado) { msgEl.textContent = '⚠️ Informe o nome do colportor.'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
-  const match = liveUsuarios.find(u => u.tipo !== 'admin' && u.tipo !== 'lider' && u.nome.trim().toLowerCase() === nomeDigitado.toLowerCase());
+  const match = colportoresDoLider().find(u => u.nome.trim().toLowerCase() === nomeDigitado.toLowerCase());
   if (!match) { msgEl.textContent = '⚠️ Selecione um colportor da lista de sugestões (o nome precisa corresponder a um cadastro existente).'; msgEl.style.color = 'var(--danger)'; msgEl.style.display = 'block'; return; }
   if (!currentLider) return;
   try {
@@ -4495,6 +4511,9 @@ bindDashDatePicker();
       const snap = await getDoc(doc(db,'lideres',sessao.id));
       if (snap.exists()) {
         currentLider = { id: snap.id, ...snap.data() };
+        campanhaVisualizada = currentLider.campanhaId;
+        recomputeLiveArrays();
+        renderSeletorCampanha();
         aplicarModoVisualizacao(true);
         showScreen('screen-admin');
         startListeners();
