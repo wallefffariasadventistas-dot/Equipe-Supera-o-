@@ -42,6 +42,23 @@ export const fmtHoras = v => {
   return m > 0 ? `${h}h ${m}min` : `${h}h`;
 };
 
+// Converte horas decimais (como são salvas no Firestore, ex: 2.5) para o
+// formato "HH:MM" usado pelo <input type="time"> (ex: "02:30").
+export const decParaHora = v => {
+  const totalMin = Math.max(0, Math.round((parseFloat(v)||0) * 60));
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+};
+
+// Converte "HH:MM" do <input type="time"> para horas decimais (ex: "02:30" → 2.5),
+// que é como o campo "horas" continua sendo salvo no Firestore.
+export const horaParaDec = str => {
+  if (!str) return 0;
+  const [h, m] = str.split(':').map(n => parseInt(n, 10) || 0);
+  return h + m/60;
+};
+
 // Conta apenas dias efetivamente trabalhados (exclui dias justificados, que não contam para a métrica)
 export const contarDiasTrabalhados = regs => regs.filter(r => !r.justificado).length;
 

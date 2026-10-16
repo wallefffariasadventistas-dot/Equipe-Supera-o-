@@ -6,7 +6,7 @@ import {
 } from "./firebase-config.js";
 import {
   moedaParaFloat, floatParaMoeda, fmtMoeda, fmtMini, escapeHtml, csvField,
-  fmtHoras, contarDiasTrabalhados, getHoje, iniciais, getDiaSemana, formatarData, MESES_PT
+  fmtHoras, decParaHora, horaParaDec, contarDiasTrabalhados, getHoje, iniciais, getDiaSemana, formatarData, MESES_PT
 } from "./utils.js";
 
 // ── SENHA DO ADMIN (persistida no Firestore) ──
@@ -896,7 +896,7 @@ function carregarCamposData(dateStr) {
     document.getElementById('reg-vista').value   = ex.vista||'';
     document.getElementById('reg-prazo').value   = ex.prazo||'';
     document.getElementById('reg-oracoes').value = ex.oracoes||'';
-    document.getElementById('reg-horas').value   = ex.horas||'';
+    document.getElementById('reg-horas').value   = ex.horas ? decParaHora(ex.horas) : '';
     document.getElementById('reg-estudos').value = ex.estudos||'';
     document.getElementById('reg-obs').value     = ex.obs||'';
   }
@@ -1058,7 +1058,7 @@ document.getElementById('btn-salvar-dia').addEventListener('click', async ()=>{
       vista:   Math.max(0, moedaParaFloat(document.getElementById('reg-vista').value)),
       prazo:   Math.max(0, moedaParaFloat(document.getElementById('reg-prazo').value)),
       oracoes: Math.max(0, parseInt(document.getElementById('reg-oracoes').value)||0),
-      horas:   Math.max(0, parseFloat(document.getElementById('reg-horas').value)||0),
+      horas:   horaParaDec(document.getElementById('reg-horas').value),
       estudos: Math.max(0, parseInt(document.getElementById('reg-estudos').value)||0),
       obs:     document.getElementById('reg-obs').value||'',
     };
@@ -2441,7 +2441,7 @@ function renderPerfilConteudo(uid) {
       <td><input type="text" data-id="${r.id}" data-campo="vista" data-money="1" data-raw="${r.vista||0}" value="${floatParaMoeda(r.vista||0)}" style="width:88px;background:rgba(255,177,0,0.05);border:1px solid rgba(255,177,0,0.15);border-radius:6px;padding:5px 7px;color:var(--verde-claro);font-family:var(--num-font);font-size:12px;" inputmode="decimal"></td>
       <td><input type="text" data-id="${r.id}" data-campo="prazo" data-money="1" data-raw="${r.prazo||0}" value="${floatParaMoeda(r.prazo||0)}" style="width:88px;background:rgba(21,101,192,0.06);border:1px solid rgba(21,101,192,0.2);border-radius:6px;padding:5px 7px;color:var(--azul-claro);font-family:var(--num-font);font-size:12px;" inputmode="decimal"></td>
       <td><input type="number" data-id="${r.id}" data-campo="oracoes" value="${r.oracoes||0}" style="width:58px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
-      <td><input type="number" data-id="${r.id}" data-campo="horas"   value="${r.horas||0}"   style="width:58px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
+      <td><input type="time" data-id="${r.id}" data-campo="horas"   value="${decParaHora(r.horas||0)}"   style="width:84px;background:rgba(16,26,51,0.06);border:1px solid rgba(16,26,51,0.12);border-radius:6px;padding:5px 7px;color:var(--texto);font-family:var(--num-font);font-size:12px;"></td>
       <td>
         <button data-save="${i}" style="padding:5px 8px;border-radius:6px;border:1px solid rgba(255,177,0,0.3);background:rgba(255,177,0,0.08);color:var(--ouro-claro);font-size:10px;cursor:pointer;margin-bottom:3px;font-family:Inter,sans-serif;font-weight:700;">💾</button>
         <button data-delreg="${r.id}" style="padding:5px 8px;border-radius:6px;border:1px solid rgba(239,83,80,0.3);background:rgba(239,83,80,0.08);color:#EF9090;font-size:10px;cursor:pointer;font-family:Inter,sans-serif;font-weight:700;">🗑️</button>
@@ -2460,7 +2460,7 @@ function renderPerfilConteudo(uid) {
     const i=this.getAttribute('data-save');
     const row=document.getElementById('mrow-'+i);
     const upd={};
-    row.querySelectorAll('[data-id]').forEach(inp=>{ const campo=inp.getAttribute('data-campo'); if(campo==='data'){upd[campo]=inp.value;}else if(inp.getAttribute('data-money')){upd[campo]=moedaParaFloat(inp.value);}else{upd[campo]=parseFloat(inp.value)||0;} });
+    row.querySelectorAll('[data-id]').forEach(inp=>{ const campo=inp.getAttribute('data-campo'); if(campo==='data'){upd[campo]=inp.value;}else if(campo==='horas'){upd[campo]=horaParaDec(inp.value);}else if(inp.getAttribute('data-money')){upd[campo]=moedaParaFloat(inp.value);}else{upd[campo]=parseFloat(inp.value)||0;} });
     const rid=row.querySelector('[data-id]').getAttribute('data-id');
     showSyncStatus('💾 Salvando...','saving');
     await updateDoc(doc(db,'registros',rid),upd);
@@ -3171,7 +3171,7 @@ document.getElementById('btn-l-salvar-reg').addEventListener('click', async ()=>
   const colportor   = colportorSel.selectedOptions[0]?.textContent || '';
   const vista     = moedaParaFloat(document.getElementById('l-reg-vista').value);
   const prazo     = moedaParaFloat(document.getElementById('l-reg-prazo').value);
-  const horas     = parseFloat(document.getElementById('l-reg-horas').value)||0;
+  const horas     = horaParaDec(document.getElementById('l-reg-horas').value);
   const estudos   = parseInt(document.getElementById('l-reg-estudos').value)||0;
   const visitas   = parseInt(document.getElementById('l-reg-visitas').value)||0;
   const msgEl     = document.getElementById('l-reg-msg');
